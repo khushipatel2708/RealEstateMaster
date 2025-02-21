@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BuilderModalComponent } from './builder-modal/builder-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommonService } from '@sa-services/common.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonService } from 'app/common/services/common.service';
 declare const Swal:any;
 @Component({
   selector: 'app-builder',

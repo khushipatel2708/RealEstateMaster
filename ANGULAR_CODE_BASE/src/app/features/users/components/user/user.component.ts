@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommonService } from '@sa-services/common.service';
-import { UserService } from '@sa-services/user.service';
 import { UsersModelComponent } from './users-model/users-model.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from 'app/common/services/user.service';
+import { CommonService } from 'app/common/services/common.service';
 declare const Swal:any;
 
 @Component({

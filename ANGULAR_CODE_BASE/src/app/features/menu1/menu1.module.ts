@@ -22,9 +22,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReUsableModule,
     ReactiveFormsModule,
     NgbTooltipModule
-  ],
-  entryComponents:[
-    Menu1ModalComponent
   ]
 })
 export class Menu1Module { }

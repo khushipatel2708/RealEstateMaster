@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import { UserService } from '../../../../common/services/user.service';
-import { CommonService } from '../../../../common/services/common.service';
+import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
-import { LoginService } from '@sa-services/login.service';
+import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
+import { CommonService } from '../../../../common/services/common.service';
+import { UserService } from '../../../../common/services/user.service';
+import { LoginService } from 'app/common/services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -39,37 +35,45 @@ export class HomeComponent implements OnInit {
   }
 
   search = (text$: Observable<string>) =>
-    text$
-      .debounceTime(200)
-      .distinctUntilChanged()
-      .map(term => term.length < 2 ? [] : this.cityList.map(v => {
-        return (v.name.toLowerCase().indexOf(term.toLowerCase()) > -1) ? v.name : ''
-      }).filter(a => a).slice(0, 10));
-
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term =>
+        term.length < 2
+          ? []
+          : this.cityList
+              .map(v =>
+                v.name.toLowerCase().includes(term.toLowerCase()) ? v.name : ''
+              )
+              .filter(a => a) // Remove empty strings
+              .slice(0, 10)
+      )
+    );
   ngOnInit() {
-    // this._http.get('https://picsum.photos/v2/list?page=1&limit=3')
-    //   .pipe(map((images: Array<{ id: number }>) => this._randomImageUrls(images)))
-    //   .subscribe(images => {
-    //     this.images = images;
-    //   });
+    this.images = this._randomImageUrls([{ id: 10 }, { id: 20 }, { id: 30 }]);
+    this._http.get('https://picsum.photos/v2/list?page=1&limit=3')
+      .pipe(map((images: Array<{ id: number }>) => this._randomImageUrls(images)))
+      .subscribe(images => {
+        this.images = images;
+      });
     
-    // this._http.get('https://picsum.photos/v2/list?page=1&limit=3')
-    //    .pipe(map((images: Array<{ id: number }>) => this._randomImageUrls(images)))
-    //    .subscribe(images => {
-    //      this.images = images;
-    //    });
-    this.commonService.getCitylist()
-      .subscribe(response => {
-        this.cityList = response;
-        // response.forEach(element => {
-        //   this.cityList.push(element.name);
-        // });
-      });
+    this._http.get('https://picsum.photos/v2/list?page=1&limit=3')
+       .pipe(map((images: Array<{ id: number }>) => this._randomImageUrls(images)))
+       .subscribe(images => {
+         this.images = images;
+       });
+    // this.commonService.getCitylist()
+    //   .subscribe(response => {
+    //     this.cityList = response;
+    //     // response.forEach(element => {
+    //     //   this.cityList.push(element.name);
+    //     // });
+    //   });
 
-    this.commonService.getPropertyTypeList()
-      .subscribe(response => {
-        this.propertyTypeList = response;
-      });
+    // this.commonService.getPropertyTypeList()
+    //   .subscribe(response => {
+    //     this.propertyTypeList = response;
+    //   });
 
     this.hideOwnProperty = this.userService.currentUser && this.userService.currentUser.user._id ? true : false;
   }
@@ -94,10 +98,16 @@ export class HomeComponent implements OnInit {
   queryParams = '?status=available';
 
   private _randomImageUrls(images: Array<{ id: number }>): Array<string> {
+    if (!images || images.length === 0) {
+      console.error('Images array is empty!');
+      return [];
+    }
+  
     return [1, 2, 3].map(() => {
       const randomId = images[Math.floor(Math.random() * images.length)].id;
       return `https://picsum.photos/900/500?image=${randomId}`;
     });
   }
+  
 
 }

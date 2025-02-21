@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonService } from '../../../../common/services/common.service';
-import { environment } from '@sa-environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-admin-dashboard',

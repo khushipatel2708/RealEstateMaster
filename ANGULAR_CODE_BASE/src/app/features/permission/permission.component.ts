@@ -1,5 +1,5 @@
   import { Component, OnInit } from '@angular/core';
-  import { CommonService } from '@sa-services/common.service';
+import { CommonService } from 'app/common/services/common.service';
 
   @Component({
     selector: 'app-permission',

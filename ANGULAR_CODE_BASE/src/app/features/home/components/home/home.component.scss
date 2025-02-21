@@ -71,7 +71,7 @@
             padding: 10px 8px;
         }
     }
-    :host /deep/ .nav.nav-pills .nav-item a label {
+    :host ::ng-deep .nav.nav-pills .nav-item a label {
         padding: 5px 50px;
     }
 }

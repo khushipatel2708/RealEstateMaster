@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../../common/services/common.service';
-import { environment } from '@sa-environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-property-view',
@@ -16,7 +16,17 @@ export class PropertyViewComponent implements OnInit {
   ) { }
 
   propertyDetail = {
-    title: ''
+    title: '',
+    slug:'',
+    name:'',
+    propertyFor:'',
+    status:'',
+    state:{name:''},
+    city:{name:''},
+    SocietyName:'',
+    flatNo:0,
+    locality:'',
+    type:{title:''}
   };
   imageDetail;
   env = environment;

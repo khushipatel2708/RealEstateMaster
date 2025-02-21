@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonService } from '@sa-services/common.service';
-import { LoginService } from '@sa-services/login.service';
+import { CommonService } from 'app/common/services/common.service';
+import { LoginService } from 'app/common/services/login.service';
 
 @Component({
   selector: 'app-dashboard',

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { PropertyRoutingModule } from './property-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReUsableModule } from './../../common/re-usable.module';
-import { MatComponentsModule } from '../../mat-components.module';
 
 import { PropertyViewComponent } from './property-view/property-view.component';
 import { PropertyNewComponent } from './property-new/property-new.component';
@@ -32,7 +31,6 @@ import { ToastrModule } from 'ngx-toastr';
     ReUsableModule,
     CommonModule,
     PropertyRoutingModule,
-    MatComponentsModule,
     NgbModule,
     NgbModalModule,
   ]

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RoleModalComponent } from './role-modal/role-modal.component';
-import { CommonService } from '@sa-services/common.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CommonService } from 'app/common/services/common.service';
 declare const Swal: any;
 
 @Component({

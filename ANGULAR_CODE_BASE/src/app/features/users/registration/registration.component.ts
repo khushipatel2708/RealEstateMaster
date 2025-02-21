@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CommonService } from '../../../common/services/common.service';
 import { RegistrationValidators } from '../../../common/validators/registration.validators';
-import { environment } from '@sa-environments/environment';
+import { environment } from 'environments/environment';
 
 
 @Component({
@@ -14,29 +14,17 @@ import { environment } from '@sa-environments/environment';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-
+  registrationForm:FormGroup;
   constructor(
     private commonService: CommonService,
     private registrationValidators: RegistrationValidators,
     private http: HttpClient,
     private router: Router
   ) { }
+ 
 
-  registrationForm = new FormGroup({
-    fname: new FormControl('', [Validators.required]),
-    lName: new FormControl('', [Validators.required]),
-    userName: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.email, Validators.required], this.registrationValidators.checkEmailAvailability.bind(this.registrationValidators)),
-    phoneNo: new FormControl('', [Validators.required]),
-    password: new FormControl('', [Validators.required]),
-    cPassword: new FormControl('', [Validators.required]),
-    state: new FormControl('', [Validators.required]),
-    city: new FormControl('', [Validators.required]),
-    pincode: new FormControl('', [Validators.required]),
-    role: new FormControl('', [Validators.required])
-  }, { validators: this.registrationValidators.passwordMatch }
-  );
 
+  
   mainErrorMessage = {
     type: '',
     message: ''
@@ -46,6 +34,20 @@ export class RegistrationComponent implements OnInit {
   cityList = [];
 
   ngOnInit() {
+    this.registrationForm = new FormGroup({
+      fname: new FormControl('', [Validators.required]),
+      lName: new FormControl('', [Validators.required]),
+      userName: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.email, Validators.required], this.registrationValidators.checkEmailAvailability.bind(this.registrationValidators)),
+      phoneNo: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
+      cPassword: new FormControl('', [Validators.required]),
+      state: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      pincode: new FormControl('', [Validators.required]),
+      role: new FormControl('', [Validators.required])
+    }, { validators: this.registrationValidators.passwordMatch }
+    );
     this.commonService.togglePageLoaderFn(false);
     this.commonService.getStatelist()
       .subscribe(response => {

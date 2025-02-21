@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "LoginController",
+    "Method": "Login",
+    "RelativePath": "auth/user/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "model",
+        "Type": "LoginRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

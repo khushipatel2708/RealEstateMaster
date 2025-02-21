@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../../common/services/user.service';
 import { CommonService } from '../../../common/services/common.service';
 import { Router } from '@angular/router';
-import { environment } from '@sa-environments/environment';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-property-new',
@@ -103,7 +103,7 @@ export class PropertyNewComponent implements OnInit {
         })
   }
 
-  // log(data) { console.log(data); }
+  log(data) { console.log(data); }
 
   filesChange(fieldName: string, fileList) {
     if (fileList && fileList.length) {

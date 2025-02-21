@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { CommonService } from '@sa-services/common.service';
-import { LoginService } from '@sa-services/login.service';
-import { UserService } from '@sa-services/user.service';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import * as moment from 'moment';
-import { environment } from '@sa-environments/environment';
+import { CommonService } from 'app/common/services/common.service';
+import { LoginService } from 'app/common/services/login.service';
+import { UserService } from 'app/common/services/user.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-propertylist',

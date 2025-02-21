@@ -13,10 +13,9 @@ import { PropertylistComponent } from './components/propertylist/propertylist.co
 import { SmallComponentsComponent } from './components/small-components/small-components.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { LoginModalComponent } from './components/login-modal/login-modal.component';
-import { MatComponentsModule } from '../mat-components.module';
 import { DashboardComponent } from './components/dashboard-main/dashboard.component';
 import { InputFormatDirective } from './directives/input-format.directive';
-import { NgbAccordion, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import {  NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -25,7 +24,6 @@ import { NgbAccordion, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstr
     FormsModule,
     RouterModule,
     HttpClientModule,
-    MatComponentsModule,
     NgbModalModule
     // HttpClientXsrfModule.withOptions({
     //   cookieName: 'csrftoken',
@@ -55,9 +53,6 @@ import { NgbAccordion, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstr
     LoginService,
     RegistrationValidators,
     AuthGuardService
-  ],
-  entryComponents: [
-    LoginModalComponent,
   ]
 })
 export class ReUsableModule { }

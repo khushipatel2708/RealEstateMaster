@@ -3,7 +3,7 @@
     <form [formGroup]="form" novalidate>
       <div class="row text-left">
         <div class="col-md-2 col-12 form-group mb-0">
-          <label for="parentId">{{'Page.SelectMenu'| translate}}</label>
+          <label for="parentId">SelectMenu</label>
           <ng-select formControlName="parentId" [items]="parentMenuList" bindLabel="name" bindValue="id" placeholder="{{'Page.Select'| translate}}" id="parentId">
           </ng-select>
         </div>
@@ -25,11 +25,11 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>{{'Page.Name'| translate}}</th>
-              <th>{{'Page.Title'| translate}}</th>
-              <th>{{'Page.TitleArabic'| translate}}</th>
-              <th>{{'Page.Icon'| translate}}</th>
-              <th>{{'Page.Path'| translate}}</th>
+              <th>Name</th>
+              <th>Title</th>
+              <th>TitleArabic</th>
+              <th>Icon</th>
+              <th>Path</th>
               <th class="text-center">{{'Page.Has Child'| translate}}</th>
               <th class="text-center">{{'Page.Order'| translate}}</th>
               <th>{{'Page.Action'| translate}}</th>

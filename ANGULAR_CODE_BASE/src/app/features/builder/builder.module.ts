@@ -21,9 +21,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReUsableModule,
     ReactiveFormsModule,
     NgbTooltipModule
-  ],
-  entryComponents:[
-    BuilderModalComponent
   ]
 
 })

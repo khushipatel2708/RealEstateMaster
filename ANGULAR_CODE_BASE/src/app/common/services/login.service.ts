@@ -3,8 +3,8 @@
   import { HttpHeaders, HttpClient } from '@angular/common/http'
   import { JwtHelper } from "angular2-jwt";
   import { Router } from '@angular/router';
-  import { environment } from '@sa-environments/environment';
   import { map } from 'rxjs/operators';
+import { environment } from 'environments/environment';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

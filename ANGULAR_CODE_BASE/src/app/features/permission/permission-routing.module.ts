@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { PermissionComponent } from './permission.component';
-import { DashboardComponent } from '@sa-core/dashboard-main/dashboard.component';
 import { CommonModule } from '@angular/common';
+import { DashboardComponent } from 'app/common/components/dashboard-main/dashboard.component';
 
 const ChildRoutes: Routes = [
  

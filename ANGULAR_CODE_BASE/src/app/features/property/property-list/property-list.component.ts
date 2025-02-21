@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonService } from '@sa-services/common.service';
+import { CommonService } from 'app/common/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 declare const Swal:any;
 
@@ -12,7 +12,7 @@ declare const Swal:any;
 })
 export class PropertyListComponent implements OnInit {
   form:FormGroup;
-  propertyList = [];
+  propertyList: any = { data: [], totalCount: 0 }; // Ensure propertyList has a data field
   cityList:any[]=[];
   propertyTypeList:any[]=[];
   propertyFor = [
@@ -35,6 +35,7 @@ export class PropertyListComponent implements OnInit {
   @Input('blockSize') blockSize = 12;
   @Input('queryParams') queryParams = '';
   @Input('hideOwnProperty') hideOwnProperty = false;
+
   constructor(
     public commonService: CommonService,
     private formBuilder:FormBuilder,

@@ -2,7 +2,7 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CommonService } from '../services/common.service';
-import { environment } from '@sa-environments/environment';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class RegistrationValidators {

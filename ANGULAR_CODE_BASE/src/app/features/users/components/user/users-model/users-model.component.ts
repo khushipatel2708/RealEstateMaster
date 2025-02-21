@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { CommonService } from '@sa-services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../user';
+import { CommonService } from 'app/common/services/common.service';
 
 @Component({
   selector: 'app-users-model',

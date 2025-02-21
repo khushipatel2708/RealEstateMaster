@@ -9,95 +9,51 @@ const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: 'app/features/home/home.module#HomeModule'
-      }
-    ]
+    loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule)
+     
   },
 
   {
     path: 'menu1',
     component: MainComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: 'app/features/menu1/menu1.module#Menu1Module'
-      }
-    ]
+    loadChildren: () => import('./features/menu1/menu1.module').then(m => m.Menu1Module)
+      
   },  
   {
     path: 'property',
     component: MainComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: 'app/features/property/property.module#PropertyModule'
-      }
-    ]
+    loadChildren: () => import('./features/property/property.module').then(m => m.PropertyModule)
+  
   },
   {
     path: 'role',
     component: MainComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: 'app/features/role/role.module#RoleModule'
-      }
-    ]
+    loadChildren: () => import('./features/role/role.module').then(m => m.RoleModule)
+      
   },
   {
     path: 'users',
     component: MainComponent,
-    children: [
-      {
-        path: '',
-        // loadChildren: 'app/features/users/user/user.module#UserModule'
-         loadChildren: 'app/features/features.module#FeaturesModule'
-      }
-    ]
+    loadChildren: () => import('./features/features.module').then(m => m.FeaturesModule)
+     
   },
   {
     path: 'permission',
     component: MainComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: 'app/features/permission/permission.module#PermissionModule'
-      }
-    ]
+    loadChildren: () => import('./features/permission/permission.module').then(m => m.PermissionModule)
+    
   },
   {
     path: 'builder',
     component: MainComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: 'app/features/builder/builder.module#BuilderModule'
-      }
-    ]
+    loadChildren: () => import('./features/builder/builder.module').then(m => m.BuilderModule)
+    
   },
   {
     path: 'admin',
     component: MainComponent,
-    children: [
-      {
-        path: '',
-        loadChildren: 'app/features/admin/admin.module#AdminModule'
-      }
-    ],
-    data: { isAdmin: true }
-  },
-  {
-    path:'administrator',
-    component:MainComponent,
-    children:[
-      {
-        path: '',
-        loadChildren: 'app/administration/administration.module#AdministrationModule'
-      }
-    ]
+     loadChildren: () => import('./features/admin/admin.module').then(m => m.AdminModule),
+      data: { isAdmin: true }
   },
   {
     path: '**',

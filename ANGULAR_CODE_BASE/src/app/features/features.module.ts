@@ -31,8 +31,7 @@ import { BuilderModule } from './builder/builder.module';
     NgSelectModule,
     NgbModule,
     BuilderModule
-  ]
-  ,entryComponents:[UsersModelComponent],
+  ],
   declarations: [
     RegistrationComponent,
     EditProfileComponent, 

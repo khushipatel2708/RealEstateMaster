@@ -18,9 +18,6 @@ import { RoleModalComponent } from './components/role/role-modal/role-modal.comp
     ReUsableModule,
     ReactiveFormsModule,
     // NgbTooltipModule
-  ],
-  entryComponents: [
-    RoleModalComponent // if you're using Angular 7 or lower
   ]
 })
 export class RoleModule { }

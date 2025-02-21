@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { JwtHelper } from "angular2-jwt";
 import { HttpClient } from '@angular/common/http';
-import { environment } from '@sa-environments/environment';
-import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class UserService {
@@ -27,8 +27,8 @@ export class UserService {
     return jwtHelper.decodeToken(token);
   }
 
-  getcurrentUserDetails(userId):Observable<any> {
-    return this.http.get(environment.BASE_URL + '/user/' + userId);
+  getcurrentUserDetails(userId) {
+    return this.http.get<any>(environment.BASE_URL + '/user/' + userId);
   }
  
 }

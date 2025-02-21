@@ -1,7 +1,7 @@
 <!-- <h1>this is modal</h1> -->
  <!-- <ng-spinner type="text">loding</ng-spinner> -->
 <div class="modal-header">
-    <div *ngIf="id > 0; then editUser; else addUser"></div>
+    <div *ngIf="userId > 0; then editUser; else addUser"></div>
     <ng-template #editUser>
         <h4 class="modal-title">Edit User</h4>
     </ng-template>
