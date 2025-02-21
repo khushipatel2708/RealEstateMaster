@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\angular\\realestateminiproject\\realestate\\RealEstate.csproj": {}
+    "D:\\angular\\realestateminiproject\\RealEstate\\RealEstate.csproj": {}
   },
   "projects": {
-    "D:\\angular\\realestateminiproject\\realestate\\RealEstate.csproj": {
+    "D:\\angular\\realestateminiproject\\RealEstate\\RealEstate.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\angular\\realestateminiproject\\realestate\\RealEstate.csproj",
+        "projectUniqueName": "D:\\angular\\realestateminiproject\\RealEstate\\RealEstate.csproj",
         "projectName": "RealEstate",
-        "projectPath": "D:\\angular\\realestateminiproject\\realestate\\RealEstate.csproj",
+        "projectPath": "D:\\angular\\realestateminiproject\\RealEstate\\RealEstate.csproj",
         "packagesPath": "C:\\Users\\Mitu\\.nuget\\packages\\",
-        "outputPath": "D:\\angular\\realestateminiproject\\realestate\\obj\\",
+        "outputPath": "D:\\angular\\realestateminiproject\\RealEstate\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -51,9 +51,29 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Microsoft.AspNetCore.StaticFiles": {
               "target": "Package",
               "version": "[2.3.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.2, )"
             },
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",

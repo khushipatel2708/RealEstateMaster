@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace RealEstate.Entity;
+
+public partial class Property
+{
+    public string Id { get; set; } = null!;
+
+    public string? PropertyFor { get; set; }
+
+    public bool? IsSociety { get; set; }
+
+    public string? Status { get; set; }
+
+    public bool? IsActive { get; set; }
+
+    public string? Images { get; set; }
+
+    public DateTime? UpdatedOn { get; set; }
+
+    public DateTime? CreatedOn { get; set; }
+
+    public decimal? Price { get; set; }
+
+    public int? Length { get; set; }
+
+    public int? Breadth { get; set; }
+
+    public string? StateId { get; set; }
+
+    public string? CityId { get; set; }
+
+    public string? Pincode { get; set; }
+
+    public string? Locality { get; set; }
+
+    public string? SocietyName { get; set; }
+
+    public string? FlatNo { get; set; }
+
+    public string? Description { get; set; }
+
+    public string? Address { get; set; }
+
+    public string? Email { get; set; }
+
+    public string? PhoneNo { get; set; }
+
+    public string? Title { get; set; }
+
+    public string? UserId { get; set; }
+
+    public string? Slug { get; set; }
+
+    public string? TypeId { get; set; }
+
+    public string? ImgPath { get; set; }
+
+    public bool? CornerPlot { get; set; }
+
+    public string? BuilderId { get; set; }
+
+    public int? Version { get; set; }
+}
