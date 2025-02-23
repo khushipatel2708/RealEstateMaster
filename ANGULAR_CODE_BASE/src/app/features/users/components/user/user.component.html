@@ -11,21 +11,24 @@
         </div>
         <div class="row">
           <div class="col-md-3 text-left">
-            <label for="searchText">Search</label>
-            <div class="input-group mb-0">
+            <!-- <label for="searchText" class="small">Search</label> -->
+            <div class="input-group input-group-sm mb-0">
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
               </div>
-              <input type="text" formControlName="searchText" class="form-control" placeholder="search" aria-label="Username" aria-describedby="basic-addon1">
+              <input type="text" formControlName="searchText" class="form-control form-control-sm" placeholder="Search">
             </div>
           </div>
-          <div class="col-md-4 d-flex align-items-center mt-1 mt-md-0">
-            <button type="submit" class="btn btn-warning m-1" (click)="onClick_fiter()">Filter</button>
-            <button type="button" class="btn btn-secondary m-1" (click)="onClear_Filter()">Clear</button>
+          
+          <div class="col-md-4 d-flex align-items-center mb-5">
+            <button type="submit" class="btn btn-sm btn-warning m-1" (click)="onClick_fiter()"><i class="bi bi-search me-1"></i>
+              Filter</button>
+            <button type="button" class="btn btn-sm btn-secondary m-1" (click)="onClear_Filter()"><i class="bi bi-x-lg me-1"></i>
+              Clear</button>
           </div>
           <div class="form-group col-md-5 text-right">
-            <button type="button" class="btn btn-primary btn-fw mb-1 ml-auto mt-4" (click)="onClick_AddEdit(0)">
-              <i class="bi bi-plus-lg mr-2" aria-hidden="true"></i>Add User
+            <button type="button" class="btn btn-sm btn-primary m-1" (click)="onClick_AddEdit(0)">
+              <i class="bi bi-plus-lg me-2 fs-6 " aria-hidden="true"></i>Add User
             </button>
           </div>
         </div>
