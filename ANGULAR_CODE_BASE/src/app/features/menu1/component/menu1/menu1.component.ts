@@ -50,7 +50,7 @@ export class Menu1Component implements OnInit {
     this.getMenuList();
   }
 
-  onAddEdit(id: number) {
+  onClick_AddEdit(id?: number) { 
     const modalRef = this.modalService.open(Menu1ModalComponent, {
       centered: true,
       backdrop: 'static'
@@ -67,7 +67,6 @@ export class Menu1Component implements OnInit {
       page: this.page || 1, 
       pageSize: this.pageSize || 10,  
     };
-    
     this.commonService.getMenu1List(filters)  
       .subscribe({
         next: (result: any) => {
@@ -80,7 +79,7 @@ export class Menu1Component implements OnInit {
       });
   }
 
-  onDelete(menuId: string) {
+  onDelete(menuId: any) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",

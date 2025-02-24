@@ -5,7 +5,7 @@ import { Menu } from 'app/features/menu1/model/menu';
 import { Role } from 'app/features/role/model/role';
 import { Builder } from 'app/features/builder/builder';
 import { User } from 'app/features/users/components/user/user';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'environments/environment';
 
 
@@ -86,27 +86,26 @@ getRoleDDList(){
   }
   //End Property
   //Start Menu
-  getMenu1List(filters: any){
-    return this.http.post(environment.BASE_URL + "/common/menu1List", filters);
+
+  getMenu1List(filters: any): Observable<any> {
+    return this.http.post<any>(`${environment.BASE_URL}/menu/getMenuList`, filters);
   }
 
-  addEditMenu(menudata: any) {
-    if (menudata.id) {
-      // If `roledata` has an `id`, use `updateRole` API
-      return this.http.put(environment.BASE_URL + "/common/menu/" + menudata.id, menudata);
-    } else {
-      // Otherwise, use `addRole` API
-      return this.http.post(environment.BASE_URL + "/common/addEditMenu", menudata);
-    }
+  // Add or update menu — ONE API for both
+  addEditMenu(menudata: any): Observable<any> {
+    return this.http.post(`${environment.BASE_URL}/menu`, menudata);
   }
 
-  getMenuById(id: number) {
-    return this.http.get<Menu>(`${environment.BASE_URL}/common/menu/${id}`);
+  // Get menu by ID
+  getMenuById(id: number): Observable<any> {
+    return this.http.get<any>(`${environment.BASE_URL}/menu/${id}`);
   }
 
-  deleteMenu(menuId: string) {
-    return this.http.delete(`${environment.BASE_URL}/common/deleteMenu/${menuId}`);
+  // Delete menu
+  deleteMenu(menuId: number): Observable<any> {
+    return this.http.delete(`${environment.BASE_URL}/menu/${menuId}`);
   }
+  
   //End Menu service
 //Start role
 getRoleDDlList(){
@@ -135,9 +134,12 @@ getRoleDDlList(){
 //End Role
 
 //start User
-getUserList(filters:any){
-  return this.http.post(environment.BASE_URL + '/common/userDetailList',filters);
+getUserList(filters: any): Observable<any> {
+  return this.http.post<any>(`${environment.BASE_URL}/user/getUserList`, filters);
 }
+// getUserList(filters:any){
+//   return this.http.post(environment.BASE_URL + '/common/userDetailList',filters);
+// }
 
 addEditUser(userdata: any){
   return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);

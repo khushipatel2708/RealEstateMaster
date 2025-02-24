@@ -9,33 +9,33 @@ public partial class User
   [Key]
     public int? Id { get; set; }
 
-    public int? UserType { get; set; }
+  public int? UserType { get; set; }
 
-    public bool? IsAdmin { get; set; }
+  public bool? IsAdmin { get; set; }
 
-    public bool? Status { get; set; }
+  public bool? Status { get; set; }
 
-    public DateTime? UpdatedOn { get; set; }
+  public DateTime? UpdatedOn { get; set; }
 
-    public string? Fname { get; set; } 
+  public string Fname { get; set; } = null!;
 
-    public string? Lname { get; set; }
+  public string Lname { get; set; } = null!;
 
-    public string? UserName { get; set; }
+  public string UserName { get; set; } = null!;
 
-    public string? Email { get; set; } 
+  public string Email { get; set; } = null!;
 
-    public string? PhoneNo { get; set; }
+  public int? PhoneNo { get; set; }
 
     public int? StateId { get; set; }
 
     public int? CityId { get; set; }
 
-    public int? Pincode { get; set; }
+  public int? Pincode { get; set; }
 
-    public string? Role { get; set; }
+  public string? Role { get; set; }
 
-    public DateTime? CreatedOn { get; set; }
+  public DateTime? CreatedOn { get; set; }
 
-    public string Password { get; set; } = null!;
+  public string Password { get; set; } = null!;
 }

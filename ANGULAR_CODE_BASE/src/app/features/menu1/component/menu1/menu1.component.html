@@ -1,90 +1,92 @@
-
 <div class="row">
   <div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
+    <div class="card shadow-sm border-0">
       <div class="card-body">
         <form [formGroup]="form">
-          <div class="sub-header">
-            <h3 class="mt-1 text-left">Menu</h3>
-            <hr class="mt-0">
+          <div class="sub-header d-flex justify-content-between align-items-center mb-3">
+            <h3 class="mt-1">Menu</h3>
           </div>
-          <div class="row align-items-center">
+          <hr class="mt-0 w-100">
+
+          <div class="row align-items-end">
             <!-- Search Input -->
             <div class="col-md-4">
-              <label for="search" >Search</label>
-              <div class="form-group">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="bi bi-search"></i> </span>
-                  </div>
-                  <input type="text" formControlName="searchText" class="form-control" placeholder="search" aria-label="Username" aria-describedby="basic-addon1">
-                </div>
+              <label for="search">Search</label>
+              <div class="input-group shadow-sm">
+                <span class="input-group-text bg-light rounded-1"><i class="bi bi-search text-primary"></i></span>
+                <input type="text" formControlName="searchText" class="form-control rounded-1" placeholder="Search...">
               </div>
             </div>
 
             <!-- Filter and Cancel Buttons -->
-            <div class="col-md-6">
-              <button type="button" class="btn btn-warning btn-md mr-1" (click)="onClick_filter()">Filter</button>
-              <button type="button" class="btn btn-secondary btn-md" (click)="onClear_Filter()">Cancel</button>
+            <div class="col-md-6 d-flex gap-2 mt-2 mt-md-0">
+              <button type="button" class="btn btn-warning btn-md rounded-1 px-3" (click)="onClick_filter()">
+                <i class="bi bi-funnel"></i> Filter
+              </button>
+              <button type="button" class="btn btn-secondary btn-md rounded-1 px-3" (click)="onClear_Filter()">
+                <i class="bi bi-x-circle"></i> Cancel
+              </button>
             </div>
 
             <!-- Add New Button -->
-            <div class="col-md-2 text-md-right">
-              <button type="button" class="btn btn-primary btn-md" (click)="onAddEdit(0)">
-                <i class="fa fa-plus btn-icon-prepend"></i> Add New
+            <div class="col-md-2 text-md-end mt-2 mt-md-0">
+              <button type="button" class="btn btn-primary btn-md rounded-1 px-3" (click)="onClick_AddEdit()">
+                <i class="bi bi-plus-circle"></i> Add New
               </button>
             </div>
           </div>
         </form>
 
-        <table class="table table-striped mt-3">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>title</th>
-              <th>icon</th>
-              <th>path</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of menuList;let i=index">
-              <td>{{i+1}}
-              </td>
-              <td>{{item.name}}</td>
-              <td>{{item.title}}</td>
-              <td><i class="{{item.icon}} mr-1"></i> {{item.icon}}</td>
-              <td>{{item.path}}</td>
-              <td>
-                <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item._id)">
-                  <i class="bi bi-pencil-square font-medium-4 mr-2 text-success font-weight-bold"></i>
-                </a>
-                <a class="danger p-0" ngbTooltip="Delete" (click)="onDelete(item._id)">
-                  <i class="bi bi-trash3 font-medium-4 text-danger font-weight-bold"></i>
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="row mt-2">
+        <!-- Table -->
+        <div class="table-responsive mt-4">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Title</th>
+                <th>Icon</th>
+                <th>Path</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of menuList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.title }}</td>
+                <td>
+                  <i class="{{ item.icon }} text-primary me-1"></i> {{ item.icon }}
+                </td>
+                <td>{{ item.path }}</td>
+                <td>
+                  <a class="text-success me-2" ngbTooltip="Edit" (click)="onClick_AddEdit(item.id)">
+                    <i class="bi bi-pencil-square fs-5"></i>
+                  </a>
+                  <a class="text-danger" ngbTooltip="Delete" (click)="onDelete(item.id)">
+                    <i class="bi bi-trash3 fs-5"></i>
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination & Page Size -->
+        <div class="row mt-3 align-items-center">
           <div class="col-md-10">
-              <!-- <ngb-pagination>
-              </ngb-pagination>-->
-              <ngb-pagination 
-  [collectionSize]="totalRecord" 
-  [(page)]="page" 
-  (pageChange)="onClick_PageChange($event)" 
-  [pageSize]="pageSize" 
-  [maxSize]="10">
-</ngb-pagination>
+            <ngb-pagination 
+              [collectionSize]="totalRecord" 
+              [(page)]="page" 
+              (pageChange)="onClick_PageChange($event)" 
+              [pageSize]="pageSize" 
+              [maxSize]="10">
+            </ngb-pagination>
           </div>
           <div class="col-md-2">
-            <div class="form-group">
-              <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-control">
-                <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
-              </select>
-            </div>
+            <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-select rounded-1">
+              <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
+            </select>
           </div>
         </div>
       </div>

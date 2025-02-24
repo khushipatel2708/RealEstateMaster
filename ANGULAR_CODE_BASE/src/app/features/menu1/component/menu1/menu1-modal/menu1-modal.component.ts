@@ -11,11 +11,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class Menu1ModalComponent implements OnInit {
   @Input() id: number;
+  // @Output() onMenu_Emit = new EventEmitter<any>();
   @Output() menuSaved = new EventEmitter<void>();
 
   form: FormGroup;
   submitted = false;
-  
+
   constructor(
     private commonService: CommonService,
     public activeModal: NgbActiveModal,
@@ -24,6 +25,7 @@ export class Menu1ModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('menuId:', this.id);
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       title: ['', Validators.required],
@@ -31,7 +33,7 @@ export class Menu1ModalComponent implements OnInit {
       icon: ['']
     });
 
-    if (this.id) {
+    if (this.id && this.id > 0) {
       this.getMenuById();
     }
   }
@@ -40,12 +42,25 @@ export class Menu1ModalComponent implements OnInit {
     return this.form.controls;
   }
 
-  getMenuById(): void {
-    this.commonService.getMenuById(this.id).subscribe(menu => {
-      if (menu) {
-        this.form.patchValue(menu);
+
+  getMenuById() {
+    console.log('Calling getMenuByMenuId service with menuId:', this.id);
+    this.commonService.getMenuById(this.id).subscribe(
+      (result) => {
+        console.log('Service response:', result);
+        if (result) {
+          this.form.patchValue({
+            name: result.name,
+            title: result.title,
+            path: result.path,
+            icon: result.icon,
+          });
+        }
+      },
+      (error) => {
+        console.error('Service error:', error);
       }
-    });
+    );
   }
 
   onSubmit_Menu() {
@@ -54,16 +69,16 @@ export class Menu1ModalComponent implements OnInit {
       return;
     }
 
-    this.spinner.show();  
+    this.spinner.show();
     const formData = {
-      id: this.id,
+      id: this.id || 0,
       name: this.form.get('name').value,
       title: this.form.get('title').value,
       path: this.form.get('path').value,
       icon: this.form.get('icon').value
     };
-
-    if (this.id) {
+    console.log("formData", formData)
+    if (this.id > 0) {
       // Update menu
       this.commonService.addEditMenu(formData).subscribe(result => {
         if (result) {
@@ -81,6 +96,7 @@ export class Menu1ModalComponent implements OnInit {
           this.resetForm();
           this.menuSaved.emit();
           this.activeModal.close();
+          console.log("res", result)
         }
       });
     }
