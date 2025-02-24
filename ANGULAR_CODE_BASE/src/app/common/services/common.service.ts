@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 import { Menu } from 'app/features/menu1/model/menu';
 import { Role } from 'app/features/role/model/role';
@@ -21,8 +21,6 @@ export class CommonService {
     this.titleService.setTitle(newTitle);
   }
 
-  public headers: HttpHeaders;
-  
   // Header alert text
   HeaderMessage = new Subject<string>();
   HeaderMessage$ = this.HeaderMessage.asObservable();
