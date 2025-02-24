@@ -1,121 +1,104 @@
 <div class="container mr-t-b-60">
     <h3>Fill the following details to register as a new user-</h3>
-    <form class="" [formGroup]="registrationForm" (ngSubmit)="registration(registrationForm)" (change)="log(registrationForm)" >
-        <div *ngIf="mainErrorMessage">
-            <p class="alert alert-{{ mainErrorMessage.type }}">{{ mainErrorMessage.message }}</p>
-        </div>
-        <div class="form-row">
+    <form class="" [formGroup]="registrationForm" (ngSubmit)="registration(registrationForm)">
+      <div class="form-row">
             <div class="form-group col-md-4">
-                <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="fname" class="form-control"  placeholder="Enter First Name" required>
+                <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="fname" class="form-control"  placeholder="Enter First Name"   [ngClass]="{'is-invalid': registrationSubmitted && lf.fname.invalid, 'is-valid': registrationSubmitted && !lf.fname.invalid }" >
                 <small class="text-danger"
-             *ngIf="fname.touched && fname.invalid"  >
+                *ngIf="registrationSubmitted && (lf.fname.invalid || lf.fname.errors?.required)"  >
             This field is required</small>
             </div>
             <div class="form-group col-md-4">
-                <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="lName" class="form-control" placeholder="Enter Last Name" required>
-                <!-- ngModel name="lName" #lName="ngModel" -->
+                <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="lName" class="form-control" placeholder="Enter Last Name" [ngClass]="{'is-invalid': registrationSubmitted && lf.lName.invalid, 'is-valid': registrationSubmitted && !lf.lName.invalid }">
                 <small class="text-danger"
-             *ngIf="lName.touched && lName.invalid"  >
+             *ngIf="registrationSubmitted && (lf.lName.invalid || lf.lName.errors?.required)"  >
             This field is required</small>
             </div>
             <div class="form-group col-md-4">
-                <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="userName" class="form-control" placeholder="Enter userName" required>
-                <!-- ngModel name="lName" #lName="ngModel" -->
+                <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="userName" class="form-control" placeholder="Enter userName" [ngClass]="{'is-invalid': registrationSubmitted && lf.userName.invalid, 'is-valid': registrationSubmitted && !lf.userName.invalid }">
                 <small class="text-danger"
-             *ngIf="userName.touched && userName.invalid"  >
+             *ngIf="registrationSubmitted && (lf.userName.invalid || lf.userName.errors?.required)"  >
             This field is required</small>
             </div>
-            <!-- (change)="log(name)" -->
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <div class="input-with-icon">                    
-                    <input type="email" formControlName="email" class="form-control" placeholder="Enter Email Address" required >
-                    <span *ngIf="email.pending" class="input-icon"><i class="fa fa-spinner fa-spin fa-2x fa-fw" ></i></span>
+                    <input type="email" formControlName="email" class="form-control" placeholder="Enter Email Address" [ngClass]="{'is-invalid': registrationSubmitted && lf.email.invalid, 'is-valid': registrationSubmitted && !lf.email.invalid }">
+                    <span *ngIf="lf.email?.pending" class="input-icon"><i class="fa fa-spinner fa-spin fa-2x fa-fw" ></i></span>
                 </div>
-                <!-- ngModel name="email" fa-spin  #email="ngModel" (change)="log(email)"   -->
                 <small class="text-danger"
-                    *ngIf="email.touched && email.invalid"  >
-                    <small *ngIf="email.errors.required" >This field is required</small>
-                    <small *ngIf="email.errors.email" >Please enter a valid email address</small>
-                    <small *ngIf="email.errors.checkEmailAvailability" >This email address is already taken</small>
+                    *ngIf="registrationSubmitted && (lf.email?.invalid || lf.email.errors?.required)"  >
+                    <small *ngIf="lf.email.errors?.required" >This field is required</small>
+                    <small *ngIf="lf.email.errors?.email" >Please enter a valid email address</small>
+                    <small *ngIf="lf.email.errors?.checkEmailAvailability" >This email address is already taken</small>
                 </small>
             </div>
             <div class="form-group col-md-6">
-                <input formControlName="phoneNo" type="number" (change)="log(phoneNo)"  class="form-control remove-numbr-icn" maxlength="10" placeholder="Enter Phone Number" required >
-                <!-- ngModel name="phoneNo" type="number" #phoneNo="ngModel" -->
+                <input formControlName="phoneNo" type="number"  class="form-control remove-numbr-icn" maxlength="10" placeholder="Enter Phone Number" [ngClass]="{'is-invalid': registrationSubmitted && lf.phoneNo.invalid, 'is-valid': registrationSubmitted && !lf.phoneNo.invalid }">
                 <small class="text-danger"
-                    *ngIf="phoneNo.touched && phoneNo.invalid"  >
+                    *ngIf="registrationSubmitted && (lf.phoneNo.invalid || lf.phoneNo.errors?.required)" >
                 This field is required</small>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <input  type="password" name="registrationPassword" formControlName="password"   class="form-control" placeholder="Enter Password" required > 
-                <!-- ngModel #registrationPassword="ngModel" (change)="log(registrationPassword)" -->
+                <input  type="password" name="registrationPassword" formControlName="password"   class="form-control" placeholder="Enter Password" [ngClass]="{'is-invalid': registrationSubmitted && lf.password.invalid, 'is-valid': registrationSubmitted && !lf.password.invalid }"> 
                 <small class="text-danger"
-                    *ngIf="registrationPassword.touched && registrationPassword.invalid"  >
-                This field is required</small>
+                    *ngIf="registrationSubmitted && (lf.password.invalid || lf.password.errors?.required)" >
+                <span>This field is required</span></small>
             </div>
             <div class="form-group col-md-6">
-                <input  type="password" name="registrationcPassword" formControlName="cPassword"  placeholder="Re-enter Password" class="form-control" required >
-                <!-- ngModel #registrationcPassword="ngModel" (change)="log(registrationcPassword)"  -->
+                <input  type="password" name="registrationcPassword" formControlName="cPassword"  placeholder="Re-enter Password" (change)="onChangePassword($event)" class="form-control" [ngClass]="{'is-invalid': registrationSubmitted && lf.cPassword.invalid, 'is-valid': registrationSubmitted && !lf.cPassword.invalid }">
                 <small class="text-danger"
-                    *ngIf="registrationcPassword.touched && registrationcPassword.invalid"  >
+                    *ngIf="registrationSubmitted && (lf.cPassword.invalid || lf.cPassword.errors?.required)"  >
                 This field is required</small>
-
-                <span class="text-danger"
-                    *ngIf="registrationForm.errors && registrationcPassword.touched">    
-                    <small *ngIf="registrationForm.errors.passwordMatch" > Password do not match</small>
-                    <!-- registrationForm.status === 'INVALID' -->
-                </span>                
+                <small class="text-danger" *ngIf="registrationSubmitted && passwordMismatch && lf.cPassword.value">
+                    Passwords do not match
+                </small>            
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-4">
-                    <!-- #cityList (change)="getCityList(cityList.value)" -->
-                <select name="state" formControlName="state" (change)="getCityList(state.value)" class="custom-select">
+                <select name="state" formControlName="state" class="custom-select" (change)="onChangeState($event)">
                     <option value="">Select State</option>
-                    <option *ngFor="let state of stateList" value="{{state._id}}">{{state.name}}</option>
+                    <option *ngFor="let state of stateList" [value]="state.id">{{ state.name }}</option>
                 </select>
                 <small class="text-danger"
-                    *ngIf="state.touched && state.invalid"  >
+                    *ngIf="registrationSubmitted && (lf.state.invalid || lf.state.errors?.required)"  >
                 This field is required</small>
             </div>
             <div class="form-group col-md-4">
                 <select name="city" formControlName="city" class="custom-select">
                     <option value="">Select City</option>
-                    <option *ngFor="let city of cityList" value="{{city._id}}">{{city.name}}</option>
+                    <option *ngFor="let city of cityList" value="{{city.id}}">{{city.name}}</option>
                 </select>
                 <small class="text-danger"
-                    *ngIf="city.touched && city.invalid"  >
+                    *ngIf="registrationSubmitted && (lf.city.invalid || lf.city.errors?.required)"  >
                 This field is required</small>
             </div>
             <div class="form-group col-md-4">
-                <input formControlName="pincode" type="text" name="pincode" placeholder="Enter PIN Code" class="form-control">
+                <input formControlName="pincode" type="text" name="pincode" placeholder="Enter PIN Code" class="form-control" [ngClass]="{'is-invalid': registrationSubmitted && lf.pincode.invalid, 'is-valid': registrationSubmitted && !lf.pincode.invalid }">
                 <small class="text-danger"
-                    *ngIf="pincode.touched && pincode.invalid"  >
+                    *ngIf="registrationSubmitted && (lf.pincode.invalid || lf.pincode.errors?.required)"  >
                 This field is required</small>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-12">
                 <strong>I am </strong> &nbsp;
-                <label><input type="radio" formControlName="role" value="admin" (change)="log(role)" name="role" checked> Admin/Owner &nbsp; </label>
-                <label><input type="radio" formControlName="role" value="user" (change)="log(role)" name="role"> User &nbsp; </label>
-                <label><input type="radio" formControlName="role" value="builder" (change)="log(role)" name="role"> Builder &nbsp; </label>
+                <label><input type="radio" formControlName="role" value="admin"  name="role" checked> Admin/Owner &nbsp; </label>
+                <label><input type="radio" formControlName="role" value="user"  name="role"> User &nbsp; </label>
+                <label><input type="radio" formControlName="role" value="builder"  name="role"> Builder &nbsp; </label>
                 <small class="text-danger"
-                    *ngIf="role.touched && role.invalid" >
+                    *ngIf="registrationSubmitted && (lf.role.invalid || lf.role.errors?.required)" >
                 This field is required</small>
             </div>
         </div>
         <div class="form-group">
-            <div class="col-md-12">                
-                <button class="btn btn-primary form-control" [disabled]="!registrationForm.valid" >Sign up</button>
+            <div class="col-md-12 text-end">                
+                <button class="btn btn-primary" >Sign up</button>
             </div>
         </div>
-        <!-- <p>{{ registrationForm.value | json }}</p>
-        <p>{{ registrationForm.status | json }}</p>
-        <p>{{ registrationForm.errors | json }}</p> -->
-    </form>
+      </form>
 </div>

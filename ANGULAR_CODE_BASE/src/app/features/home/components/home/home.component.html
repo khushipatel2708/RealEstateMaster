@@ -1,52 +1,28 @@
 <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"> -->
 
-<div class="searchProp-cont">
+<!-- <div class="searchProp-cont">
   <ngb-carousel *ngIf="images">
     <ng-template *ngFor="let item of [0,1,2]" ngbSlide>
       <img [src]="images[item]" class="carousal-img" width="100%" height="100%" alt="Random first slide">
     </ng-template>
   </ngb-carousel>
-</div>
+</div> -->
 
-  <!-- <div class="position-relative">
-    <form *ngIf="images" class="searchProp" #searchData="ngForm" (ngSubmit)="searchProp(searchData.value)">
-      <ngb-tabset type="pills">
-        <ngb-tab>
-          <ng-template ngbTabTitle>
-            <label (click)="searchPropData.propertyFor = 'sell'">BUY</label>
-          </ng-template>
-          <ng-template ngbTabContent>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab>
-          <ng-template ngbTabTitle>
-            <label (click)="searchPropData.propertyFor = 'rent'">RENT</label>
-          </ng-template>
 
-          <ng-template ngbTabContent>
-          </ng-template>
-        </ngb-tab>
-        <ngb-tab>
-          <ng-template ngbTabTitle><label><b routerLink="/property/new">POST A PROPERTY</b></label></ng-template>
-          <ng-template ngbTabContent>
-          </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
-      <div class="text-center searchFields">
-        <div class="form-group">
-          <input id="typeahead-basic" placeholder="Enter a location" type="text" class="rounded-left" ngModel
-            #location="ngModel" name="city" [value]="searchPropData?.location" [ngbTypeahead]="search" />
-
-          <select ngModel #city="ngModel" style="width: auto;" name="type"
-            class="custom-select searchType rounded-0 p-cursor">
-            <option value="">Property Type</option>
-            <option *ngFor="let type of propertyTypeList" [value]="type._id">{{ type.title }}</option>
-          </select>
-
-          <button class="btn btn-danger searchButton rounded-0 rounded-right">Search</button>
+<div class="carousel-container">
+  <ngb-carousel *ngIf="images" [interval]="5000" (slide)="onSlideChange($event)">
+    <ng-template *ngFor="let item of images; let i = index" ngbSlide>
+      <div class="carousel-item">
+        <img [src]="item" class="carousel-image" alt="Slide Image">
+        <div class="carousel-caption" [ngClass]="{'scroll-up': isSlideActive(i)}">
+          <h2>Welcome to Your Dream Home</h2>
+          <p>Find the best properties tailored to your needs.</p>
         </div>
       </div>
-    </form>
-  </div> -->
-
+    </ng-template>
+  </ngb-carousel>
+</div>
+<div class="row">
+  <p class="animate_animated animate_slideInUp">hello</p>
+</div>
 

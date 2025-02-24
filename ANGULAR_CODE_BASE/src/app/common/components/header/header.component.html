@@ -8,23 +8,31 @@
 					</div>
 			<div class="col-md-10">
 				<div class="header-ryt text-right pt-3">
-					<button type="button" style="margin-right: 5px;" *ngIf="!isUserLoggedIn" (click)="openloginModal()"
-						class="btn btn-outline-primary btn-sm">Login </button>
-					<button type="button" routerLink="/users/sign-up" *ngIf="!isUserLoggedIn"
-						class="btn btn-outline-primary btn-sm">Register</button>
-					<div *ngIf="isUserLoggedIn">
-						<div class="user-image">
-							<span><span class="text-primary">Welcome</span> {{userService.currentUser.user.fname}} </span>
-							<img [matMenuTriggerFor]="headerRytmenu" src="assets/images/user.jpg"
-								(click)="headerDropdown = !headerDropdown" class="rounded-circle p-cursor" alt="user">
-						</div>
-						<mat-menu #headerRytmenu="matMenu" xPosition="before">
-							<button routerLink="/users/dashboard" mat-menu-item>Dashboard</button>
-							<button *ngIf="userService.currentUser?.user.isAdmin" routerLink="/admin/dashboard"
-								mat-menu-item>Admin</button>
-								<button routerLink="/users/profile/edit" mat-menu-item>Profile</button>
-							<button (click)="handleLogout()" mat-menu-item>Logout</button>
-						</mat-menu>
+					<button type="button" style="margin-right: 5px;" 
+						class="btn btn-outline-primary btn-sm" *ngIf="!isUserLoggedIn">Login </button>
+					<button type="button" routerLink="/users/sign-up" 
+						class="btn btn-outline-primary btn-sm" *ngIf="!isUserLoggedIn">Register</button>
+					<div>
+						<div class="user-image dropdown" *ngIf="isUserLoggedIn">
+							<span><span class="text-primary">Welcome</span> {{ currentUser?.fName }} </span>
+							<img 
+							  src="assets/images/user.jpg"
+							  class="rounded-circle p-cursor dropdown-toggle"
+							  id="userDropdown"
+							  data-bs-toggle="dropdown"
+							  aria-expanded="false"
+							  alt="user"
+							>
+							
+							<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+							  <li><a class="dropdown-item" routerLink="/users/dashboard">Dashboard</a></li>
+							  <li>
+								<a class="dropdown-item" routerLink="/admin/dashboard">Admin</a>
+							  </li>
+							  <li><a class="dropdown-item" routerLink="/users/profile/edit">Profile</a></li>
+							  <li><a class="dropdown-item" (click)="handleLogout()">Logout</a></li>
+							</ul>
+						  </div>						  
 					</div>
 				</div>
 			</div>
@@ -70,7 +78,7 @@
 <!-- ---------- NAV BAR ---------- -->
 
 <!-- ------------------ PAGE LOADER ---------------- -->
-<app-small-components [componentName]="'barLoader'" [loaderActive]="pageloaderStatus"></app-small-components> 
+<!-- <app-small-components [componentName]="'barLoader'" [loaderActive]="pageloaderStatus"></app-small-components>  -->
 <!-- ------------------ PAGE LOADER ---------------- -->
 
 <!-- <div *ngIf="HeaderMessage.message" class="container header-message">

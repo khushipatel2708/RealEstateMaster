@@ -21,8 +21,7 @@ import { environment } from 'environments/environment';
       private router: Router) { }
 
     checkUserLogin(data) {
-      let postData = { 'emailPhone': data.emailPhone, 'password': data.loginPassword }
-      return this.http.post(environment.BASE_URL + '/auth/user/login', postData, httpOptions)
+      return this.http.post(environment.BASE_URL + '/auth/user/login', data, httpOptions)
     }
     // checkUserLogin(data) {
     //   let postData = { 'emailPhone': data.emailPhone, 'password': data.loginPassword }

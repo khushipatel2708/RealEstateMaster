@@ -1,15 +1,15 @@
-<div class="modal-header">
+<!-- <div class="modal-header">
   <h4 class="modal-title">Sign In</h4>
   <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
 <hr>
-<div class="modal-body">
+<div class="modal-body"> -->
 <!-- <div *ngIf="alertMessage.message != ''" class="alert alert-{{ alertMessage.type }}">
     {{ alertMessage.message }}
   </div> -->
-<form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+<!-- <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
     <div class="form-group">
       <label for="">Email / Phone Number</label>
       <input ngModel name="emailPhone" type="text" #emailPhone="ngModel" class="form-control" required>
@@ -33,4 +33,51 @@
 <hr>
 <div class="modal-footer">
   <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss('Close click')">Close</button>
+</div> -->
+
+
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-grey">
+  <div class="row login-card bg-light">
+      <!-- Image Section -->
+      <div class="col-md-6 login-image d-none d-md-block"></div>
+      
+      <!-- Login Form Section -->
+      <div class="col-md-6 p-4">
+          <h4 class="text-center">Login</h4>
+          <p class="text-center text-muted">Welcome back! Please login.</p>
+          
+          <form  [formGroup]="loginForm" (ngSubmit)="login()">
+            <div class="form-group">
+              <input type="text" formControlName="emailPhone" class="form-control" placeholder="emailPhone"
+                [ngClass]="{'is-invalid': loginFormSubmitted && lf.emailPhone.invalid, 'is-valid': loginFormSubmitted && !lf.emailPhone.invalid }" />
+              <div class="help-block mt-1 text-danger" *ngIf="loginFormSubmitted && (lf.emailPhone.invalid || lf.emailPhone.errors?.required)">
+                <i class="ft-alert-circle align-middle"></i> EmailPhone is required.
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-group">
+                <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control" placeholder="Password"
+                  [ngClass]="{'is-invalid': loginFormSubmitted && lf.password.invalid,'is-valid': loginFormSubmitted && !lf.password.invalid}" />
+                <div class="input-group-append">
+                  <span class="input-group-text" (click)="togglePassword()">
+                    <i [class]="show_eye ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="help-block mt-1 text-danger" *ngIf="loginFormSubmitted && (lf.password.invalid || lf.password.errors?.required)">
+                <i class="ft-alert-circle align-middle"></i> Password is required.
+              </div>
+              <div class="text-end">
+                <a class="font-small-2 text-primary" href="/users/forgot-password">Forgot Password?</a>
+              </div>
+            </div>
+              <button type="submit" class="btn btn-primary w-100">Login</button>
+          
+          </form>
+          <div class="mt-2">
+            <span class="text-secondary font-small-2">Don't have an account? <a href="/users/sign-up" class="text-primary"> SignUp</a></span>
+          </div>
+      </div>
+  </div>
 </div>

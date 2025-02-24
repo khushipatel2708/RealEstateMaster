@@ -13,7 +13,7 @@ export class DashboardHomeComponent implements OnInit {
     // private commonService: CommonService
   ) { }
 
-  queryParams = '?userId='+this.userService.currentUser.user._id;
+  // queryParams = '?userId='+this.userService.currentUser.user._id;
 
   ngOnInit() {
     // this.commonService.togglePageLoaderFn(false);

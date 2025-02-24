@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RealEstate.Controllers
 {
-  public class AuthController : Controller
+  public class AuthController : ControllerBase
   {
-    public IActionResult Index()
-    {
-      return View();
-    }
+  
   }
 }

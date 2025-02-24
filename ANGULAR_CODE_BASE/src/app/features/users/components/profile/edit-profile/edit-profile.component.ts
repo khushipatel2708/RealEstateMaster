@@ -27,7 +27,7 @@ export class EditProfileComponent implements OnInit {
 
   getcurrentUserDetails(userId) {
     this.commonService.togglePageLoaderFn(true);
-    this.userService.getcurrentUserDetails(userId)
+    this.userService.getUserDetails(userId)
       .subscribe((result: any) => {
         this.UserDetails = result;
         this.lastEdited = result && result.updatedOn && moment(result.updatedOn).format('MMMM Do YYYY, h:mm:ss a') || '';

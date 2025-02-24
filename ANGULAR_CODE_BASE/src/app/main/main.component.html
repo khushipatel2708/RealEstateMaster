@@ -1,7 +1,13 @@
 <!-- ----- header -->
-<app-header></app-header>
+<div *ngIf="router.url !== '/login' && router.url !== '/'">
+    <app-header></app-header>
+</div> 
+
 
 <router-outlet></router-outlet>
 
 <!-- ---------- footer ------- -->
-<app-footer></app-footer>
+ <div *ngIf="router.url !== '/login' && router.url !== '/'">
+    <app-footer></app-footer>
+
+ </div>

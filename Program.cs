@@ -1,26 +1,46 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using RealEstate.Entity;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 
 var connectionString = builder.Configuration.GetConnectionString("Server=LAPTOP-NTSLOF18;Database=RealEstate;Trusted_Connection=True;Integrated Security=True;TrustServerCertificate=True;Connect Timeout=30");
 
-builder.Services.AddDbContext<RealEstateContext>(options =>
-{
+builder.Services.AddDbContext<RealEstateContext>(options =>{
 options.UseSqlServer(builder.Configuration.GetConnectionString("RealEstate"));
 });
 
 builder.Services.AddCors(options =>
 {
-  options.AddPolicy("AllowAll",
-      builder =>
-      {
-        builder.AllowAnyOrigin()
-                 .AllowAnyMethod()
-                 .AllowAnyHeader();
-      });
+  options.AddPolicy("AllowAngularApp",
+       builder => builder.WithOrigins("http://localhost:4200")
+                         .AllowAnyMethod()
+                         .AllowAnyHeader()
+                         .AllowCredentials());
+
 });
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+      options.RequireHttpsMetadata = false;
+      options.SaveToken = true;
+      options.TokenValidationParameters = new TokenValidationParameters
+      {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = jwtSettings["Issuer"],
+        ValidAudience = jwtSettings["Audience"],
+        ValidateLifetime = true
+      };
+    });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -39,7 +59,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseAuthorization();
 
 //app.MapStaticAssets();
 
@@ -47,10 +66,11 @@ app.UseAuthorization();
 //    name: "default",
 //    pattern: "{controller=Home}/{action=Index}/{id?}")
 //    .WithStaticAssets();
-app.UseCors("AllowAll");
+app.UseRouting();
+app.UseCors("AllowAngularApp");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.UseRouting();
 app.UseStaticFiles();
 
 app.Run();

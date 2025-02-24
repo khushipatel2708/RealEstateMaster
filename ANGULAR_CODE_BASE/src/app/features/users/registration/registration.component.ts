@@ -15,6 +15,9 @@ import { environment } from 'environments/environment';
 })
 export class RegistrationComponent implements OnInit {
   registrationForm:FormGroup;
+  registrationSubmitted:boolean=false;
+  stateId:any;
+  passwordMismatch:any;
   constructor(
     private commonService: CommonService,
     private registrationValidators: RegistrationValidators,
@@ -22,7 +25,9 @@ export class RegistrationComponent implements OnInit {
     private router: Router
   ) { }
  
-
+  get lf() {
+    return this.registrationForm.controls;
+  }
 
   
   mainErrorMessage = {
@@ -42,18 +47,18 @@ export class RegistrationComponent implements OnInit {
       phoneNo: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
       cPassword: new FormControl('', [Validators.required]),
-      state: new FormControl('', [Validators.required]),
-      city: new FormControl('', [Validators.required]),
+      state: new FormControl('',Validators.required),
+      city: new FormControl('',Validators.required),
       pincode: new FormControl('', [Validators.required]),
       role: new FormControl('', [Validators.required])
-    }, { validators: this.registrationValidators.passwordMatch }
+    }
     );
     this.commonService.togglePageLoaderFn(false);
     this.commonService.getStatelist()
       .subscribe(response => {
         if (response.length > 0) {
           this.stateList = response;
-        }
+          }
       });
   }
 
@@ -63,8 +68,7 @@ export class RegistrationComponent implements OnInit {
     if (stateId != 0) {
       this.commonService.getCitylistByState(stateId)
         .subscribe(response => {
-         
-          if (response.length > 0) {
+         if (response.length > 0) {
             this.cityList = response;
           }
         });
@@ -73,12 +77,31 @@ export class RegistrationComponent implements OnInit {
       this.cityList = [];
     }
   }
-
+  onChangeState(event: any) {
+    const stateId = event.target.value; 
+    // const stateId=this.registrationForm.get('stateId').value;
+    console.log(stateId, "Selected State ID");
+  
+    if (stateId) {
+      console.log(stateId);
+      this.getCityList(Number(stateId)); 
+    } else {
+      this.cityList = []; 
+    }
+  }
+  
   registration(data) {
+  
     // this.router.navigate(['/'],{
     //   queryParams: { action: 'signUpsuccess' }
     // });
-    this.http.post(environment.BASE_URL + '/auth/user/register', data.value)
+    this.registrationSubmitted=true;
+    if(this.registrationForm.invalid){
+      return;
+    }
+    const formData = { ...data.value,id:0, phoneNo: String(data.value.phoneNo) };
+
+    this.http.post(environment.BASE_URL + '/auth/user/register', formData)
       .subscribe(response => {
         console.log('--- reg form -- ', response);
         if (response && response['message']) {
@@ -99,43 +122,12 @@ export class RegistrationComponent implements OnInit {
         });
   }
 
-  log(data) {
-    // console.log('--',data);
+  onChangePassword($event){
+    if(this.registrationForm.get("password").value != this.registrationForm.get("cPassword").value){
+      this.passwordMismatch=true;
+      }else{
+      this.passwordMismatch=false;
+    }
   }
-
-  // --------  Get fields for Form
-  get fname() {
-    return this.registrationForm.get('fname');
-  }
-  get lName() {
-    return this.registrationForm.get('lName');
-  }
-  get userName() {
-    return this.registrationForm.get('userName');
-  }
-  get email() {
-    return this.registrationForm.get('email');
-  }
-  get phoneNo() {
-    return this.registrationForm.get('phoneNo');
-  }
-  get registrationPassword() {
-    return this.registrationForm.get('password');
-  }
-  get registrationcPassword() {
-    return this.registrationForm.get('cPassword');
-  }
-  get pincode() {
-    return this.registrationForm.get('pincode');
-  }
-  get state() {
-    return this.registrationForm.get('state');
-  }
-  get city() {
-    return this.registrationForm.get('city');
-  }
-  get role() {
-    return this.registrationForm.get('role');
-  }
-
+ 
 }

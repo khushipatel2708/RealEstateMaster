@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from "@angular/router";
 import { HttpClientXsrfModule, HttpClientModule } from "@angular/common/http";
 
@@ -16,6 +16,7 @@ import { LoginModalComponent } from './components/login-modal/login-modal.compon
 import { DashboardComponent } from './components/dashboard-main/dashboard.component';
 import { InputFormatDirective } from './directives/input-format.directive';
 import {  NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import {  NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     RouterModule,
     HttpClientModule,
-    NgbModalModule
+    NgbModalModule,
+    ReactiveFormsModule
     // HttpClientXsrfModule.withOptions({
     //   cookieName: 'csrftoken',
     //   headerName: 'X-CSRFToken',
@@ -38,7 +40,8 @@ import {  NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     SmallComponentsComponent,
     NotFoundComponent,
     LoginModalComponent,
-    InputFormatDirective
+    InputFormatDirective,
+    ForgotPasswordComponent
   ],
   exports: [
     DashboardComponent,

@@ -9,11 +9,15 @@ import { DashboardHomeComponent } from './components/dashboard/dashboard-home/da
 import { AuthGuardService } from '../../common/services/auth-guard.service';
 import { DashboardComponent } from '../../common/components/dashboard-main/dashboard.component';
 import { UserComponent } from './components/user/user.component';
+import { ForgotPasswordComponent } from 'app/common/components/forgot-password/forgot-password.component';
 
 const ChildRoutes: Routes = [
   {
     path: 'sign-up',
     component: RegistrationComponent
+  },{
+    path:'forgot-password',
+    component:ForgotPasswordComponent
   },
   {
     path: 'dashboard',

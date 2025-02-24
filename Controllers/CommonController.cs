@@ -84,5 +84,19 @@ namespace RealEstate.Controllers
         return BadRequest(ex.Message);
       }
     }
-  }
+
+    [HttpGet("checkemail-availability/email/{email}")]
+    public async Task<IActionResult> CheckEmailAvailability(string email)
+    {
+      try
+      {
+        var emailExists = await _db.Users.AnyAsync(u => u.Email == email);
+        return Ok(new { response = !emailExists }); // true means email is available, false means taken
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
+    }
+    }
 }

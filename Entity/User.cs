@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace RealEstate.Entity;
 
 public partial class User
 {
-    public string Id { get; set; } = null!;
+  [Key]
+    public int? Id { get; set; }
 
     public int? UserType { get; set; }
 
@@ -25,9 +27,9 @@ public partial class User
 
     public string? PhoneNo { get; set; }
 
-    public string? StateId { get; set; }
+    public int? StateId { get; set; }
 
-    public string? CityId { get; set; }
+    public int? CityId { get; set; }
 
     public int? Pincode { get; set; }
 

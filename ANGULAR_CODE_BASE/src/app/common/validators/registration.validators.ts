@@ -20,13 +20,18 @@ export class RegistrationValidators {
     }
 
     checkEmailAvailability(control: AbstractControl): Promise<ValidationErrors | null> {
-        return new Promise((resolve, reject) => {
-            this.http.get(environment.BASE_URL + '/common/checkemail-availability/email/' + control.value).subscribe(data => {
-                if (data['response'])
-                    resolve({ checkEmailAvailability: true });
-                else
-                    resolve(null);
+        return new Promise((resolve) => {
+          this.http.get<{ response: boolean }>(environment.BASE_URL + '/common/checkemail-availability/email/' + control.value)
+            .subscribe(data => {
+              if (data.response) {
+                resolve(null); // Email is available (no error)
+              } else {
+                resolve({ checkEmailAvailability: true }); // Email already exists (show validation error)
+              }
+            }, () => {
+              resolve(null); // Handle errors gracefully
             });
         });
-    }
+      }
+      
 }

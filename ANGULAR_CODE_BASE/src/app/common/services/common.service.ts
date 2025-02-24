@@ -202,5 +202,7 @@ deleteBuilder(BuilderId: any) {
 }
 
 //End builder
-
+forgotPassword(formData:any){
+  return this.http.put(environment.BASE_URL + "/auth/user/forgotPassword",formData); 
+}
 }

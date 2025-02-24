@@ -15,7 +15,7 @@ import { CommonService } from '../../services/common.service';
 export class HeaderComponent implements OnInit {
 
   isUserLoggedIn: Boolean = false;
-
+currentUser:any={};
   constructor(
     private loginService: LoginService,
     public userService: UserService,
@@ -27,9 +27,9 @@ export class HeaderComponent implements OnInit {
     this.isUserLoggedIn = loginService.isLoggedIn();
   }
 
-  openloginModal() {
-    this.modalService.open(LoginModalComponent);
-  }
+  // openloginModal() {
+  //   this.modalService.open(LoginModalComponent);
+  // }
   
 
   // ----- FORM
@@ -69,6 +69,7 @@ export class HeaderComponent implements OnInit {
   pageloaderStatus: boolean = true;
 
   ngOnInit() {
+    this.getCurrentUserDetail();
     const logoImg = document.getElementById('logoImg');
     document.addEventListener('scroll', (event) => {
       if (logoImg) {
@@ -84,15 +85,15 @@ export class HeaderComponent implements OnInit {
     this.route.queryParamMap.subscribe((data) => {
       if (data.get('action') === 'signUpsuccess') {
         this.changeHeaderMessage('success', 'Congratulations, you have been successfully registered, login to continue');
-        this.openloginModal();
+        // this.openloginModal();
       }
       else if (data.get('action') === 'logOut') {
         this.changeHeaderMessage('success', 'You have logged out successfully');
-        this.openloginModal();
+        // this.openloginModal();
       }
       else if (data.get('action') === 'login') {
         this.changeHeaderMessage('success', 'Please login to continue');
-        this.openloginModal();
+        // this.openloginModal();
       }
     });
 
@@ -105,4 +106,14 @@ export class HeaderComponent implements OnInit {
     // Toggling Page Loader status
     this.commonService.togglePageLoader$.subscribe(data => this.pageloaderStatus = data);
   }
+getCurrentUserDetail(){
+  this.userService.getCurrentUserDetails().subscribe(
+    (result) =>{
+      this.currentUser = result;
+    },
+    (error) =>{
+      console.log(error);
+    }
+  )
+}
 }

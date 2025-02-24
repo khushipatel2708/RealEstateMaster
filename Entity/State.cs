@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace RealEstate.Entity;
 
 public partial class State
 {
-    public string Id { get; set; } = null!;
+    public int? Id { get; set; }
 
     public string Name { get; set; } = null!;
 

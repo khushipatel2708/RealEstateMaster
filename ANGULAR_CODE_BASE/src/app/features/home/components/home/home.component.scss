@@ -1,77 +1,119 @@
-.carousal-img {
-    height: 350px;
-}
+// .carousal-img {
+//     height: 350px;
+// }
 
-:host ::ng-deep .nav.nav-pills {
-    text-align: center;
-    display: block;
-    margin-bottom: 20px;
-}
-:host ::ng-deep .nav.nav-pills .nav-item {
-    display: inline-block;
-}
-:host ::ng-deep .nav.nav-pills .nav-item a {
-    border-radius: 0px;
-    background-color: #eee;
-    border: 1px solid #fff;
-    color: black;
-    padding: 0px;
-}
-:host ::ng-deep .nav.nav-pills .nav-item a.active {
-    background-color: #dc4045;
-    color: white;
-}
-:host ::ng-deep .nav.nav-pills .nav-item a label {
-    padding: 10px 80px;
-    cursor: pointer;
-    margin-bottom: 0px;
-}
+// :host ::ng-deep .nav.nav-pills {
+//     text-align: center;
+//     display: block;
+//     margin-bottom: 20px;
+// }
+// :host ::ng-deep .nav.nav-pills .nav-item {
+//     display: inline-block;
+// }
+// :host ::ng-deep .nav.nav-pills .nav-item a {
+//     border-radius: 0px;
+//     background-color: #eee;
+//     border: 1px solid #fff;
+//     color: black;
+//     padding: 0px;
+// }
+// :host ::ng-deep .nav.nav-pills .nav-item a.active {
+//     background-color: #dc4045;
+//     color: white;
+// }
+// :host ::ng-deep .nav.nav-pills .nav-item a label {
+//     padding: 10px 80px;
+//     cursor: pointer;
+//     margin-bottom: 0px;
+// }
 
-.searchProp-cont {
+// .searchProp-cont {
+//     position: relative;
+// }
+// .searchProp {
+//     position: absolute;
+//     left: 50%;
+//     bottom: 40%;
+//     -webkit-transform: translate(-50%, -80%);
+//     -moz-transform: translate(-50%, -80%);
+//     transform: translate(-50%, -80%);
+//     width: max-content;
+// }
+// .searchProp .form-group select {
+//     border-radius: 0px;
+// }
+// .searchFields input,
+// .searchFields select,
+// .searchFields button {
+//     padding: 10px 110px 10px 10px;
+//     margin-right: 0px;
+//     height: auto;
+//     border: none;
+// }
+// .searchFields input {
+//     padding: 8px 110px 12px 10px;
+// }
+// .searchFields button {
+//     padding: 10px 35px;
+// }
+// .carousal-img {
+//     object-fit: cover;
+//     width: 100vw;
+//     height: 70vh;
+//   }
+
+// @media only screen and (max-width: 576px) {
+//     .searchProp {
+//         width: unset;
+//         transform: translate(-50%, -25%);
+
+//         select {
+//             padding: 10px 8px;
+//         }
+//     }
+//     :host ::ng-deep .nav.nav-pills .nav-item a label {
+//         padding: 5px 50px;
+//     }
+// }
+
+@import 'animate.css';
+
+.carousel-item-wrapper {
     position: relative;
-}
-.searchProp {
-    position: absolute;
-    left: 50%;
-    bottom: 40%;
-    -webkit-transform: translate(-50%, -80%);
-    -moz-transform: translate(-50%, -80%);
-    transform: translate(-50%, -80%);
-    width: max-content;
-}
-.searchProp .form-group select {
-    border-radius: 0px;
-}
-.searchFields input,
-.searchFields select,
-.searchFields button {
-    padding: 10px 110px 10px 10px;
-    margin-right: 0px;
-    height: auto;
-    border: none;
-}
-.searchFields input {
-    padding: 8px 110px 12px 10px;
-}
-.searchFields button {
-    padding: 10px 35px;
-}
-.carousal-img {
+  }
+  
+  .carousal-img {
     object-fit: cover;
     width: 100vw;
     height: 70vh;
   }
-
-@media only screen and (max-width: 576px) {
-    .searchProp {
-        width: unset;
-        transform: translate(-50%, -25%);
-
-        select {
-            padding: 10px 8px;
-        }
-    }
-    :host ::ng-deep .nav.nav-pills .nav-item a label {
-        padding: 5px 50px;
-    }
-}
+  
+  .carousel-caption {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+  }
+  
+  .carousel-caption.slide-up {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  p {
+    font-size: 1.2rem;
+  }
+  
