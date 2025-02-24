@@ -137,8 +137,19 @@ namespace RealEstate.Controllers
         return StatusCode(500, new { message = ex.Message });
       }
     }
+    [HttpGet("Menu")]
+    public async Task<IActionResult> getMenuDdlList()
+    {
+      try
+      {
+        return Ok(await _context.Menus.ToListAsync());
+      }catch(Exception ex)
+      {
+        return StatusCode(500, new { message = ex.Message });
+      }
+    }
   }
-
+  
   public class MenuFilter
   {
     public int Page { get; set; } 

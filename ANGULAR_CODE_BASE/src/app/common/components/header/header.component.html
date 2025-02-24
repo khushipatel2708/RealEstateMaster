@@ -8,13 +8,13 @@
 					</div>
 			<div class="col-md-10">
 				<div class="header-ryt text-right pt-3">
-					<button type="button" style="margin-right: 5px;" 
+					<!-- <button type="button" style="margin-right: 5px;" 
 						class="btn btn-outline-primary btn-sm" *ngIf="!isUserLoggedIn">Login </button>
 					<button type="button" routerLink="/users/sign-up" 
-						class="btn btn-outline-primary btn-sm" *ngIf="!isUserLoggedIn">Register</button>
+						class="btn btn-outline-primary btn-sm" *ngIf="!isUserLoggedIn">Register</button> -->
 					<div>
 						<div class="user-image dropdown" *ngIf="isUserLoggedIn">
-							<span><span class="text-primary">Welcome</span> {{ currentUser?.fName }} </span>
+							<span><span class="text-primary">Welcome</span> {{ currentUser?.userName }} </span>
 							<img 
 							  src="assets/images/user.jpg"
 							  class="rounded-circle p-cursor dropdown-toggle"

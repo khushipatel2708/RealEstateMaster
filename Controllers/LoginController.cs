@@ -113,7 +113,9 @@ public class LoginController : ControllerBase
       {
         user.Id,
         user.UserName,
-        user.Email
+        user.Email,
+        user.Role,
+        user.PhoneNo
       });
     }
     catch (Exception ex)

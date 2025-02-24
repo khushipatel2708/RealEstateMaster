@@ -51,7 +51,7 @@ export class CommonService {
     return this.http.get<any>(environment.BASE_URL + '/common/cities/' + stateId);
   }
 getMenuDDList(){
-  return this.http.get<any>(environment.BASE_URL + '/common/menu');
+  return this.http.get<any>(environment.BASE_URL + '/menu/Menu');
 }
 getRoleDDList(){
   return this.http.get<any>(environment.BASE_URL + '/common/role');

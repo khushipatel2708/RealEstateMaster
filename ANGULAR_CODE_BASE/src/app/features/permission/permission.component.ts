@@ -33,6 +33,7 @@ import { CommonService } from 'app/common/services/common.service';
         .subscribe((result:any[]) =>{
           this.menuList = result;
           if (this.selectedRole) {
+            console.log(this.selectedRole,"selectedRole");
             this.commonService.getPermissions(this.selectedRole).subscribe(
               (permissions) => {
                 this.permissionDetails = permissions;

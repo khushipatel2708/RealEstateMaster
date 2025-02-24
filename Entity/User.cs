@@ -25,7 +25,7 @@ public partial class User
 
   public string Email { get; set; } = null!;
 
-  public int? PhoneNo { get; set; }
+  public string? PhoneNo { get; set; }
 
     public int? StateId { get; set; }
 
