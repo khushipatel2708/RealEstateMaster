@@ -12,7 +12,8 @@ const ChildRoutes: Routes = [
     children: [
   {
     path: 'create',
-    component: PermissionComponent
+    component: PermissionComponent,
+    data:{title:'Permission',icon:'bi bi-eye-fill'}
   }
     ]
   }

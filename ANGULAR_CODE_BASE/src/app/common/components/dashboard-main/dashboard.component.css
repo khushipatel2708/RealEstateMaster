@@ -2,8 +2,38 @@
     display: flex;
     flex-direction: column;
   }
-  
-.sidebar {
+  .container-scroller {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.page-body-wrapper {
+    display: flex;
     flex-grow: 1;
+    min-height: 100vh; 
+}
+.sidebar {
+    /* flex-grow: 1; */
     height:100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto; 
+    white-space: nowrap;
+  }
+  .mt-sidebar{
+    margin-top:7rem !important;  }
+    .fs-6{
+      font-weight: 400;
+    }
+    .nav-item:hover .nav-link{
+      background: rgba(224, 218, 218, 0.7);
+      border-radius: 5px; 
+      transition: 0.3s ease-in-out; 
+  }
+  .nav-item:hover .nav-link::after {
+    content: "";
+    inset: 0;
+    opacity: 0.3; 
   }

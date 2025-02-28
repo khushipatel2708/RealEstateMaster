@@ -28,54 +28,50 @@ import { CommonService } from 'app/common/services/common.service';
           this.roleList = result;
         });
     }
-    getMenuList(){
-      this.commonService.getMenuDDList()
-        .subscribe((result:any[]) =>{
-          this.menuList = result;
-          if (this.selectedRole) {
-            console.log(this.selectedRole,"selectedRole");
-            this.commonService.getPermissions(this.selectedRole).subscribe(
-              (permissions) => {
-                this.permissionDetails = permissions;
-                const permissionsObject = {};
-                for (const key in permissions) {
-                  if (permissions.hasOwnProperty(key)) {
-                    const permission = permissions[key];
-                    permissionsObject[permission.menuId] = permission.roleId === this.selectedRole;
-                  }
-                }
-                this.menuList.forEach((menu) => {
-                  menu.isSelected = permissionsObject[menu._id] === true;
-                });
-              },
-              (error) => {
-                console.error(error);
-              }
-            );
-          }
-        })
+    getMenuList() {
+      this.commonService.getMenuDDList().subscribe((menuResult: any[]) => {
+        this.menuList = menuResult; 
+    
+        if (this.selectedRole) {
+          this.commonService.getPermissions(this.selectedRole).subscribe(
+            (permissions) => {
+              this.permissionDetails = permissions;
+    
+              this.menuList.forEach((menu) => {
+                const hasPermission = this.permissionDetails.some(
+                  (perm) => perm.menuId === menu.id && perm.roleId == this.selectedRole
+                );
+    
+                menu.isSelected = hasPermission;
+              });
+    
+            },
+            (error) => {
+              console.error(error);
+            }
+          );
+        }
+      });
     }
+    
     onChangeRole(role) {
+      console.log(role,"role");
       this.selectedRole = role;
       this.getMenuList();
     }
 
 onChange_Menu(isSelected: boolean, menuId: string) {
-      // If checkbox is selected
+  console.log(isSelected,menuId,"selected");
       if (isSelected) {
-        // Remove from unselected if it was previously there
         this.unselectedMenus = this.unselectedMenus.filter(menu => menu !== menuId);
         
-        // Add to selectedMenus if it's not already there
         if (!this.selectedMenus.includes(menuId)) {
           this.selectedMenus.push(menuId);
         }
         
       } else {
-        // Remove from selectedMenus if it's being unchecked
         this.selectedMenus = this.selectedMenus.filter(menu => menu !== menuId);
-        
-        // Add to unselectedMenus if it's not already there
+        console.log(this.selectedMenus,"permission");
         if (!this.unselectedMenus.includes(menuId)) {
           this.unselectedMenus.push(menuId);
         }

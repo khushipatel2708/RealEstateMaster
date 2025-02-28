@@ -1,0 +1,24 @@
+.bg-grey {
+    background: url('~assets/images/carousel/grey.jpg') no-repeat center center !important;
+    background-size: cover !important;
+    backdrop-filter: blur(10px);
+}
+
+
+.login-card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 100%;
+}
+.login-image {
+    background: url('~assets/images/carousel/Home.png') no-repeat center;
+    background-size: cover;
+    border-radius: 12px 0 0 12px;
+}
+.font-small-2{
+    font-size:.8rem !important;
+
+}

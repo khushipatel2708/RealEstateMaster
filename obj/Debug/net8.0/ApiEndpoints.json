@@ -143,12 +143,202 @@
   },
   {
     "ContainingType": "RealEstate.Controllers.CommonController",
+    "Method": "getPermissionByRoleIdList",
+    "RelativePath": "api/common/permissions/{roleId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "roleId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.CommonController",
+    "Method": "getRoleDdlList",
+    "RelativePath": "api/common/Role",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.CommonController",
     "Method": "GetStateList",
     "RelativePath": "api/common/state",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.MenuController",
+    "Method": "AddOrUpdateMenu",
+    "RelativePath": "api/menu",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "menu",
+        "Type": "RealEstate.Models.MenuViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.MenuController",
+    "Method": "GetMenuById",
+    "RelativePath": "api/menu/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.MenuController",
+    "Method": "DeleteMenu",
+    "RelativePath": "api/menu/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.MenuController",
+    "Method": "GetMenuList",
+    "RelativePath": "api/menu/getMenuList",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filters",
+        "Type": "RealEstate.Controllers.MenuFilter",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.MenuController",
+    "Method": "getMenuDdlList",
+    "RelativePath": "api/menu/Menu",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PermissionController",
+    "Method": "DeletePermission",
+    "RelativePath": "api/Permission/deletePermission",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "deleteData",
+        "Type": "System.Collections.Generic.List\u00601[[RealEstate.Controllers.PermissionDeleteDto, RealEstate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PermissionController",
+    "Method": "GetMenuListByPermission",
+    "RelativePath": "api/Permission/getMenuListByPermission/{role}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PermissionController",
+    "Method": "GetPermissionList",
+    "RelativePath": "api/Permission/getPermissionList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PermissionController",
+    "Method": "getMenuListByRoleName",
+    "RelativePath": "api/Permission/menulist",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "vm",
+        "Type": "RealEstate.Controllers.roleNameViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PermissionController",
+    "Method": "PostPermission",
+    "RelativePath": "api/Permission/postPermission",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "permissions",
+        "Type": "System.Collections.Generic.List\u00601[[RealEstate.Entity.Permission, RealEstate, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.UserController",
+    "Method": "GetUserList",
+    "RelativePath": "api/user/getUserList",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filters",
+        "Type": "RealEstate.Controllers.UserFilter",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   }
 ]

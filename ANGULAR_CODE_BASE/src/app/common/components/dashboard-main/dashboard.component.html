@@ -19,13 +19,7 @@
 <!--     
     <router-outlet></router-outlet>
     </section> -->
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Purple Admin</title>
+
     <!-- plugins:css -->
 
     
@@ -35,116 +29,27 @@
     <!-- Layout styles -->
     <!-- <link rel="stylesheet" href="./assets/css/style.css"> -->
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="assets/images/favicon.png" />
-  </head>
-  <body>
+
    <div class="container-scroller">
-      <div class="row p-0 m-0 proBanner" id="proBanner">
-        <div class="col-md-12 p-0 m-0">
-          <!-- <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
-            <div class="ps-lg-3">
-              <div class="d-flex align-items-center justify-content-between">
-                <p class="mb-0 font-weight-medium me-3 buy-now-text">Free 24/7 customer support, updates, and more with this template!</p>
-                <a  target="_blank" class="btn me-2 buy-now-btn border-0">Buy Now</a>
-              </div>
-            </div> -->
-            <!-- <div class="d-flex align-items-center justify-content-between">
-              <a href="https://www.bootstrapdash.com/product/purple-bootstrap-admin-template/"><i class="mdi mdi-home me-3 text-white"></i></a>
-              <button id="bannerClose" class="btn border-0 p-0">
-                <i class="mdi mdi-close text-white mr-0"></i>
-              </button>
-            </div> -->
-          <!-- </div> -->
-        </div>
-      </div>
-      <!-- partial:partials/_navbar.html -->
-      <!-- <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"> -->
-        <!-- <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-          <a class="navbar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
-          <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
-        </div> -->
-        <!-- <div class="col-2 navbar-menu-wrapper d-flex align-items-stretch">
-          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="mdi mdi-menu"></span>
-          </button>
-          <div class="col-10 d-flex align-items-end">
-            <div class="user-image d-flex align-items-center ms-3">
-              <span class="me-2">
-                <span class="text-danger">Welcome</span> {{ userService.currentUser.user.fname }}
-              </span>
-              <img [matMenuTriggerFor]="headerRytmenu" src="assets/images/user.jpg"
-                   (click)="headerDropdown = !headerDropdown" class="rounded-circle p-cursor" alt="user" height="70">
-            </div>
-            <mat-menu #headerRytmenu="matMenu" xPosition="before">
-              <button routerLink="/users/dashboard" mat-menu-item>Dashboard</button>
-              <button *ngIf="userService.currentUser?.user.isAdmin" routerLink="/admin/dashboard" mat-menu-item>Admin</button>
-              <button (click)="handleLogout()" mat-menu-item>Logout</button>
-            </mat-menu>
-          </div>
-  </div> -->
-      <!-- </nav> -->
-      <!-- partial -->
-      <div class="container-fluid page-body-wrapper">
+      <div class="page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
          <div class="col-2 pl-0">
           <nav class="sidebar sidebar-offcanvas" id="sidebar" style="background: linear-gradient(to right, rgb(91,66,129), rgb(144,59,76), rgb(155,52,55));
-">
-            <!-- <ul class="nav">
-             <li class="nav-item">
-                <a class="nav-link" routerLink="/admin/dashboard">
-                  <span class="menu-title">Dashboard</span>
-                  <i class="mdi mdi-home menu-icon"></i>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" href="" aria-expanded="false" aria-controls="ui-basic">
-                  <span class="menu-title">Basic UI Elements</span>
-                  <i class="menu-arrow"></i>
-                  <i class="mdi mdi-crosshairs-gps menu-icon"></i>
-                </a>
-                <div class="collapse" id="ui-basic">
-                  <ul class="nav flex-column sub-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="">Buttons</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="">Dropdowns</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="">Typography</a>
-                    </li>
-                  </ul>
-                </div>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" routerLink="/property/list" aria-expanded="false" aria-controls="icons">
-                  <span class="menu-title">Property</span>
-                  <i class="mdi mdi-contacts menu-icon"></i>
-                </a>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="collapse" routerLink="/role/new" aria-expanded="false" aria-controls="icons">
-                    <span class="menu-title">role</span>
-                  </a>
-                </li>
-
-                <li class="nav-item">
-                  <a class="nav-link" data-bs-toggle="collapse" routerLink="/menu1/new" aria-expanded="false" aria-controls="icons">
-                    <span class="menu-title">menu</span>
-                  </a>
-                </li>
-              </ul> -->
-              <ul class="nav">
-                <li class="nav-item" *ngFor="let item of menuList">
+">      
+                  <div class="sidebar-logo p-1">
+                    <img src="assets/images/logo.png" alt="RealEstate Logo" class="img-fluid" style="width: 50px;height:50px;">
+</div>
+           <ul class="nav">
+                <li class="nav-item pl-0 pr-0" *ngFor="let item of menuList">
                   <!-- Main Menu Item -->
-                  <a class="nav-link" 
-                     [routerLink]="item.path" 
+                  <a class="nav-link pl-4" 
+                  [routerLink]="[item.path.startsWith('/') ? item.path : '/' + item.path]" 
                      data-bs-toggle="collapse" 
                      [attr.aria-expanded]="false" 
                      [attr.aria-controls]="item.id">
-                    <span class="menu-title">{{ item.name }}</span>
-                    <i class="{{ item.icon }} menu-icon"></i> 
+                   
+                    <i class="{{ item.icon }} menu-icon ml-0 fs-5 text-light"></i> 
+                    <span class="menu-title fs-6 ml-2 text-light">{{ item.name }}</span>
                   </a>
               </li>
               </ul>
@@ -159,7 +64,7 @@
          </div>
         
         <!-- partial -->
-            <div class="col-10">
+            <div class="col-10 mt-sidebar">
               <router-outlet></router-outlet>
 </div>
          
@@ -184,6 +89,6 @@
     <!-- Custom js for this page -->
     <script src="assets/js/dashboard.js"></script>
     <!-- End custom js for this page -->
-  </body>
-</html>
+  <!-- </body> -->
+<!-- </html> -->
 

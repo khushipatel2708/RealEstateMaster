@@ -98,5 +98,31 @@ namespace RealEstate.Controllers
         return BadRequest(new { message = ex.Message });
       }
     }
+
+    [HttpGet("Role")]
+    public async Task<IActionResult> getRoleDdlList()
+    {
+      try
+      {
+        return Ok(await _db.Roles.ToListAsync());
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(500, new { message = ex.Message });
+      }
     }
+    [HttpGet("permissions/{roleId}")]
+    public async Task<IActionResult> getPermissionByRoleIdList(int roleId)
+    {
+      try
+      {
+         
+        return Ok(await _db.Permissions.Where(w => w.RoleId == roleId).Select(s => new { s.Id, s.RoleId, s.MenuId }).ToListAsync());
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(500, new { message = ex.Message });
+      }
+    }
+  }
 }

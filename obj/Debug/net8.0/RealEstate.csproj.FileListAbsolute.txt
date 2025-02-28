@@ -190,3 +190,4 @@ D:\angular\realestateminiproject\RealEstate\bin\Debug\net8.0\runtimes\browser\li
 D:\angular\realestateminiproject\RealEstate\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 D:\angular\realestateminiproject\RealEstate\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 D:\angular\realestateminiproject\RealEstate\bin\Debug\net8.0\BCrypt.Net-Next.dll
+D:\angular\realestateminiproject\RealEstate\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -1,15 +1,11 @@
 <div class="container">
   <div class="card">
     <div class="card-header">
-      <div class="sub-header">
-        <h3 class="mt-1 text-left"><i class="fa-solid fa-circle-info mr-1"></i>Permission</h3>
-        <hr class="mt-0">
-      </div>
-      <div class="row">
+    <div class="row">
         <div class="col-md-12 form-group">
           <select class="form-select form-select-lg mb-3" appendTo="body" placeholder="select" id="roleName" (change)="onChangeRole($event.target.value)">
             <option value="select">select</option>
-            <option *ngFor="let role of roleList" value="{{role._id}}">{{role.name}}</option>
+            <option *ngFor="let role of roleList" value="{{role.id}}">{{role.name}}</option>
         </select>
         </div>
       </div>
@@ -25,8 +21,9 @@
                 <li *ngFor="let first of menuList">
                   <span>
                     <div class="custom-control custom-checkbox d-inline">
-                      <input type="checkbox" class="custom-control-input" [name]="first.name" [id]="first.name+first.id"  (change)="onChange_Menu($event.target.checked, first._id)" 
-                        [checked]="first.isSelected">
+                      <input type="checkbox" class="custom-control-input" [(ngModel)]="first.isSelected"
+                      [name]="first.name" [id]="first.name+first.id"
+                      (change)="onChange_Menu(first.isSelected, first.id)" [checked]="first.isSelected">
                       <label class="custom-control-label" [for]="first.name+first.id"><i class="mr-2" [ngClass]="first.icon"></i><span>{{first.name}}</span></label>
                     </div>
                   </span>

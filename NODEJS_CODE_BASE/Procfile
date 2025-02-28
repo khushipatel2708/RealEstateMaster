@@ -1,1 +1,0 @@
-web: set DEBUG=app:* & node index.js

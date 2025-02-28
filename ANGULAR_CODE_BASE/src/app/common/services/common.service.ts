@@ -160,13 +160,13 @@ getPermissions(roleId: number) {
   return this.http.get<any>(`${environment.BASE_URL}/common/permissions/${roleId}`);
 }
 postPermissions(permissionData: any) {
-  return this.http.post<any>(`${environment.BASE_URL}/common/permissions`, permissionData);
+  return this.http.post<any>(`${environment.BASE_URL}/permission/postPermission`, permissionData);
 }
 deletePermissions(permissionData: any) {
-  return this.http.post<any>(`${environment.BASE_URL}/common/permissions/delete`, permissionData);
+  return this.http.post<any>(`${environment.BASE_URL}/permission/deletePermission`, permissionData);
 }
-getMenuListByPermission(role:string){
-  return this.http.get<any>(`${environment.BASE_URL}/common/permissions/menuList/${role}`);
+getMenuListByPermission(role:any){
+  return this.http.post<any>(`${environment.BASE_URL}/permission/menulist`,role);
 }
 //End Permission
 

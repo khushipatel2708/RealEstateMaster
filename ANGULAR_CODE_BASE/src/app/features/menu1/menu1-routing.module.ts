@@ -11,6 +11,7 @@ const routes: Routes = [
       {
         path: 'new',
         component: Menu1Component,
+        data:{title:'Menu',icon:'bi bi-menu-down'}
       },
     ],
   },

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonService } from 'app/common/services/common.service';
 import { LoginService } from 'app/common/services/login.service';
 
@@ -13,10 +14,12 @@ export class DashboardComponent implements OnInit {
   userRole:string;
   data = { emailPhone: '', loginPassword: '' }; 
   constructor(private loginService:LoginService,
-    private commonService:CommonService
+    private commonService:CommonService,
+    public router:Router
   ) { 
     this.isUserLoggedIn = loginService.isLoggedIn();
-    this.userRole=localStorage.getItem('role');
+     this.userRole=localStorage.getItem('role');
+    
 }
 
   // toggleMenuItems = false;
@@ -25,7 +28,10 @@ export class DashboardComponent implements OnInit {
     this.getMenuList();
   }
   getMenuList(){
-    this.commonService.getMenuListByPermission(this.userRole)
+    const formData={
+      roleName:this.userRole,
+    }
+    this.commonService.getMenuListByPermission(formData)
     .subscribe((result:any[]) =>{
       this.menuList=result;
    });

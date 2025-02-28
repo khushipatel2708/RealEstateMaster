@@ -11,6 +11,7 @@ const routes: Routes = [
       {
         path: 'new',
         component: RoleComponent,
+        data:{title:'Role',icon:'bi bi-gear'}
       },
     ],
   },

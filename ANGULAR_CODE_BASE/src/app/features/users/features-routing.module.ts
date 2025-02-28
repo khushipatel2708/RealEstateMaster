@@ -47,7 +47,8 @@ const ChildRoutes: Routes = [
     children:[
       {
         path:'list',
-        component:UserComponent
+        component:UserComponent,
+        data:{title:'Users',icon:'fa-solid bi bi-person-fill'}
       }
     ]
     }

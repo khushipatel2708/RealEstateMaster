@@ -11,6 +11,7 @@ const routes: Routes = [
       {
         path: 'new',
         component: BuilderComponent,
+        data:{title:'Builder',icon:'bi bi-person-fill-gear'}
       },
     ],
   },

@@ -1,11 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 // , ViewChild
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from '../../services/login.service';
 import { UserService } from '../../services/user.service';
 import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { CommonService } from '../../services/common.service';
+import { filter, map } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-header',
@@ -13,7 +15,8 @@ import { CommonService } from '../../services/common.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
+  pageTitle: string = '';
+  pageIcon:string = '';
   isUserLoggedIn: Boolean = false;
 currentUser:any={};
   constructor(
@@ -22,7 +25,8 @@ currentUser:any={};
     private router: Router,
     private route: ActivatedRoute,
     private modalService: NgbModal,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private activatedRoute: ActivatedRoute, private titleService: Title
   ) {
     this.isUserLoggedIn = loginService.isLoggedIn();
   }
@@ -69,6 +73,12 @@ currentUser:any={};
   pageloaderStatus: boolean = true;
 
   ngOnInit() {
+    this.updateTitle(); 
+    this.router.events
+    .pipe(
+      filter(event => event instanceof NavigationEnd)
+    )
+    .subscribe(() => this.updateTitle());
     this.getCurrentUserDetail();
     const logoImg = document.getElementById('logoImg');
     document.addEventListener('scroll', (event) => {
@@ -106,10 +116,24 @@ currentUser:any={};
     // Toggling Page Loader status
     this.commonService.togglePageLoader$.subscribe(data => this.pageloaderStatus = data);
   }
+
+  private updateTitle() {
+    let route = this.activatedRoute;
+    while (route.firstChild) {
+      route = route.firstChild;
+    }
+
+    const title = route.snapshot.data['title'] || 'Default Title';
+    const icon =route.snapshot.data['icon'] ;
+    this.pageTitle = title;
+    this.pageIcon = icon;
+    this.titleService.setTitle(title); 
+  }
 getCurrentUserDetail(){
   this.userService.getCurrentUserDetails().subscribe(
     (result) =>{
       this.currentUser = result;
+      localStorage.setItem("role",this.currentUser.role);
     },
     (error) =>{
       console.log(error);
