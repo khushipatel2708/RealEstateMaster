@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { JwtHelper } from "angular2-jwt";
+// import { JwtHelper } from "angular2-jwt";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Subject, throwError } from 'rxjs';
+import { catchError, Observable, Subject, throwError } from 'rxjs';
 import { environment } from 'environments/environment';
 
 @Injectable()
@@ -20,15 +20,23 @@ export class UserService {
     var token = localStorage.getItem('token');
     if (!token) return null;
 
-    let jwtHelper = new JwtHelper();
+    // let jwtHelper = new JwtHelper();
     // console.log('decoded ', jwtHelper.decodeToken(token));
 
-    return jwtHelper.decodeToken(token);
+    // return jwtHelper.decodeToken(token);
   }
 
   getUserDetails(userId) {
     return this.http.get<any>(environment.BASE_URL + '/auth/user/' + userId);
   }
+  // updateProfile(userId: number, user: any) {
+  //   return this.http.put<any>(environment.BASE_URL + '/user/updateProfile/' + userId, user);
+  // }
+  updateProfile(userId: number, userData: any) {
+    return this.http.put<any>(`${environment.BASE_URL}/user/updateProfile/${userId}`, userData);
+}
+
+  
   getCurrentUserDetails() {
     const token = localStorage.getItem('token'); // Ensure token is stored in localStorage
 

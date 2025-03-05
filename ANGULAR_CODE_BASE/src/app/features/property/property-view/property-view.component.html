@@ -8,8 +8,7 @@
     <h5>{{propertyDetail?.title}}</h5>
   </div>
 </div> -->
-<div class="container">
-  <!-- Card for Images -->
+<!-- <div class="container">
   <div class="card mb-4">
     <div class="card-body">
       <h4>Property Images</h4>
@@ -21,7 +20,6 @@
     </div>
   </div>
 
-  <!-- Card for Property Details -->
   <div class="card">
     <div class="card-body">
       <h4>Property Details</h4>
@@ -63,6 +61,75 @@
         </div>
         <div class="col-md-6">
           <p>Flat No: <span>{{propertyDetail?.flatNo}}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="container mt-4">
+  <!-- Card for Property Images -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h4 class="mb-3 text-primary">Property Images</h4>
+      <div class="row g-2">
+        <div class="col-md-2" *ngFor="let img of imageDetail;">
+          <div class="border rounded p-2">
+            <!-- <img src="{{env.BASE_URL}}/property/showGFSImage/{{ img.filename }}" class="img-fluid rounded" alt="Property Image"> -->
+            <img [src]="img?.filename ? env.BASE_URL + '/property/showGFSImage/' + img.filename : '/assets/images/property-no-image.png'"
+            class="img-fluid rounded"
+            alt="Property Image">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card for Property Details -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h4 class="mb-3 text-primary">Property Details</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Property Name:</strong> {{propertyDetail?.title}}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Property Slug:</strong> {{propertyDetail?.slug}}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Property Type:</strong> {{propertyDetail?.type?.title}}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>State:</strong> {{propertyDetail?.state?.name}}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>City:</strong> {{propertyDetail?.city?.name}}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Locality:</strong> {{propertyDetail?.locality}}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Property For:</strong> {{propertyDetail?.propertyFor}}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Status:</strong> {{propertyDetail?.status}}</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Society Name:</strong> {{propertyDetail?.SocietyName}}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong>Flat No:</strong> {{propertyDetail?.flatNo}}</p>
         </div>
       </div>
     </div>

@@ -5,32 +5,39 @@
 </div>
 <div class="row">
   <div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
+    <div class="card p-4 shadow-lg">
       <div class="card-body">
         <form [formGroup]="form">
-                   <div class="row align-items-center">
+          <!-- <div class="sub-header">
+            <h3 class="mt-1 text-left"><i class="bi bi-gear-fill mr-1"></i>Role</h3>
+            <hr class="mt-0">
+          </div> -->
+          <div class="row align-items-center">
             <!-- Search Input -->
             <div class="col-md-4">
-              <label for="search" >Search</label>
+              <label for="search">Search</label>
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="bi bi-search"></i> </span>
                   </div>
-                  <input type="text" formControlName="searchText" class="form-control" placeholder="search" aria-label="Username" aria-describedby="basic-addon1">
+                  <input type="text" formControlName="searchText" class="form-control form-control-sm" placeholder="search"
+                    aria-label="Username" aria-describedby="basic-addon1">
                 </div>
               </div>
             </div>
 
             <!-- Filter and Cancel Buttons -->
             <div class="col-md-6">
-              <button type="button" class="btn btn-warning btn-md mr-1" (click)="onClick_filter()">Filter</button>
-              <button type="button" class="btn btn-secondary btn-md" (click)="onClear_Filter()">Cancel</button>
+              <button type="button" class="btn btn-warning btn-sm mr-1" (click)="onClick_filter()">
+                <i class="bi bi-search me-1"></i>Filter</button>
+              <button type="button" class="btn btn-secondary btn-sm" (click)="onClear_Filter()">
+                <i class="bi bi-x-lg me-1 btn-icon-prepend"></i>Cancel</button>
             </div>
 
             <!-- Add New Button -->
             <div class="col-md-2 text-md-right">
-              <button type="button" class="btn btn-primary btn-md" (click)="onAddEdit(0)">
+              <button type="button" class="btn btn-primary btn-sm" (click)="onAddEdit()">
                 <i class="fa fa-plus btn-icon-prepend"></i> Add New
               </button>
             </div>
@@ -38,39 +45,35 @@
         </form>
 
         <table class="table table-striped mt-3">
-          <thead>
+          <thead class="fs-5">
             <tr>
               <th>#</th>
               <th>RoleName</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="fs-5">
             <tr *ngFor="let item of roleList; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{item.name}}</td>
               <td>
-                <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item._id)">
-                  <i class="bi bi-pencil-square font-medium-4 mr-2 text-success font-weight-bold"></i>
+                <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item.id)">
+                  <i class="bi bi-pencil-square fs-5 font-bold mr-2 text-success font-weight-bold"></i>
                 </a>
-                <a class="danger p-0" ngbTooltip="Delete" (click)="onDelete(item._id)">
-                  <i class="bi bi-trash3 font-medium-4 text-danger font-weight-bold"></i>
+                <a class="danger p-0" ngbTooltip="Delete" (click)="onDelete(item.id)">
+                  <i class="bi bi-trash3 fs-5 font-bold text-danger font-weight-bold"></i>
                 </a>
               </td>
             </tr>
           </tbody>
         </table>
-        <div class="row mt-2">
+        <div class="row mt-5">
           <div class="col-md-10">
-              <!-- <ngb-pagination>
+            <!-- <ngb-pagination>
               </ngb-pagination>-->
-              <ngb-pagination 
-  [collectionSize]="totalRecord" 
-  [(page)]="page" 
-  (pageChange)="onClick_PageChange($event)" 
-  [pageSize]="pageSize" 
-  [maxSize]="10">
-</ngb-pagination>
+            <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)"
+              [pageSize]="pageSize" [maxSize]="10">
+            </ngb-pagination>
           </div>
           <div class="col-md-2">
             <div class="form-group">

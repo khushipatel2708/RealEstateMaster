@@ -13,7 +13,6 @@ import { Role } from 'app/features/role/model/role';
 export class RoleModalComponent implements OnInit {
   form: FormGroup;
   submitted = false;
-  roleId: number;
   @Input() id: number;
   @Output() onRole_Emit: EventEmitter<boolean> = new EventEmitter();
   constructor(
@@ -24,29 +23,45 @@ export class RoleModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('id:', this.id);
     this.form = this.formBuilder.group({
       name: ["", Validators.compose([Validators.required])],
     });
-  
     if (this.id) { 
-      this.roleId = this.id; 
+      this.id = this.id; 
       this.getRoleById();
     } else {
-      this.roleId = null; 
+      this.id = null; 
     }
   }
   
   get f() {
     return this.form.controls;
   }
-  getRoleById(): void {
-    this.commonService.getRoleById(this.id).subscribe((role: Role) => {
-      if (role) {
-        this.form.patchValue({
-          name: role.name
-        });
+  // getRoleById(): void {
+  //   this.commonService.getRoleById(this.id).subscribe((role: Role) => {
+  //     if (role) {
+  //       this.form.patchValue({
+  //         name: role.name
+  //       });
+  //     }
+  //   });
+  // }
+  getRoleById() {
+    console.log('Calling getMenuByMenuId service with menuId:', this.id);
+    this.commonService.getRoleById(this.id).subscribe(
+      (result) => {
+        console.log('Service response:', result);
+        if (result) {
+          this.form.patchValue({
+           name: result.name
+          });
+        }
+      },
+      (error) => {
+        console.error('Service error:', error);
       }
-    });
+    );
   }
   
 
@@ -56,11 +71,11 @@ onSubmit_Form() {
       return;
     }
     const roleData = {
-      id:this.roleId,
+      id:this.id || 0,
       name:this.form.get("name").value,
     };
 
-    if (this.roleId) {
+    if (this.id) {
       // Update role
       this.commonService.addEditRole(roleData).subscribe((result) => {
         this.onRole_Emit.emit(true);

@@ -6,8 +6,7 @@ namespace RealEstate.Entity;
 
 public partial class User
 {
-  [Key]
-    public int? Id { get; set; }
+  public int Id { get; set; }
 
   public int? UserType { get; set; }
 
@@ -27,9 +26,9 @@ public partial class User
 
   public string? PhoneNo { get; set; }
 
-    public int? StateId { get; set; }
+  public int? StateId { get; set; }
 
-    public int? CityId { get; set; }
+  public int? CityId { get; set; }
 
   public int? Pincode { get; set; }
 
@@ -38,4 +37,5 @@ public partial class User
   public DateTime? CreatedOn { get; set; }
 
   public string Password { get; set; } = null!;
+
 }

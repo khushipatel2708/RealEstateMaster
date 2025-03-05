@@ -115,7 +115,10 @@ public class LoginController : ControllerBase
         user.UserName,
         user.Email,
         user.Role,
-        user.PhoneNo
+        user.PhoneNo,
+        user.StateId,
+        user.CityId,
+        user.Pincode,
       });
     }
     catch (Exception ex)

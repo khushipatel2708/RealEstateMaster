@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UsersModelComponent } from './users-model/users-model.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -32,8 +32,8 @@ export class UserComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private commonService: CommonService,
-    private formBuilder:FormBuilder
-
+    private formBuilder:FormBuilder,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -43,12 +43,12 @@ export class UserComponent implements OnInit {
     this.getUserList();
   }
 
-  onClick_AddEdit(id: number) {
+  onClick_AddEdit(id?: number) {
     const modalRef = this.modalService.open(UsersModelComponent, {
       centered: true,
       backdrop: "static",
     });
-    modalRef.componentInstance.userId = id;
+    modalRef.componentInstance.id = id;
     modalRef.componentInstance.onUser_Emit.subscribe((data) => {
       if (data != null) {
         this.getUserList();
@@ -68,6 +68,7 @@ export class UserComponent implements OnInit {
         next: (result: any) => {
           this.userList = result.data;
           this.totalRecord = result.totalCount;
+          this.cdRef.detectChanges();
         },
         error: (err) => {
           console.error('Error fetching menus', err);
@@ -84,7 +85,7 @@ export class UserComponent implements OnInit {
     this.getUserList(); 
    }
 
-  onDelete(userId:any){
+  onDelete(id:any){
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -96,7 +97,7 @@ export class UserComponent implements OnInit {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        this.commonService.deleteUser(userId).subscribe({
+        this.commonService.deleteUser(id).subscribe({
           next: () => {
             Swal.fire('Deleted!', 'User has been deleted.', 'success');
             this.getUserList();  // Refresh the list after deletion

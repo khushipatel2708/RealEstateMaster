@@ -40,7 +40,8 @@ export class RoleComponent implements OnInit {
     this.getRoleList();
   }
 
-  onAddEdit(id: any) {
+  onAddEdit(id?: number) {
+    console.log("id:",id)
     const modalRef = this.modalService.open(RoleModalComponent, {
       centered: true,
       backdrop: 'static',
@@ -82,7 +83,7 @@ export class RoleComponent implements OnInit {
   }
   
 
-  onDelete(roleId: string) {
+  onDelete(id: number) {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -93,7 +94,7 @@ export class RoleComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.commonService.deleterole(roleId).subscribe({
+        this.commonService.deleterole(id).subscribe({
           next: () => {
             Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
             this.getRoleList();

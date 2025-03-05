@@ -1,4 +1,4 @@
-<div class="container card pt-1 pb-1">
+<!-- <div class="container card pt-1 pb-1">
   <div class="float-right">
     <span (click)="isEditing = true" [hidden]="isEditing" class="badge badge-primary p-cursor">Edit</span>
   </div>
@@ -87,4 +87,192 @@
     </table>
   </form>
   <small class="float-right"><b>Last Updated: </b> {{ lastEdited }}</small>
+</div> -->
+
+<div *ngIf="!isEditing" class="profile-container container">
+  <div class="table-responsive">
+    <table class="table table-lg table-bordered w-100">
+      <tbody>
+        <tr>
+          <td class="text-dark fw-bold bg-light p-3 fs-5">Username:</td>
+          <td class="fs-5">{{ UserDetails.userName }}</td>
+        </tr>
+        <tr>
+          <td class="text-dark fw-bold bg-light p-3 fs-5">Email:</td>
+          <td class="fs-5">{{ UserDetails.email }}</td>
+        </tr>
+        <tr>
+          <td class="text-dark fw-bold bg-light p-3 fs-5">State:</td>
+          <td class="fs-5">{{ UserDetails.state }}</td>
+        </tr>
+        <tr>
+          <td class="text-dark fw-bold bg-light p-3 fs-5">City:</td>
+          <td class="fs-5">{{ UserDetails.city }}</td>
+        </tr>
+        <tr>
+          <td class="text-dark fw-bold bg-light p-3 fs-5">Phone:</td>
+          <td class="fs-5">{{ UserDetails.phoneNo }}</td>
+        </tr>
+        <tr>
+          <td class="text-dark fw-bold bg-light p-3 fs-5">Role:</td>
+          <td class="fs-5">{{ UserDetails.role }}</td>
+        </tr>
+        <tr>
+          <td class="text-dark fw-bold bg-light p-3 fs-5">Pincode:</td>
+          <td class="fs-5">{{ UserDetails.pincode }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="text-end mt-3">
+    <button class="btn btn-success btn-md fs-6" (click)="toggleEditMode()">
+      <i class="bi bi-pencil me-2 fs-6"></i> Update Profile
+    </button>
+  </div>
 </div>
+
+
+
+<!-- Edit Form -->
+<div *ngIf="isEditing" class="profile-form-container card p-4 shadow-lg">
+  <h3 class="mb-3">Edit Profile</h3>
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Username:</label>
+          <input type="text" class="form-control" formControlName="userName">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" class="form-control" formControlName="email">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>State:</label>
+          <select formControlName="state" class="custom-select" (change)="onChangeState($event)">
+            <option value="">Select State</option>
+            <option *ngFor="let state of stateList" [value]="state.id">{{ state.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>City:</label>
+          <select formControlName="city" class="custom-select">
+            <option value="">Select City</option>
+            <option *ngFor="let city of cityList" [value]="city.id">{{ city.name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Phone:</label>
+          <input type="text" class="form-control" formControlName="phoneNo">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Role:</label>
+          <input type="text" class="form-control" formControlName="role" readonly>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Pincode:</label>
+          <input type="text" class="form-control" formControlName="pincode">
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-sm me-3 fs-6">Save</button>
+    <button type="button" class="btn btn-secondary btn-sm fs-6" (click)="toggleEditMode()">Cancel</button>
+  </form>
+</div>
+<!-- Edit Form -->
+<!-- <div *ngIf="isEditing" class="profile-form-container card p-4 shadow-lg">
+  <h3 class="mb-3">Edit Profile</h3>
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Username:</label>
+          <input type="text" class="form-control" formControlName="userName">
+          <div *ngIf="profileForm.controls.userName.invalid && profileForm.controls.userName.touched" class="text-danger">
+            Username is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" class="form-control" formControlName="email">
+          <div *ngIf="profileForm.controls.email.invalid && profileForm.controls.email.touched" class="text-danger">
+            <span *ngIf="profileForm.controls.email.errors?.required">Email is required.</span>
+            <span *ngIf="profileForm.controls.email.errors?.email">Invalid email format.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>State:</label>
+          <select formControlName="state" class="custom-select" (change)="onChangeState($event)">
+            <option value="">Select State</option>
+            <option *ngFor="let state of stateList" [value]="state.id">{{ state.name }}</option>
+          </select>
+          <div *ngIf="profileForm.controls.state.invalid && profileForm.controls.state.touched" class="text-danger">
+            State is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>City:</label>
+          <select formControlName="city" class="custom-select">
+            <option value="">Select City</option>
+            <option *ngFor="let city of cityList" [value]="city.id">{{ city.name }}</option>
+          </select>
+          <div *ngIf="profileForm.controls.city.invalid && profileForm.controls.city.touched" class="text-danger">
+            City is required.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Phone:</label>
+          <input type="text" class="form-control" formControlName="phoneNo">
+          <div *ngIf="profileForm.controls.phoneNo.invalid && profileForm.controls.phoneNo.touched" class="text-danger">
+            <span *ngIf="profileForm.controls.phoneNo.errors?.required">Phone number is required.</span>
+            <span *ngIf="profileForm.controls.phoneNo.errors?.pattern">Enter a valid phone number.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Role:</label>
+          <input type="text" class="form-control" formControlName="role" readonly>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label>Pincode:</label>
+          <input type="text" class="form-control" formControlName="pincode">
+          <div *ngIf="profileForm.controls.pincode.invalid && profileForm.controls.pincode.touched" class="text-danger">
+            <span *ngIf="profileForm.controls.pincode.errors?.required">Pincode is required.</span>
+            <span *ngIf="profileForm.controls.pincode.errors?.pattern">Enter a valid pincode.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success btn-sm me-3 fs-6" [disabled]="profileForm.invalid">Save</button>
+    <button type="button" class="btn btn-secondary btn-sm fs-6" (click)="toggleEditMode()">Cancel</button>
+  </form>
+</div> -->

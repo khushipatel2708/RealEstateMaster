@@ -109,50 +109,84 @@ getRoleDDList(){
   
   //End Menu service
 //Start role
+// getRoleDDlList(){
+//   return this.http.get<any>(environment.BASE_URL+"/common/getRoleDDL");
+// }
+//  getRoleList(filters:any){
+//     return this.http.post(environment.BASE_URL + "/common/roleList",filters);
+//   }
+
+//   addEditRole(roledata: any) {
+//     if (roledata.id) {
+//       // If `roledata` has an `id`, use `updateRole` API
+//       return this.http.put(environment.BASE_URL + "/common/role/" + roledata.id, roledata);
+//     } else {
+//       // Otherwise, use `addRole` API
+//       return this.http.post(environment.BASE_URL + "/common/addEditRole", roledata);
+//     }
+//   }
+//   getRoleById(id: number) {
+//     return this.http.get<Role>(`${environment.BASE_URL}/common/role/${id}`);
+//   }
+  
+//   deleterole(roleId: string) {
+//     return this.http.delete(environment.BASE_URL + "/common/deleteRole/" + roleId);
+//   }
 getRoleDDlList(){
-  return this.http.get<any>(environment.BASE_URL+"/common/getRoleDDL");
+  return this.http.post<any>(environment.BASE_URL + "/role/getRoleList", {}); // Sending an empty object
 }
- getRoleList(filters:any){
-    return this.http.post(environment.BASE_URL + "/common/roleList",filters);
+getRoleList(filters: any): Observable<any> {
+  return this.http.post<any>(`${environment.BASE_URL}/role/getRoleList`, filters);
+}
+
+addEditRole(roledata: any): Observable<any> {
+  return this.http.post(`${environment.BASE_URL}/role`, roledata);
+}
+
+  getRoleById(id: number): Observable<any> {
+    return this.http.get<any>(`${environment.BASE_URL}/role/${id}`);
   }
 
-  addEditRole(roledata: any) {
-    if (roledata.id) {
-      // If `roledata` has an `id`, use `updateRole` API
-      return this.http.put(environment.BASE_URL + "/common/role/" + roledata.id, roledata);
-    } else {
-      // Otherwise, use `addRole` API
-      return this.http.post(environment.BASE_URL + "/common/addEditRole", roledata);
-    }
-  }
-  getRoleById(id: number) {
-    return this.http.get<Role>(`${environment.BASE_URL}/common/role/${id}`);
-  }
-  
-  deleterole(roleId: string) {
-    return this.http.delete(environment.BASE_URL + "/common/deleteRole/" + roleId);
-  }
+     // Delete menu
+  deleterole(id: number): Observable<any> {
+    return this.http.delete(`${environment.BASE_URL}/role/${id}`);
+   }
 //End Role
 
 //start User
+// getUserList(filters: any): Observable<any> {
+//   return this.http.post<any>(`${environment.BASE_URL}/user/getUserList`, filters);
+// }
+// // getUserList(filters:any){
+// //   return this.http.post(environment.BASE_URL + '/common/userDetailList',filters);
+// // }
+
+// addEditUser(userdata: any){
+//   return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
+// }
+
+// getUserById(id: number) {
+//   return this.http.get<User>(`${environment.BASE_URL}/common/user/${id}`);
+// }
+
+// deleteUser(userId: any) {
+//   return this.http.delete(`${environment.BASE_URL}/common/deleteUser/${userId}`);
+// }
 getUserList(filters: any): Observable<any> {
   return this.http.post<any>(`${environment.BASE_URL}/user/getUserList`, filters);
 }
-// getUserList(filters:any){
-//   return this.http.post(environment.BASE_URL + '/common/userDetailList',filters);
-// }
 
-addEditUser(userdata: any){
-  return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
+addEditUser(userdata: any): Observable<any> {
+  return this.http.post(`${environment.BASE_URL}/user`, userdata);
 }
 
-getUserById(id: number) {
-  return this.http.get<User>(`${environment.BASE_URL}/common/user/${id}`);
+getUserById(id: number): Observable<any> {
+  return this.http.get<any>(`${environment.BASE_URL}/user/${id}`);
 }
 
-deleteUser(userId: any) {
-  return this.http.delete(`${environment.BASE_URL}/common/deleteUser/${userId}`);
-}
+deleteUser(id: number): Observable<any> {
+  return this.http.delete(`${environment.BASE_URL}/user/${id}`);
+ }
 
 //End User
 

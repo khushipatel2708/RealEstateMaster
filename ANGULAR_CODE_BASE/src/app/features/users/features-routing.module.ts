@@ -36,7 +36,8 @@ const ChildRoutes: Routes = [
     children: [
       {
         path: 'edit',
-        component: EditProfileComponent
+        component: EditProfileComponent,
+        data:{title:'My Profile',icon:'fa-solid bi bi-person-fill'}
       }
     ],
     canActivate: [AuthGuardService]

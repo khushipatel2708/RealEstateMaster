@@ -65,11 +65,13 @@ const ChildRoutes: Routes = [
       {
         path: 'edit/:propertySlug',
         component: EditPropertyComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuardService],
+        data:{title:'Edit Property',icon:'bi bi-building'}
       },
       {
         path: 'view/:propertySlug',
-        component: PropertyViewComponent
+        component: PropertyViewComponent,
+        data:{title:'View Property',icon:'bi bi-building'}
       },
       {
         path: '',

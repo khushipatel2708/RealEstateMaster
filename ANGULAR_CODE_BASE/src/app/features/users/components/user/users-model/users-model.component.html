@@ -1,7 +1,7 @@
 <!-- <h1>this is modal</h1> -->
  <!-- <ng-spinner type="text">loding</ng-spinner> -->
 <div class="modal-header">
-    <div *ngIf="userId > 0; then editUser; else addUser"></div>
+    <div *ngIf="id > 0; then editUser; else addUser"></div>
     <ng-template #editUser>
         <h4 class="modal-title">Edit User</h4>
     </ng-template>
@@ -14,7 +14,7 @@
 </div>
 <!-- <form > -->
   <form [formGroup]="form" novalidate (ngSubmit)="onSubmit_Form()">
-    <div class="modal-body">
+    <div class="modal-body pb-0">
       <!-- Role -->
       <div class="form-group row">
         <label class="col-md-4 label-control" for="role">Role</label>
@@ -135,11 +135,11 @@
     <hr>
   
     <div class="modal-footer">
-      <button type="submit" class="btn btn-primary m-1">
+      <button type="submit" class="btn btn-primary btn-sm m-1">
         <i class="bi bi-check2" aria-hidden="true"></i>
         Save
       </button>
-      <button type="button" class="btn btn-secondary m-1" (click)="activeModal.dismiss('Cross click')">
+      <button type="button" class="btn btn-secondary btn-sm m-1" (click)="activeModal.dismiss('Cross click')">
         <i class="bi bi-x-lg" aria-hidden="true"></i>
         Cancel
       </button>
