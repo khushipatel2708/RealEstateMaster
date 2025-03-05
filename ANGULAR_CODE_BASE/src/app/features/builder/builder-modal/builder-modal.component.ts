@@ -12,7 +12,7 @@ import { CommonService } from 'app/common/services/common.service';
   styleUrls: ['./builder-modal.component.scss']
 })
 export class BuilderModalComponent implements OnInit {
-  @Input() builderId: any;
+  @Input() id: number;
   @Output() onBuilder_Emit: EventEmitter<boolean> = new EventEmitter();
 
   showPassword = false;
@@ -38,13 +38,13 @@ export class BuilderModalComponent implements OnInit {
       location:['',Validators.required],
       phoneNo:['',Validators.required]
     });
-    if (this.builderId) {
+    if (this.id) {
       this.getBuilderById();
     }
   }
 
   getBuilderById(): void {
-    this.commonService.getBuilderById(this.builderId).subscribe((builder: Builder) => {
+    this.commonService.getBuilderById(this.id).subscribe((builder: Builder) => {
       if (builder) {
         this.form.patchValue({
           fname: builder.fname,
@@ -74,7 +74,7 @@ export class BuilderModalComponent implements OnInit {
     }
   
     const builderData = {
-      id:this.builderId || null,
+      id: this.id || 0,
       fname: this.form.get("fname").value,
       lname: this.form.get("lname").value,
       email: this.form.get("email").value,
@@ -83,7 +83,7 @@ export class BuilderModalComponent implements OnInit {
       pincode: this.form.get("pincode").value,
       phoneNo: this.form.get("phoneNo").value,
     };
-    if (this.builderId!="") {
+    if (this.id) {
       // Update builder
       this.commonService.addEditBuilder(builderData).subscribe(
         response => {

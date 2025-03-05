@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace RealEstate.Entity;
 
 public partial class Builder
 {
-    public string Id { get; set; } = null!;
+    public int Id { get; set; }
 
     public string? Fname { get; set; }
 
@@ -26,4 +26,6 @@ public partial class Builder
     public string? PhoneNo { get; set; }
 
     public int? Version { get; set; }
+
+  public virtual ICollection<Property> Properties { get; set; } = new HashSet<Property>();
 }

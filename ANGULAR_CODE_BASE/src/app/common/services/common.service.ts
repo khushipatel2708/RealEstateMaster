@@ -57,32 +57,33 @@ getRoleDDList(){
   return this.http.get<any>(environment.BASE_URL + '/common/role');
 }
   //Property Service
-  getPropertyTypeList() {
-    return this.http.get<any>(environment.BASE_URL + '/common/type');
+  getPropertyTypeList(): Observable<any> {
+    return this.http.get<any>(`${environment.BASE_URL}/property/propertyTypeList`);
   }
 
-   getPropertyList(data:any){
-  return this.http.post(environment.BASE_URL + '/property/list',data);
- }
+  getPropertyList(filters: any): Observable<any> {
+    return this.http.post<any>(`${environment.BASE_URL}/property/propertyList`, filters);
+  }
 
   propertyList(param = '') {
     return this.http.get<any>(environment.BASE_URL + '/property/list/' + param);
   }
 
   getSingleProperty(propertySlug) {
-    return this.http.get<any>(environment.BASE_URL + '/property/single/' + propertySlug);
+    return this.http.get<any>(environment.BASE_URL + '/property/getSingleProperty/' + propertySlug);
   }
 
-  filterProperties(param = '') {
+  filterProperties(param = '') {    
     return this.http.get<any>(environment.BASE_URL + '/property/filter' + param);
   }
-  editProperty(dataToSend: any,id: number,) {
+
+  editProperty(dataToSend: FormData, id: number) {
     const url = `${environment.BASE_URL}/property/edit/${id}`;
-    const requestBody = { id, dataToSend };
-    return this.http.put(url, requestBody);
+    return this.http.put(url, dataToSend);
   }
-  deleteProperty(id:any){
-    return this.http.delete(environment.BASE_URL + "/property/deleteProperty/" + id);
+
+  deleteProperty(id: any): Observable<any> {
+    return this.http.delete(`${environment.BASE_URL}/property/deleteProperty/${id}`);
   }
   //End Property
   //Start Menu
@@ -172,36 +173,24 @@ getMenuListByPermission(role:any){
 
 //Start builder
 
-// getBuilderList(): Observable<any> {
-//   return this.http.get(environment.BASE_URL + '/common/builderList1');
-// }
-
-getBuilderList(filters:any){
-  return this.http.post(environment.BASE_URL + '/common/builderList1',filters);
+getBuilderList(filters: any): Observable<any> {
+  return this.http.post<any>(`${environment.BASE_URL}/builder/GetBuilderList`, filters);
 }
 
 getBuilderDdlList() {
-  return this.http.get<any>(environment.BASE_URL + '/common/builderList');
-}
-// addBuilder(builderData: any): Observable<any> {
-//   return this.http.post(environment.BASE_URL + '/common/addBuilder', builderData);
-// }
-
-// getBuilderById(id: number): Observable<Builder> {
-//   return this.http.get<Builder>(`${environment.BASE_URL}/common/builder/${id}`);
-// }
-getBuilderById(id: number) {
-  return this.http.get<Builder>(`${environment.BASE_URL}/common/builder/${id}`);
+  return this.http.get<any>(`${environment.BASE_URL}/builder/GetBuilderDDLList`);
 }
 
-addEditBuilder(builderdata: any) {
-  return this.http.post(environment.BASE_URL + "/common/addEditBuilder", builderdata);
+getBuilderById(id: number): Observable<any> {
+  return this.http.get<any>(`${environment.BASE_URL}/builder/${id}`);
+}
+addEditBuilder(builderdata: any): Observable<any> {
+  return this.http.post(`${environment.BASE_URL}/builder`, builderdata);
+}
+deleteBuilder(BuilderId: number): Observable<any> {
+  return this.http.delete(`${environment.BASE_URL}/builder/${BuilderId}`);
 }
 
-
-deleteBuilder(BuilderId: any) {
-  return this.http.delete(`${environment.BASE_URL}/common/deleteBuilder/${BuilderId}`);
-}
 
 //End builder
 forgotPassword(formData:any){

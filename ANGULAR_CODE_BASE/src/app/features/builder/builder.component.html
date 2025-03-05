@@ -5,7 +5,11 @@
     <div class="card">
       <div class="card-body">
         <form  [formGroup]="form">
-         <div class="row align-items-center">
+          <div class="sub-header">
+            <h3 class="mt-1 text-left"><i class="fa-solid bi bi-person-fill mr-1"></i>Builder</h3>
+            <hr class="mt-0">
+          </div>
+          <div class="row align-items-center">
             <!-- Search Input -->
             <div class="col-md-4">
               <label for="search">Search</label>
@@ -27,7 +31,7 @@
 
             <!-- Add New Button -->
             <div class="col-md-5 text-md-right">
-              <button type="button" class="btn btn-primary" (click)="onAddEdit(0)">
+              <button type="button" class="btn btn-primary" (click)="onAddEdit()">
                 <i class="fa fa-plus btn-icon-prepend"></i> Add New
               </button>
             </div>
@@ -55,10 +59,10 @@
               <td>{{item.pincode}}</td>
               <td>{{item.location}}</td>
               <td>
-                <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item._id)">
+                <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item.id)">
                   <i class="bi bi-pencil-square font-medium-4 mr-2 text-success font-weight-bold"></i>
                 </a>
-                <a class="danger p-0" ngbTooltip="Delete" (click)="onDelete(item._id)">
+                <a class="danger p-0" ngbTooltip="Delete" (click)="onDelete(item.id)">
                   <i class="bi bi-trash3 font-medium-4 text-danger font-weight-bold"></i>
                 </a>
               </td>

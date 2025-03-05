@@ -51,12 +51,12 @@ export class BuilderComponent implements OnInit {
   //     });
   // }
 
-  onAddEdit(id: Number) {
+  onAddEdit(id?: Number) {
     const modalRef = this.modalService.open(BuilderModalComponent, {
       centered: true,
       backdrop: "static",
     });
-    modalRef.componentInstance.builderId = id;
+    modalRef.componentInstance.id = id;
     modalRef.componentInstance.onBuilder_Emit.subscribe((data) => {
       if (data != null) {
         this.getBuilderList();
