@@ -288,9 +288,7 @@ public partial class RealEstateContext : DbContext
           .HasMaxLength(50)
           .IsUnicode(false)
           .HasColumnName("name");
-      entity.Property(e => e.Version)
-          .HasDefaultValue(0)
-          .HasColumnName("version");
+     
     });
 
     modelBuilder.Entity<State>(entity =>

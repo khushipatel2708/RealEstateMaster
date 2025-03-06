@@ -6,7 +6,7 @@ export interface Builder {
     pincode:string,
     location:string,
     password:string,
-
+  photoPath:string,
     state: {
         _id:string;
         name: string;

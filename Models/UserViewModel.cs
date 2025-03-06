@@ -33,5 +33,7 @@ namespace RealEstate.Models
     public DateTime? createdOn { get; set; }
 
     public string password { get; set; } = null!;
+
+    public string? PhotoPath { get; set; }
   }
 }

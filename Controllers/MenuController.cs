@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstate.Entity;
@@ -5,6 +6,7 @@ using RealEstate.Models;
 
 namespace RealEstate.Controllers
 {
+  //[Authorize(Roles = "Admin")]
   [Route("api/menu")]
   [ApiController]
   public class MenuController : ControllerBase

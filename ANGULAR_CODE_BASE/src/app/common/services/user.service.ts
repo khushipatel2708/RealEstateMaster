@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-// import { JwtHelper } from "angular2-jwt";
+import { JwtHelperService } from "@auth0/angular-jwt";
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, Subject, throwError } from 'rxjs';
 import { environment } from 'environments/environment';
@@ -17,14 +18,12 @@ export class UserService {
     this.togglePageLoader.next(data);
   }
   get currentUser() {
-    var token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
     if (!token) return null;
 
-    // let jwtHelper = new JwtHelper();
-    // console.log('decoded ', jwtHelper.decodeToken(token));
-
-    // return jwtHelper.decodeToken(token);
-  }
+    const jwtHelper = new JwtHelperService();
+    return jwtHelper.decodeToken(token);
+}
 
   getUserDetails(userId) {
     return this.http.get<any>(environment.BASE_URL + '/auth/user/' + userId);

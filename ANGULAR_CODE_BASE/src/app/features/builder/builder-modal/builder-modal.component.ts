@@ -18,7 +18,7 @@ export class BuilderModalComponent implements OnInit {
   showPassword = false;
   submitted = false;
   form: FormGroup;
-
+  previewUrl: string | ArrayBuffer | null = null;
   constructor(
     public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
@@ -54,11 +54,27 @@ export class BuilderModalComponent implements OnInit {
           location: builder.location,
           password: builder.password,
           phoneNo: builder.phoneNo,
+          photoPath:builder.photoPath
         });
+        this.previewUrl = builder.photoPath
       }
     });
   }
+  selectedFile: File | null = null;
 
+  onFileSelected(event: any) {
+    if (event.target.files && event.target.files.length) {
+      this.selectedFile = event.target.files[0];
+  
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.previewUrl = e.target?.result;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+  
+  
   onClick_TogglePassword(): void {
     this.showPassword = !this.showPassword;
   }
@@ -73,19 +89,23 @@ export class BuilderModalComponent implements OnInit {
       return;
     }
   
-    const builderData = {
-      id: this.id || 0,
-      fname: this.form.get("fname").value,
-      lname: this.form.get("lname").value,
-      email: this.form.get("email").value,
-      password: this.form.get("password").value,
-      location: this.form.get("location").value,
-      pincode: this.form.get("pincode").value,
-      phoneNo: this.form.get("phoneNo").value,
-    };
+    const formData = new FormData();
+    formData.append('id', this.id ? String(this.id) : '0');
+  formData.append('fname', this.form.get("fname")?.value);
+  formData.append('lname', this.form.get("lname")?.value);
+  formData.append('email', this.form.get("email")?.value);
+  formData.append('phoneNo', this.form.get("phoneNo")?.value);
+  formData.append('password', this.form.get("password")?.value);
+  formData.append('location', this.form.get("location")?.value);
+  formData.append('pincode', this.form.get("pincode")?.value);
+
+  if (this.selectedFile) {
+    formData.append("photo", this.selectedFile, this.selectedFile.name);
+  }
+
     if (this.id) {
       // Update builder
-      this.commonService.addEditBuilder(builderData).subscribe(
+      this.commonService.addEditBuilder(formData).subscribe(
         response => {
           console.log('Success Response:', response);
           this.spinner.hide();
@@ -98,7 +118,7 @@ export class BuilderModalComponent implements OnInit {
       );
     } else {
       // Create new builder
-      this.commonService.addEditBuilder(builderData).subscribe(
+      this.commonService.addEditBuilder(formData).subscribe(
         response => {
           console.log('Success Response:', response);
           this.spinner.hide();

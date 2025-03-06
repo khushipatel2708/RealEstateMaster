@@ -23,5 +23,7 @@ namespace RealEstate.Models
     public string? PhoneNo { get; set; }
 
     public int? Version { get; set; }
+
+    public string? PhotoPath { get; set; }
   }
 }

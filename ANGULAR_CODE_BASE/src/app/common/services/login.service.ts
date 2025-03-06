@@ -1,9 +1,7 @@
   import { Injectable } from '@angular/core';
-  import { Http } from "@angular/http";
   import { HttpHeaders, HttpClient } from '@angular/common/http'
-  import { JwtHelper } from "angular2-jwt";
   import { Router } from '@angular/router';
-  import { map } from 'rxjs/operators';
+  import { JwtHelperService } from "@auth0/angular-jwt";
 import { environment } from 'environments/environment';
   const httpOptions = {
     headers: new HttpHeaders({
@@ -51,7 +49,7 @@ import { environment } from 'environments/environment';
     // }
   
     isLoggedIn() {
-      let jwtHelper = new JwtHelper();
+      let jwtHelper = new JwtHelperService();
       var token = localStorage.getItem('token');
       if (token) {
         var status = jwtHelper.isTokenExpired(token);

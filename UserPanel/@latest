@@ -1,0 +1,3 @@
+audited 1763 packages in 18.188s
+found 204 vulnerabilities (15 low, 94 moderate, 81 high, 14 critical)
+  run `npm audit fix` to fix them, or `npm audit` for details

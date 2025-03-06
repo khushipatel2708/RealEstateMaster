@@ -38,4 +38,6 @@ public partial class User
 
   public string Password { get; set; } = null!;
 
+  public string? PhotoPath { get; set; }
+
 }

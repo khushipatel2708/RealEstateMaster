@@ -16,6 +16,7 @@ import { UserService } from './common/services/user.service';
 import { PropertyModule } from './features/property/property.module';
 import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({

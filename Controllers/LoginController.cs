@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using RealEstate.Models;
 using RealEstate.Entity;
 using Microsoft.AspNetCore.Authorization;
+
 [Route("api/auth/user")]
 [ApiController]
 public class LoginController : ControllerBase
@@ -119,6 +120,7 @@ public class LoginController : ControllerBase
         user.StateId,
         user.CityId,
         user.Pincode,
+        PhotoPath = !string.IsNullOrEmpty(user.PhotoPath) ? $"http://localhost:5026{user.PhotoPath}" : null
       });
     }
     catch (Exception ex)

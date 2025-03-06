@@ -90,6 +90,21 @@
 </div> -->
 
 <div *ngIf="!isEditing" class="profile-container container">
+  <div class="card">
+    <div class="row">
+      <div class="col-md-4">
+        <img 
+        [src]="UserDetails?.photoPath ? UserDetails.photoPath : 'assets/images/user.jpg'"
+          class="rounded-circle p-cursor"
+          width="90" height="90"
+          id="userDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          alt="user"
+        >
+      </div>
+        </div>
+  </div>
   <div class="table-responsive">
     <table class="table table-lg table-bordered w-100">
       <tbody>

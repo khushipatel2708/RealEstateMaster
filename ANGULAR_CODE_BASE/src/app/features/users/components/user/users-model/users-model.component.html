@@ -15,6 +15,15 @@
 <!-- <form > -->
   <form [formGroup]="form" novalidate (ngSubmit)="onSubmit_Form()">
     <div class="modal-body pb-0">
+      <div class="form-group row">
+        <label class="col-md-4 label-control" for="photo">Builder Photo</label>
+        <div class="col-md-8">
+          <input type="file" id="photo" class="form-control" (change)="onFileSelected($event)">
+          <div class="row pl-4">
+            <img *ngIf="previewUrl" [src]="previewUrl" alt="Builder Photo" class="img-thumbnail mt-2" style="width: 100px; height: 100px;">
+          </div>
+        </div>
+      </div>
       <!-- Role -->
       <div class="form-group row">
         <label class="col-md-4 label-control" for="role">Role</label>

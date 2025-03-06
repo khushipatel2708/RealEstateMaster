@@ -1,0 +1,62 @@
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule, Title } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+
+import { NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+import { AppRoutingModule } from './app-routing.module';
+
+import { AppComponent } from './app.component';
+
+import { HttpClientModule } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
+import { HomeComponent } from './home/home.component';
+import { CommonService } from './services/common.service';
+import { UserService } from './services/user.service';
+import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { LoginService } from './services/login.service';
+import { RegistrationValidators } from './validators/registration.validators';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { AboutComponent } from './about/about.component';
+import { PropertyComponent } from './property/property.component';
+import { ServiceComponent } from './service/service.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
+import { AgentComponent } from './agent/agent.component';
+@NgModule({
+  
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    LoginComponent,
+    RegistrationComponent,
+    HeaderComponent,
+    FooterComponent,
+    AboutComponent,
+    PropertyComponent,
+    ServiceComponent,
+    ContactUsComponent,
+    AgentComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    NgbCarouselModule,
+    FormsModule,
+    NgbModule,
+    AppRoutingModule,
+    ToastrModule.forRoot(), 
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // AdministrationModule
+  ],
+  exports: [
+    FormsModule
+  ],
+  providers: [CommonService,UserService,LoginService,Title,RegistrationValidators],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }

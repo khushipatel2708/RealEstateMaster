@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstate.Entity;
@@ -5,6 +6,7 @@ using RealEstate.Models;
 
 namespace RealEstate.Controllers
 {
+  //[Authorize(Roles = "Admin")]
   [Route("api/user")]
   [ApiController]
   public class UserController : ControllerBase
@@ -71,8 +73,72 @@ namespace RealEstate.Controllers
     }
 
     //User Add Edit
+    //[HttpPost]
+    //public async Task<IActionResult> AddOrUpdateUser(UserViewModel user)
+    //{
+    //  if (user == null)
+    //  {
+    //    return BadRequest(new { message = "Invalid user data" });
+    //  }
+
+    //  try
+    //  {
+    //    var u = await _context.Users.FindAsync(user.id);
+    //    if (u != null)
+    //    {
+    //      // Update existing user
+    //      u.UserType = user.userType;
+    //      u.IsAdmin = user.isAdmin;
+    //      u.Fname = user.fname;
+    //      u.Lname = user.lname;
+    //      u.Email = user.email;
+    //      u.Password = user.password;
+    //      u.UserName = user.userName;
+    //      u.StateId = user.stateId;
+    //      u.CityId = user.cityId;
+    //      u.Pincode = user.pincode;
+    //      u.PhoneNo = user.phoneNo;
+    //      u.Role = user.role;
+    //      u.CreatedOn = user.createdOn;
+    //      u.UpdatedOn = user.updatedOn;
+    //      u.Status = user.status;
+    //      _context.Users.Update(u);
+    //    }
+    //    else
+    //    {
+    //      // Add new seru
+    //      var newuser = new User
+    //      {
+    //        UserType = user.userType,
+    //        IsAdmin = user.isAdmin,
+    //        Fname = user.fname,
+    //        Lname = user.lname,
+    //        Email = user.email,
+    //        Password = user.password,
+    //        UserName = user.userName,
+    //        StateId = user.stateId,
+    //        CityId = user.cityId,
+    //        Pincode = user.pincode,
+    //        PhoneNo = user.phoneNo,
+    //        Role = user.role,
+    //        Status = user.status,
+    //        CreatedOn = user.createdOn,
+    //        UpdatedOn = user.updatedOn
+    //      };
+
+    //      _context.Users.Add(newuser);
+    //    }
+
+    //    await _context.SaveChangesAsync();
+    //    return Ok(new { message = "user saved successfully" });
+    //  }
+    //  catch (Exception ex)
+    //  {
+    //    return StatusCode(500, new { message = ex.Message });
+    //  }
+    //}
     [HttpPost]
-    public async Task<IActionResult> AddOrUpdateUser(UserViewModel user)
+    public async Task<IActionResult> AddOrUpdateUser([FromForm] UserViewModel user, IFormFile? photo)
     {
       if (user == null)
       {
@@ -81,6 +147,28 @@ namespace RealEstate.Controllers
 
       try
       {
+        string? photoPath = null;
+
+        // Save image if uploaded
+        if (photo != null && photo.Length > 0)
+        {
+          var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads","users");
+          if (!Directory.Exists(uploadsFolder))
+          {
+            Directory.CreateDirectory(uploadsFolder);
+          }
+
+          string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
+          string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+          using (var stream = new FileStream(filePath, FileMode.Create))
+          {
+            await photo.CopyToAsync(stream);
+          }
+
+          photoPath = $"/uploads/users/{uniqueFileName}"; // ✅ Correct format
+        }
+
         var u = await _context.Users.FindAsync(user.id);
         if (u != null)
         {
@@ -100,12 +188,19 @@ namespace RealEstate.Controllers
           u.CreatedOn = user.createdOn;
           u.UpdatedOn = user.updatedOn;
           u.Status = user.status;
+
+          // ✅ Update PhotoPath only if new file is uploaded
+          if (photoPath != null)
+          {
+            u.PhotoPath = photoPath;
+          }
+
           _context.Users.Update(u);
         }
         else
         {
-          // Add new seru
-          var newuser = new User
+          // Add new user
+          var newUser = new User
           {
             UserType = user.userType,
             IsAdmin = user.isAdmin,
@@ -121,20 +216,22 @@ namespace RealEstate.Controllers
             Role = user.role,
             Status = user.status,
             CreatedOn = user.createdOn,
-            UpdatedOn = user.updatedOn
+            UpdatedOn = user.updatedOn,
+            PhotoPath = photoPath // ✅ Assign PhotoPath
           };
 
-          _context.Users.Add(newuser);
+          _context.Users.Add(newUser);
         }
 
         await _context.SaveChangesAsync();
-        return Ok(new { message = "user saved successfully" });
+        return Ok(new { message = "User saved successfully" });
       }
       catch (Exception ex)
       {
         return StatusCode(500, new { message = ex.Message });
       }
     }
+
 
     [HttpPost("getRoleList")]
     public async Task<IActionResult> GetRoleList()
@@ -154,14 +251,38 @@ namespace RealEstate.Controllers
     [HttpGet("{id}")]
     public async Task<IActionResult> GetuserById(int id)
     {
-      var user = await _context.Users.FindAsync(id);
+      var user = await _context.Users
+          .Where(u => u.Id == id)
+          .Select(u => new
+          {
+            u.Id,
+            u.Fname,
+            u.Lname,
+            u.Email,
+            u.PhoneNo,
+            u.UserType,
+            u.IsAdmin,
+            u.UserName,
+            u.StateId,
+            u.CityId,
+            u.Pincode,
+            u.Role,
+            u.Status,
+            u.CreatedOn,
+            u.UpdatedOn,
+            u.Password,
+            PhotoPath = !string.IsNullOrEmpty(u.PhotoPath) ? $"http://localhost:5026{u.PhotoPath}" : null
+          })
+          .FirstOrDefaultAsync();
+
       if (user == null)
       {
-        return NotFound(new { message = "user not found" });
+        return NotFound(new { message = "User not found" });
       }
 
       return Ok(user);
     }
+
 
     // Delete user
     [HttpDelete("{id}")]

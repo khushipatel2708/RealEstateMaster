@@ -21,7 +21,7 @@
 								<div class="user-image dropdown text-right" *ngIf="isUserLoggedIn">
 									<span><span class="text-primary">Welcome</span> {{ currentUser?.userName }} </span>
 									<img 
-									  src="assets/images/user.jpg"
+									[src]="currentUser?.photoPath ? currentUser.photoPath : 'assets/images/user.jpg'"
 									  class="rounded-circle p-cursor dropdown-toggle"
 									  id="userDropdown"
 									  data-bs-toggle="dropdown"

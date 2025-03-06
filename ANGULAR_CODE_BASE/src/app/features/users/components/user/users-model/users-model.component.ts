@@ -15,7 +15,7 @@ export class UsersModelComponent implements OnInit {
   @Output() onUser_Emit: EventEmitter<boolean> = new EventEmitter();
   submitted = false;
   roleList: any[] = [];
-
+  previewUrl: string | ArrayBuffer | null = null;
   showPassword = false;
 
   form: FormGroup;
@@ -58,8 +58,10 @@ export class UsersModelComponent implements OnInit {
             email: result.email,
             phoneNo: result.phoneNo,
             password: result.password,
-            status: result.status
+            status: result.status,
+            photoPath:result.photoPath
           });
+          this.previewUrl = result.photoPath
         }
       },
       (error) => {
@@ -67,7 +69,19 @@ export class UsersModelComponent implements OnInit {
       }
     );
   }
+  selectedFile: File | null = null;
 
+  onFileSelected(event: any) {
+    if (event.target.files && event.target.files.length) {
+      this.selectedFile = event.target.files[0];
+  
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.previewUrl = e.target?.result;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
 
   getRoleList() {
     this.spinner.show();
@@ -97,17 +111,21 @@ export class UsersModelComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const formData = {
-      id: this.id || null,
-      role:this.form.get("role").value,
-      fname: this.form.get("fname").value,
-      lname: this.form.get("lname").value,
-      userName: this.form.get("userName").value,
-      email: this.form.get("email").value,
-      phoneNo: this.form.get("phoneNo").value,
-      password: this.form.get("password").value,
-      status: this.form.get("status").value,
-    };
+    
+    const formData = new FormData();
+    formData.append('id', this.id ? String(this.id) : '0');
+  formData.append('fname', this.form.get("fname")?.value);
+  formData.append('lname', this.form.get("lname")?.value);
+  formData.append('email', this.form.get("email")?.value);
+  formData.append('phoneNo', this.form.get("phoneNo")?.value);
+  formData.append('password', this.form.get("password")?.value);
+  formData.append('status', this.form.get("status")?.value);
+  formData.append('userName', this.form.get("userName")?.value);
+  formData.append('role',this.form.get('role').value);
+  if (this.selectedFile) {
+    formData.append("photo", this.selectedFile, this.selectedFile.name);
+  }
+
     console.log("data=", formData)
     // if (this.id) {
     if (this.id > 0) {

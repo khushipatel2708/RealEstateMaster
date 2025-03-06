@@ -77,7 +77,7 @@ getRoleDDList(){
     return this.http.get<any>(environment.BASE_URL + '/property/filter' + param);
   }
 
-  editProperty(dataToSend: FormData, id: number) {
+  editProperty(dataToSend: any, id: number) {
     const url = `${environment.BASE_URL}/property/edit/${id}`;
     return this.http.put(url, dataToSend);
   }
