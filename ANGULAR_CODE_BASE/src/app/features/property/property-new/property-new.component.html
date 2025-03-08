@@ -44,9 +44,9 @@
         </div>
         <div class="col-4">
           <label for="">Property Type:</label>
-          <select required name="Proptype" ngModel #Proptype="ngModel" class="custom-select">
+          <select required name="typeId" ngModel #Proptype="ngModel" class="custom-select">
             <option value="">Select Property Type</option>
-            <option *ngFor="let property of propertyTypeList" value="{{property._id}}">{{property.title}}</option>
+            <option *ngFor="let property of propertyTypeList" value="{{property.id}}">{{property.title}}</option>
           </select>
           <!-- <small class="text-danger" *ngIf="Proptype.touched && Proptype.invalid">This field is required</small> -->
         </div>
@@ -104,19 +104,19 @@
     <div class="form-row">
       <div class="form-group col-md-3">
         <label for="">State:</label>
-        <select name="state" ngModel #state="ngModel" (change)="getCityList(state.value);" required
+        <select name="stateId" ngModel #state="ngModel" (change)="getCityList(state.value);" required
           class="custom-select">
           <option value="">Select State</option>
-          <option *ngFor="let state of stateList" value="{{state._id}}">{{state.name}}</option>
+          <option *ngFor="let state of stateList" value="{{state.id}}" class="text-dark">{{state.name}}</option>
         </select>
         <small class="text-danger" *ngIf="state.touched && state.invalid">
           This field is required</small>
       </div>
       <div class="form-group col-md-3">
         <label for="">City: <small *ngIf="FetchingCityList"><i class="fa fa-refresh fa-spin fa-fw"></i></small></label>
-        <select name="city" ngModel #city="ngModel" required class="custom-select">
+        <select name="cityId" ngModel #city="ngModel" required class="custom-select">
           <option value="">Select City</option>
-          <option *ngFor="let city of cityList" value="{{city._id}}">{{city.name}}</option>
+          <option *ngFor="let city of cityList" value="{{city.id}}">{{city.name}}</option>
         </select>
         <small class="text-danger" *ngIf="city.touched && city.invalid">
           This field is required</small>
@@ -183,32 +183,33 @@
 
       <div class="form-group col-md-4">
         <label for="">Email:</label>
-        <input type="text" placeholder="Enter Email" name="email" ngModel #email="ngModel" required
-          value="{{userService.currentUser.user.email}}" class="form-control">
+        <input type="text" placeholder="Enter Email" name="email" ngModel #email="ngModel" required class="form-control">
         <small class="text-danger" *ngIf="email.touched && email.invalid">
           This field is required</small>
       </div>
       <div class="form-group col-md-4">
         <label for="">Phone Number: </label>
         <input type="text" ngModel #phoneNo="ngModel" required name="phoneNo" placeholder="Enter Phone Number"
-          value="{{userService.currentUser.user.phoneNo}}" class="form-control">
+          class="form-control">
         <small class="text-danger" *ngIf="phoneNo.touched && phoneNo.invalid">
           This field is required</small>
       </div>
       <div class="form-group col-md-4">
         <label for="">Builder: </label>
-        <select name="builder" ngModel #builder="ngModel" required class="custom-select">
+        <select name="builderId" ngModel #builder="ngModel" required class="custom-select">
             <option value="">Select builder</option>
-            <option *ngFor="let builder of builderList" value="{{builder._id}}">{{builder.fname}}</option>
+            <option *ngFor="let builder of builderList" value="{{builder.id}}">{{builder.fname}}</option>
           </select>
         <small class="text-danger" *ngIf="builder.touched && builder.invalid">
           This field is required</small>
       </div>
     </div>
     <div class="form-group propertyTitle">
-      <label for="">Property Title: <small class="text-info">(Auto-generated) </small>
+      <p> {{f.cornerPlot?.value}} {{f.Proptype?.value}} {{f.societyName?.value}} {{f.city?.value}} {{f.state?.value}}</p>
+      <label for=""> {{f.cornerPlot?.value}} {{f.Proptype?.value}} {{f.societyName?.value}} {{f.city?.value}} {{f.state?.value}} <small class="text-info">(Auto-generated) </small>
         <app-small-components [componentName]="'moreInfoQstnMark'"
           [toolTipData]="{ position: 'right', text: 'On the basics of values entered above' }"></app-small-components>
+        
       </label>
       <input type="text" #title="ngModel" name="title" (change)="log(title.value)"
         [ngModel]="(cornrPlot.value ? 'Corner ' : '') + getDataTitleViaId(Proptype.value, 'propertyTypeList', 'title') + (societyName?.value ? ' at ' +  societyName.value : '') + (city.value ? ' in ' + getDataTitleViaId(city.value, 'cityList', 'name') : '') + (state.value ? (city.value ? ', ': ' in ') + getDataTitleViaId(state.value, 'stateList', 'name') : '')"

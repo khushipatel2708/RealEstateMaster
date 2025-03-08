@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from "@auth0/angular-jwt";
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, Subject, throwError } from 'rxjs';
+import { catchError, Observable, Subject, tap, throwError } from 'rxjs';
 import { environment } from 'environments/environment';
 
 @Injectable()
@@ -35,6 +35,27 @@ export class UserService {
     return this.http.put<any>(`${environment.BASE_URL}/user/updateProfile/${userId}`, userData);
 }
 
+get getCurrentUserDetail() {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    console.error("JWT Token is missing!");
+    return throwError(() => new Error("No token found"));
+  }
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  });
+
+  return this.http.get<any>(`${environment.BASE_URL}/auth/user/currentUser`, { headers }).pipe(
+    tap(response => console.log('API response:', response)), // Log API response
+    catchError(error => {
+      console.error("Error fetching user:", error);
+      return throwError(() => new Error(error));
+    })
+  );
+}
   
   getCurrentUserDetails() {
     const token = localStorage.getItem('token'); // Ensure token is stored in localStorage

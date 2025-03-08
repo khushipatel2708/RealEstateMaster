@@ -4,6 +4,7 @@ import { UserService } from '../../../common/services/user.service';
 import { CommonService } from '../../../common/services/common.service';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-property-new',
@@ -11,7 +12,6 @@ import { environment } from 'environments/environment';
   styleUrls: ['./property-new.component.scss']
 })
 export class PropertyNewComponent implements OnInit {
-
   constructor(
     private commonService: CommonService,
     public userService: UserService,
@@ -69,41 +69,202 @@ export class PropertyNewComponent implements OnInit {
       });
   }
 
+  // submitForm(data) {
+  //   this.isSubmittingForm = true;
+  //   this.userService.getCurrentUserDetail.subscribe({
+  //     next: (userDetail) => {
+  //       console.log('Fetched user detail:', userDetail); // Debug log
+    
+  //       if (userDetail && userDetail.id) { // Updated check
+  //         data.value.userId = userDetail.id;
+  //         console.log("getCurrentUserDetail", userDetail);
+    
+  //         const imageData = new FormData();
+  //         this.imgsToUpload.forEach((ele) => {
+  //           imageData.append("propImages", ele, ele['name']);
+  //         });
+    
+  //         for (let key in data.value) {
+  //           imageData.append(key, data.value[key]);
+  //         }
+    
+  //         this.commonService.togglePageLoaderFn(true);
+    
+  //         this.http.post<any>(`${environment.BASE_URL}/property/new`, imageData)
+  //           .subscribe({
+  //             next: (result) => {
+  //               let data = result?.result || {};
+  //               let message = result?.message || '';
+  //               if (data?.slug) {
+  //                 this.commonService.changeHeaderMessage({ type: 'success', message });
+  //                 alert("Property added successfully.");
+  //                 this.router.navigate([`/property/view/${data.slug}`]);
+  //               } else {
+  //                 this.commonService.changeHeaderMessage({ type: 'danger', message: 'Something Went Wrong' });
+  //               }
+  //             },
+  //             error: (err) => {
+  //               let errMessage = err.error?.message || '';
+  //               console.log({ err }, errMessage);
+  //               this.commonService.changeHeaderMessage({ type: 'danger', message: errMessage });
+  //               this.commonService.togglePageLoaderFn(false);
+  //             },
+  //             complete: () => {
+  //               this.commonService.togglePageLoaderFn(false);
+  //             }
+  //           });
+  //       } else {
+  //         console.error('User details are missing');
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Failed to fetch user details:', err);
+  //     }
+  //   });
+    
+  //   // this.userService.getCurrentUserDetail.subscribe({
+  //   //   next: (userDetail) => {
+  //   //     console.log('Fetched user detail:', userDetail); // Add this line
+    
+  //   //     if (userDetail && userDetail.user) {
+  //   //       data.value.userId = userDetail.user.id;
+  //   //       console.log("getCurrentUserDetail", userDetail);
+    
+  //   //       const imageData = new FormData();
+  //   //       this.imgsToUpload.forEach((ele) => {
+  //   //         imageData.append("propImages", ele, ele['name']);
+  //   //       });
+    
+  //   //       for (let key in data.value) {
+  //   //         imageData.append(key, data.value[key]);
+  //   //       }
+    
+  //   //       this.commonService.togglePageLoaderFn(true);
+    
+  //   //       this.http.post<any>(`${environment.BASE_URL}/property/new`, imageData)
+  //   //         .subscribe({
+  //   //           next: (result) => {
+  //   //             let data = result?.result || {};
+  //   //             let message = result?.message || '';
+  //   //             if (data?.slug) {
+  //   //               this.commonService.changeHeaderMessage({ type: 'success', message });
+  //   //               alert("Property added successfully.");
+  //   //               this.router.navigate([`/property/view/${data.slug}`]);
+  //   //             } else {
+  //   //               this.commonService.changeHeaderMessage({ type: 'danger', message: 'Something Went Wrong' });
+  //   //             }
+  //   //           },
+  //   //           error: (err) => {
+  //   //             let errMessage = err.error?.message || '';
+  //   //             console.log({ err }, errMessage);
+  //   //             this.commonService.changeHeaderMessage({ type: 'danger', message: errMessage });
+  //   //             this.commonService.togglePageLoaderFn(false);
+  //   //           },
+  //   //           complete: () => {
+  //   //             this.commonService.togglePageLoaderFn(false);
+  //   //           }
+  //   //         });
+  //   //     } else {
+  //   //       console.error('User details are missing');
+  //   //     }
+  //   //   },
+  //   //   error: (err) => {
+  //   //     console.error('Failed to fetch user details:', err);
+  //   //   }
+  //   // });
+    
+  // }
+
   submitForm(data) {
     this.isSubmittingForm = true;
-    data.value.userId = this.userService.currentUser.user._id;
-
-    const imageData = new FormData();
-    this.imgsToUpload.forEach((ele, index) => {
-      imageData.append("propImages", ele, ele['name']);
-    })
-    for (let key in data.value) {
-      // iterate and set other form data
-      imageData.append(key, data.value[key])
-    }
-    this.commonService.togglePageLoaderFn(true);
-    this.http.post(environment.BASE_URL + '/property/new', imageData)
-      .subscribe(result => {
-        let data = result && result['result'] || {};
-        let message = result && result['message'] || '';
-        if (data && data['slug']) {
-          this.commonService.changeHeaderMessage({ type: 'success', message });
-          alert("property added successfully.");
-          this.router.navigate([`/property/view/${data.slug}`])
+    this.userService.getCurrentUserDetail.subscribe({
+      next: (userDetail) => {
+        console.log('Fetched user detail:', userDetail); // Debug log
+    
+        if (userDetail && userDetail.id) { // Updated check
+          data.value.userId = userDetail.id;
+          console.log("getCurrentUserDetail", userDetail);
+    
+          const imageData = new FormData();
+          this.imgsToUpload.forEach((ele) => {
+            imageData.append("propImages", ele, ele['name']);
+          });
+    
+          for (let key in data.value) {
+            imageData.append(key, data.value[key]);
+          }
+    
+          this.commonService.togglePageLoaderFn(true);
+    
+          this.http.post<any>(`${environment.BASE_URL}/property/new`, imageData)
+            .subscribe({
+              next: (result) => {
+                let data = result?.result || {};
+                let message = result?.message || '';
+                if (data?.slug) {
+                  this.commonService.changeHeaderMessage({ type: 'success', message });
+                  alert("Property added successfully.");
+                  this.router.navigate([`/property/view/${data.slug}`]);
+                } else {
+                  this.commonService.changeHeaderMessage({ type: 'danger', message: 'Something Went Wrong' });
+                }
+              },
+              error: (err) => {
+                let errMessage = err.error?.message || '';
+                console.log({ err }, errMessage);
+                this.commonService.changeHeaderMessage({ type: 'danger', message: errMessage });
+                this.commonService.togglePageLoaderFn(false);
+              },
+              complete: () => {
+                this.commonService.togglePageLoaderFn(false);
+              }
+            });
+        } else {
+          console.error('User details are missing');
         }
-        else this.commonService.changeHeaderMessage({ type: 'danger', message: 'Something Went Wrong' });
-      }, err => {
-        let errmessage = err.error && err.error.message || '';
-        console.log({ err }, errmessage);
-        this.commonService.changeHeaderMessage({ type: 'danger', message: errmessage });
-        this.commonService.togglePageLoaderFn(false);
       },
-        () => {
-          this.commonService.togglePageLoaderFn(false);
-        })
+      error: (err) => {
+        console.error('Failed to fetch user details:', err);
+      }
+    });
   }
 
-  log(data) { console.log(data); }
+
+  // submitForm(data) {
+  //   this.isSubmittingForm = true;
+  //   data.value.userId = this.userService.currentUser.user._id;
+
+  //   const imageData = new FormData();
+  //   this.imgsToUpload.forEach((ele, index) => {
+  //     imageData.append("propImages", ele, ele['name']);
+  //   })
+  //   for (let key in data.value) {
+  //     // iterate and set other form data
+  //     imageData.append(key, data.value[key])
+  //   }
+  //   this.commonService.togglePageLoaderFn(true);
+  //   this.http.post(environment.BASE_URL + '/property/new', imageData)
+  //     .subscribe(result => {
+  //       let data = result && result['result'] || {};
+  //       let message = result && result['message'] || '';
+  //       if (data && data['slug']) {
+  //         this.commonService.changeHeaderMessage({ type: 'success', message });
+  //         alert("property added successfully.");
+  //         this.router.navigate([`/property/view/${data.slug}`])
+  //       }
+  //       else this.commonService.changeHeaderMessage({ type: 'danger', message: 'Something Went Wrong' });
+  //     }, err => {
+  //       let errmessage = err.error && err.error.message || '';
+  //       console.log({ err }, errmessage);
+  //       this.commonService.changeHeaderMessage({ type: 'danger', message: errmessage });
+  //       this.commonService.togglePageLoaderFn(false);
+  //     },
+  //       () => {
+  //         this.commonService.togglePageLoaderFn(false);
+  //       })
+  // }
+
+  log(data) { console.log(data); console.log(data.value.cornerPlot)}
 
   filesChange(fieldName: string, fileList) {
     if (fileList && fileList.length) {
@@ -131,13 +292,13 @@ export class PropertyNewComponent implements OnInit {
   getDataTitleViaId(id, dataList, keyName) {
     if (!id || !dataList || !keyName) return '';
 
-    let data = this[dataList].filter(e => e._id == id);
+    let data = this[dataList].filter(e => e.id == id);
     return data.length && data[0][keyName] || '';
   }
 
   ngOnInit() {
     this.getPropertyTypeList();
-
+    this.getBuilderList();
     this.commonService.getStatelist()
       .subscribe(response => {
         if (response.length > 0) {

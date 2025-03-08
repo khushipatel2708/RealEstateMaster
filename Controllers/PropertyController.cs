@@ -30,76 +30,6 @@ namespace RealEstate.Controllers
       return await Task.FromResult($"{slug}-{Guid.NewGuid()}");
     }
 
-    //[HttpPost("new")]
-    //public async Task<IActionResult> AddNewProperty([FromForm] PropertyViewModel model)
-    //{
-    //  try
-    //  {
-    //    var images = new List<string>();
-
-    //    if (Request.Form.Files.Count > 0)
-    //    {
-    //      foreach (var file in Request.Form.Files)
-    //      {
-    //        var fileName = Path.GetFileName(file.FileName);
-    //        var filePath = Path.Combine("wwwroot/properties", fileName);
-
-    //        using (var stream = new FileStream(filePath, FileMode.Create))
-    //        {
-    //          await file.CopyToAsync(stream);
-    //        }
-
-    //        images.Add(fileName);
-    //      }
-    //    }
-
-    //    var slug = await GenerateSlug(model.Title ?? throw new ArgumentNullException(nameof(model.Title)));
-
-    //    var property = new Property
-    //    {
-    //      Title = model.Title,
-    //      Slug = slug,
-    //      TypeId = model.TypeId,
-    //      CornerPlot = model.CornerPlot ?? false,
-    //      Images = string.Join(",", images),
-    //      ImgPath = "properties",
-    //      IsSociety = model.IsSociety,
-    //      FlatNo = model.IsSociety == true ? model.FlatNo : string.Empty,
-    //      SocietyName = model.IsSociety == true ? model.SocietyName : string.Empty,
-    //      Address = model.Address,
-    //      CityId = model.CityId,
-    //      StateId = model.StateId,
-    //      Pincode = model.Pincode,
-    //      Locality = model.Locality,
-    //      Description = model.Description,
-    //      Price = model.Price,
-    //      UserId = model.UserId,
-    //      CreatedOn = DateTime.UtcNow,
-    //      UpdatedOn = DateTime.UtcNow,
-    //      PropertyFor = model.PropertyFor,
-    //      Status = model.Status,
-    //      IsActive = model.IsActive ?? true,
-    //      Email = model.Email,
-    //      PhoneNo = model.PhoneNo,
-    //      Length = model.Length,
-    //      Breadth = model.Breadth,
-    //      BuilderId = model.BuilderId,
-    //      Version = model.Version
-    //    };
-
-    //    _context.Properties.Add(property);
-    //    await _context.SaveChangesAsync();
-
-    //    return Ok(new { property, message = "Your property has been successfully posted" });
-    //  }
-    //  catch (Exception ex)
-    //  {
-    //    Console.WriteLine(ex);
-    //    return BadRequest(new { message = ex.Message });
-    //  }
-    //}
-
-
     [HttpPost("new")]
     public async Task<IActionResult> AddNewProperty([FromForm] PropertyViewModel model)
     {
@@ -173,6 +103,65 @@ namespace RealEstate.Controllers
       {
         Console.WriteLine(ex);
         return BadRequest(new { message = ex.Message });
+      }
+    }
+    [HttpPost("propertyList")]
+    public async Task<IActionResult> GetPropertyList([FromBody] PropertyFilter filter)
+    {
+      try
+      {
+        var query = from property in _context.Properties
+                    join city in _context.Cities on property.CityId equals city.Id
+                    join type in _context.PropertyOriginals on property.TypeId equals type.Id
+                    select new
+                    {
+                      property.Id,
+                      property.Description,
+                      property.Title,
+                      city = city.Name,
+                      type = type.Title,
+                      property.Locality,
+                      property.PropertyFor,
+                      property.TypeId,
+                      property.Status,
+                      property.Slug
+                    };
+
+        if (!string.IsNullOrEmpty(filter.PropertyFor))
+        {
+          query = query.Where(p => p.PropertyFor == filter.PropertyFor);
+        }
+
+        if (filter.Type.HasValue && filter.Type > 0)
+        {
+          query = query.Where(p => p.TypeId == filter.Type.Value);
+        }
+
+        if (!string.IsNullOrEmpty(filter.SearchText))
+        {
+          query = query.Where(p => p.Description.Contains(filter.SearchText) ||
+                                   p.Title.Contains(filter.SearchText));
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var page = filter.Page ?? 1;
+        var pageSize = filter.PageSize ?? 20;
+
+        var properties = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return Ok(new
+        {
+          TotalCount = totalCount,
+          Data = properties
+        });
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
       }
     }
 
@@ -309,50 +298,50 @@ namespace RealEstate.Controllers
     //  return Ok(new { data, totalCount });
     //}
 
-    [HttpPost("propertyList")]
-    public async Task<IActionResult> GetPropertyList([FromBody] PropertyFilter filter)
-    {
-      try
-      {
-        var query = _context.Properties.AsQueryable();
+    //[HttpPost("propertyList")]
+    //public async Task<IActionResult> GetPropertyList([FromBody] PropertyFilter filter)
+    //{
+    //  try
+    //  {
+    //    var query = _context.Properties.AsQueryable();
 
-        if (!string.IsNullOrEmpty(filter.PropertyFor))
-        {
-          query = query.Where(p => p.PropertyFor == filter.PropertyFor);
-        }
+    //    if (!string.IsNullOrEmpty(filter.PropertyFor))
+    //    {
+    //      query = query.Where(p => p.PropertyFor == filter.PropertyFor);
+    //    }
 
-        if (filter.Type.HasValue && filter.Type > 0) // If Type is nullable int
-        {
-          query = query.Where(p => p.TypeId == filter.Type.Value);
-        }
+    //    if (filter.Type.HasValue && filter.Type > 0) // If Type is nullable int
+    //    {
+    //      query = query.Where(p => p.TypeId == filter.Type.Value);
+    //    }
 
-        if (!string.IsNullOrEmpty(filter.SearchText))
-        {
-          query = query.Where(p => p.Description.Contains(filter.SearchText) ||
-                                   p.Title.Contains(filter.SearchText));
-        }
+    //    if (!string.IsNullOrEmpty(filter.SearchText))
+    //    {
+    //      query = query.Where(p => p.Description.Contains(filter.SearchText) ||
+    //                               p.Title.Contains(filter.SearchText));
+    //    }
 
-        var totalCount = await query.CountAsync();
+    //    var totalCount = await query.CountAsync();
 
-        var page = filter.Page ?? 1;
-        var pageSize = filter.PageSize ?? 20;
+    //    var page = filter.Page ?? 1;
+    //    var pageSize = filter.PageSize ?? 20;
 
-        var properties = await query
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+    //    var properties = await query
+    //        .Skip((page - 1) * pageSize)
+    //        .Take(pageSize)
+    //        .ToListAsync();
 
-        return Ok(new
-        {
-          TotalCount = totalCount,
-          Data = properties
-        });
-      }
-      catch (Exception ex)
-      {
-        return BadRequest(ex.Message);
-      }
-    }
+    //    return Ok(new
+    //    {
+    //      TotalCount = totalCount,
+    //      Data = properties
+    //    });
+    //  }
+    //  catch (Exception ex)
+    //  {
+    //    return BadRequest(ex.Message);
+    //  }
+    //}
 
     [HttpGet("propertyTypeList")]
     public IActionResult GetActivePropertyTypes()
@@ -474,6 +463,49 @@ namespace RealEstate.Controllers
           return BadRequest(new { message = ex.Message });
         }
       }
+
+
+    //[HttpPut("edit/{id}")]
+    //public async Task<IActionResult> EditProperty(int id, [FromForm] PropertyViewModel dataToSend)
+    //{
+    //  try
+    //  {
+    //    var property = await _context.Properties.FindAsync(id);
+    //    if (property == null)
+    //    {
+    //      return NotFound(new { message = "Property not found" });
+    //    }
+
+    //    // Update property fields
+    //    property.Title = dataToSend.Title;
+    //    property.PropertyFor = dataToSend.PropertyFor;
+    //    property.TypeId = dataToSend.TypeId;
+    //    property.StateId = dataToSend.StateId;
+    //    property.CityId = dataToSend.CityId;
+    //    property.Locality = dataToSend.Locality;
+    //    property.Description = dataToSend.Description;
+    //    property.Address = dataToSend.Address;
+    //    property.Email = dataToSend.Email;
+    //    property.PhoneNo = dataToSend.PhoneNo;
+    //    property.Pincode = dataToSend.Pincode;
+    //    property.CornerPlot = dataToSend.CornerPlot ?? false;
+    //    property.BuilderId = dataToSend.BuilderId;
+
+    //    if (!string.IsNullOrEmpty(dataToSend.Title))
+    //    {
+    //      property.Slug = await GenerateSlug(dataToSend.Title);
+    //    }
+
+    //    _context.Properties.Update(property);
+    //    await _context.SaveChangesAsync();
+
+    //    return Ok(new { updatedProperty = property, message = "Property has been successfully updated." });
+    //  }
+    //  catch (Exception ex)
+    //  {
+    //    return BadRequest(new { message = ex.Message });
+    //  }
+    //}
 
 
     [HttpPut("edit/{id}")]

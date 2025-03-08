@@ -73,15 +73,22 @@ getRoleDDList(){
     return this.http.get<any>(environment.BASE_URL + '/property/getSingleProperty/' + propertySlug);
   }
 
-  filterProperties(param = '') {    
-    return this.http.get<any>(environment.BASE_URL + '/property/filter' + param);
-  }
+  // filterProperties(param = '') {    
+  //   return this.http.get<any>(environment.BASE_URL + '/property/filter' + param);
+  // }
 
-  editProperty(dataToSend: any, id: number) {
+  filterProperties(params: any) {
+    return this.http.get(`${environment.BASE_URL}/Property/filterProperties`, { params });
+  }  
+
+  // filterProperties(param = '') {    
+  //   // return this.http.get<any>(environment.BASE_URL + '/property/filter' + param);
+  //   return this.http.get<any>(`${environment.BASE_URL}/property/filterProperties` + param);
+  // }
+  editProperty(dataToSend: FormData, id: number) {
     const url = `${environment.BASE_URL}/property/edit/${id}`;
     return this.http.put(url, dataToSend);
   }
-
   deleteProperty(id: any): Observable<any> {
     return this.http.delete(`${environment.BASE_URL}/property/deleteProperty/${id}`);
   }

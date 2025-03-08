@@ -81,7 +81,7 @@ for:[null]
   getPropertyList(){
     const data={
      city:this.form.get('city').value || '',
-     type:this.form.get('type').value || '',
+     type:Number(this.form.get('type').value) || null,
      propertyFor:this.form.get('for').value || '',
      searchText:this.form.get('searchText').value || '', 
      page:this.page,

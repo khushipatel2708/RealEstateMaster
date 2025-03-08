@@ -19,9 +19,9 @@
             <div class="col-md-2 pl-1 pr-0">
                 <div class="form-group">
                   <label for="city">City:</label>
-                  <select id="city" formControlName="city" required class="custom-select">
+                  <select id="cityId" formControlName="city" required class="custom-select">
                     <option value="">Select City</option>
-                    <option *ngFor="let city of cityList" value="{{city._id}}">{{city.name}}</option>
+                    <option *ngFor="let city of cityList" value="{{city.id}}">{{city.name}}</option>
                   </select>
                 </div>
               </div>
@@ -30,7 +30,7 @@
                   <label for="type">Type:</label>
                   <select id="type" formControlName="type" required class="custom-select">
                     <option value="">Select Type</option>
-                    <option *ngFor="let type of propertyTypeList" value="{{type._id}}">{{type.title}}</option>
+                    <option *ngFor="let type of propertyTypeList" value="{{type.id}}">{{type.title}}</option>
                   </select>
                 </div>
               </div>
@@ -69,10 +69,10 @@
                   <td>{{i + 1}}</td>
                   <td>{{item.description}}</td>
                   <td>{{item.title}}</td>
-                  <td>{{item.city?.name}}</td>
+                  <td>{{item.city}}</td>
                   <td>{{item.locality}}</td>
                   <td>{{item.propertyFor}}</td>
-                  <td>{{item.type?.title}}</td>
+                  <td>{{item.type}}</td>
                   <td>{{item.status}}</td>
                   <td>
                     <a class="info p-0" [routerLink]="'/property/view/' + item.slug"> 
@@ -81,7 +81,7 @@
                     <a class="info p-0" (click)="onAddEdit(item.slug)"> 
                     <i class="bi bi-pencil-square text-info font-medium-3 mr-2"></i>
                   </a>
-                  <a class="danger p-0" (click)="onDelete(item._id)">
+                  <a class="danger p-0" (click)="onDelete(item.id)">
                     <i class="bi bi-trash text-danger font-medium-3"></i>
                   </a>
                 </td>

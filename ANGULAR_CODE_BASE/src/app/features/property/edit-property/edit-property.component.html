@@ -23,7 +23,7 @@
           <label for="">Builder: </label>
           <select name="builder" formControlName="builder" required class="custom-select">
               <option value="">Select builder</option>
-              <option *ngFor="let builder of builderList" value="{{builder._id}}">{{builder.fname}}</option>
+              <option *ngFor="let builder of builderList" value="{{builder.id}}">{{builder.fname}}</option>
             </select>
             <small class="form-text text-muted danger" *ngIf="isSubmittingForm && f.builder.invalid">
               <span *ngIf="f.builder.errors.required">Builder is required.</span>
@@ -50,7 +50,7 @@
             <option value="">Select Property Type</option>
             <!-- <option *ngFor="let property of propertyTypeList" value="{{property._id}}"
               [selected]="propertyDetail.type['_id']">{{property.title}}</option> -->
-            <option *ngFor="let property of propertyTypeList" value="{{property._id}}">{{property.title}}</option>
+            <option *ngFor="let property of propertyTypeList" value="{{property.id}}">{{property.title}}</option>
       </select>
       <small class="form-text text-muted danger" *ngIf="isSubmittingForm && f.type.invalid">
         <span *ngIf="f.type.errors.required">Type is required.</span>
@@ -60,9 +60,9 @@
         <div class="col-2 ">
           <label class="label-control" for="cornerPlot">Corner Plot?</label>
           <div class="custom-control custom-checkbox" >
-            <input class="custom-control-input" formControlName="cornerPlot" id="cornrPlot" value="true"
-              id="cornrPlotId" type="checkbox">
-            <label class="custom-control-label" for="cornrPlotId">Yes</label>
+            <input class="custom-control-input" formControlName="cornerPlot" id="cornerPlot" value="true"
+              id="cornerPlot" type="checkbox">
+            <label class="custom-control-label" for="cornerPlot">Yes</label>
           </div>
         </div>
         </div>
@@ -77,7 +77,7 @@
           <option value="">Select State</option>
           <!-- <option *ngFor="let state of stateList" [selected]="propertyDetail.state._id" value="{{state._id}}">
             {{state.name}}</option> -->
-            <option *ngFor="let state of stateList" value="{{state._id}}">{{state.name}}</option>
+            <option *ngFor="let state of stateList" value="{{state.id}}">{{state.name}}</option>
         </select>
         <small class="form-text text-muted danger" *ngIf="isSubmittingForm && f.state.invalid">
             <span *ngIf="f.state.errors.required">State is required.</span>
@@ -87,7 +87,7 @@
       <label for="city">City: <small *ngIf="FetchingCityList"><i class="fa fa-refresh fa-spin fa-fw"></i></small></label>
       <select id="city" formControlName="city" required class="custom-select">
         <option value="">Select City</option>
-        <option *ngFor="let city of cityList" value="{{city._id}}">{{city.name}}
+        <option *ngFor="let city of cityList" value="{{city.id}}">{{city.name}}
         </option>
       </select>
       <small class="form-text text-muted danger" *ngIf="isSubmittingForm && f.city.invalid">
