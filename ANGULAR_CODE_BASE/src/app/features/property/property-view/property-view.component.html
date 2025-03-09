@@ -133,9 +133,9 @@
     </div>
   </div>
 </div> -->
-<div class="container mt-4">
+<!-- <div class="container mt-4"> -->
   <!-- Property Images Table -->
-  <div class="card shadow-sm mb-4">
+  <!-- <div class="card shadow-sm mb-4">
     <div class="card-body">
       <h4 class="mb-3 text-primary">Property Images</h4>
       <table class="table table-bordered">
@@ -150,7 +150,7 @@
         </tbody>
       </table>
     </div>
-  </div>
+  </div> -->
   <!-- <div class="card shadow-sm mb-4">
   <div class="card-body">
     <h4 class="mb-3 text-primary">Property Images</h4>
@@ -170,7 +170,7 @@
 
 
   <!-- Property Details Table -->
-  <div class="card shadow-sm">
+  <!-- <div class="card shadow-sm">
     <div class="card-body">
       <h4 class="mb-3 text-primary">Property Details</h4>
       <table class="table table-bordered">
@@ -208,12 +208,125 @@
             <th>Flat No</th>
             <td>{{propertyDetail?.flatNo}}</td>
           </tr>
-          <!-- <tr>
+          <tr>
             <th>Builder</th>
             <td>{{propertyDetail?.builder?.id}}</td>
-          </tr> -->
+          </tr>
         </tbody>
       </table>
     </div>
+  </div> -->
+<!-- </div> -->
+
+<div class="container mt-4">
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h3 class="mb-3 text-primary fw-bold">
+        <i class="bi bi-images"></i> Property Images
+      </h3>
+      <div class="row g-3">
+        <div class="col-md-3 col-sm-6" *ngFor="let img of imageDetail">
+          <div class="border rounded p-2 text-center shadow-sm">
+            <img [src]="img?.filename ? env.BASE_URL + '/property/showGFSImage/' + img.filename : '/assets/images/property-no-image.png'"
+                 class="img-fluid rounded shadow-sm"
+                 alt="Property Image">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h3 class="mb-3 text-primary fw-bold">
+        <i class="bi bi-file-earmark-text"></i> Property Details
+      </h3>
+      <div class="row g-3">
+        <!-- Property Name -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-building me-1"></i> Property Name</strong>
+            <p class="mt-3 ml-4 text-muted">{{propertyDetail?.title}}</p>
+          </div>
+        </div>
+
+        <!-- Property Slug -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-link-45deg me-1"></i> Property Slug</strong>
+            <p class="mt-3 ml-4 text-muted">{{propertyDetail?.slug}}</p>
+          </div>
+        </div>
+
+        <!-- Property Type -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-houses me-1"></i> Property Type</strong>
+            <p class="mt-3 ml-4 text-muted">{{propertyDetail?.type}}</p>
+          </div>
+        </div>
+
+        <!-- State -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-map me-1"></i> State</strong>
+            <p class="mt-3 ml-4 text-muted">{{propertyDetail?.state}}</p>
+          </div>
+        </div>
+
+        <!-- City -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-geo-alt me-1"></i> City</strong>
+            <p class="mt-3 ml-4 text-muted">{{propertyDetail?.city}}</p>
+          </div>
+        </div>
+
+        <!-- Locality -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-geo-fill me-1"></i> Locality</strong>
+            <p class="mt-3 ml-4 text-muted">{{propertyDetail?.locality}}</p>
+          </div>
+        </div>
+
+        <!-- Property For -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-key me-1"></i> Property For</strong>
+            <p class="mt-3 ml-4">
+              <span class="badge bg-success">{{propertyDetail?.propertyFor}}</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-info-circle"></i> Status</strong>
+            <p class="mt-3 ml-4">
+              <span class="badge bg-primary">{{propertyDetail?.status}}</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Society Name -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-building"></i> Society Name</strong>
+            <p class="mt-3 ml-4 text-muted">{{propertyDetail?.societyName}}</p>
+          </div>
+        </div>
+
+        <!-- Flat No -->
+        <div class="col-md-6">
+          <div class="border rounded p-3 shadow-sm">
+            <strong><i class="bi bi-door-closed me-1"></i> Flat No</strong>
+            <p class="mt-3 ml-4 text-muted">{{propertyDetail?.flatNo}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
