@@ -8,14 +8,9 @@
     <div class="card p-4 shadow-lg">
       <div class="card-body">
         <form [formGroup]="form">
-          <!-- <div class="sub-header">
-            <h3 class="mt-1 text-left"><i class="bi bi-gear-fill mr-1"></i>Role</h3>
-            <hr class="mt-0">
-          </div> -->
           <div class="row align-items-center">
             <!-- Search Input -->
             <div class="col-md-4">
-              <label for="search">Search</label>
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -28,7 +23,7 @@
             </div>
 
             <!-- Filter and Cancel Buttons -->
-            <div class="col-md-6">
+            <div class="col-md-6 mb-4">
               <button type="button" class="btn btn-warning btn-sm mr-1" (click)="onClick_filter()">
                 <i class="bi bi-search me-1"></i>Filter</button>
               <button type="button" class="btn btn-secondary btn-sm" (click)="onClear_Filter()">
@@ -36,7 +31,7 @@
             </div>
 
             <!-- Add New Button -->
-            <div class="col-md-2 text-md-right">
+            <div class="col-md-2 text-md-right mb-4">
               <button type="button" class="btn btn-primary btn-sm" (click)="onAddEdit()">
                 <i class="fa fa-plus btn-icon-prepend"></i> Add New
               </button>

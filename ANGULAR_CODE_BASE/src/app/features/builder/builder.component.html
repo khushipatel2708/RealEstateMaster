@@ -2,36 +2,34 @@
 </div>
 <div class="row">
   <div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
+    <div class="card p-4 shadow-lg">
       <div class="card-body">
         <form  [formGroup]="form">
-          <div class="sub-header">
-            <h3 class="mt-1 text-left"><i class="fa-solid bi bi-person-fill mr-1"></i>Builder</h3>
-            <hr class="mt-0">
-          </div>
           <div class="row align-items-center">
             <!-- Search Input -->
             <div class="col-md-4">
-              <label for="search">Search</label>
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="bi bi-search"></i> </span>
                   </div>
-                  <input type="text" formControlName="searchText" class="form-control" placeholder="search" aria-label="Username" aria-describedby="basic-addon1">
+                  <input type="text" formControlName="searchText" class="form-control form-control-sm" placeholder="search"
+                    aria-label="Username" aria-describedby="basic-addon1">
                 </div>
               </div>
             </div>
 
             <!-- Filter and Cancel Buttons -->
-            <div class="col-md-3">
-              <button type="submit" class="btn btn-warning mr-1" (click)="onClick_fiter()">Filter</button>
-              <button type="reset" class="btn btn-secondary" (click)="onClear_Filter()">Cancel</button>
+            <div class="col-md-3 mb-4">
+              <button type="submit" class="btn btn-sm btn-warning mr-1" (click)="onClick_fiter()">
+                <i class="bi bi-search me-1"></i>Filter</button>
+              <button type="reset" class="btn btn-sm btn-secondary" (click)="onClear_Filter()">
+                <i class="bi bi-x-lg me-1 btn-icon-prepend"></i>Cancel</button>
             </div>
 
             <!-- Add New Button -->
-            <div class="col-md-5 text-md-right">
-              <button type="button" class="btn btn-primary" (click)="onAddEdit()">
+            <div class="col-md-5 text-md-right mb-4">
+              <button type="button" class="btn btn-primary btn-sm" (click)="onAddEdit()">
                 <i class="fa fa-plus btn-icon-prepend"></i> Add New
               </button>
             </div>
