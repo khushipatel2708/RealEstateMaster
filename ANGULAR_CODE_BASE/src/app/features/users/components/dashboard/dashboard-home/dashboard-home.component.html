@@ -1,5 +1,146 @@
-<!-- <div class="container mt-4"> -->
-  <!-- <h4 class="text-danger">Your recent Postings:</h4> -->
-  <!-- <app-propertylist [blockView]="true" [blockSize]="4" [queryParams]="queryParams" ></app-propertylist> -->
-  <!-- [listType]="5abbc4bd5536e81408846d6d" -->
-<!-- </div> -->
+<!-- <div class="container mt-4">
+  <h4 class="text-danger">Your recent Postings:</h4>
+  <app-propertylist [blockView]="true" [blockSize]="4" [queryParams]="queryParams" ></app-propertylist>
+  [listType]="5abbc4bd5536e81408846d6d"
+</div> -->
+<div class="card shadow-lg p-5">
+
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- <div class="col-md-9">
+        <h3 class="text-success mb-3 fw-bold"><i class="bi bi-building"></i> Available Properties</h3>
+
+        <div class="row">
+          <div class="col-md-4 mb-4" *ngFor="let item of propertyList?.data; let i = index">
+            <div class="card shadow-lg border-0 rounded h-100">
+              <div class="card-body">
+                <h3 class="card-title text-primary">
+                  <i class="bi bi-house-door"></i> {{ item.title }}
+                </h3>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="mb-1"><strong>City:</strong></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="mb-1">{{ item.city }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="mb-1"><strong>Price:</strong></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="mb-1">{{ item.price }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <p class="mb-1"><strong>State:</strong></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="mb-1">{{ item.state }}</p>
+                  </div>
+                </div> -->
+      <!-- <div class="row">
+                  <div class="col-md-6">
+                    <p class="mb-1"><strong>Type:</strong></p>
+                  </div>
+                  <div class="col-md-6">
+                    <p class="mb-1">{{ item.type }}</p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <button class="btn btn-sm text-end"
+                    [ngClass]="item.status === 'sold' ? 'btn-secondary' : 'btn-danger'"
+                    (click)="markAsSold(item.slug)" [disabled]="item.status === 'sold'">
+                    <i class="bi bi-check-circle"></i>
+                    {{ item.status === 'sold' ? 'Sold Out' : 'Sold' }}
+                  </button>
+                  </div>
+                  <div class="col-md-6">
+                    <button class="btn btn-sm btn-primary text-end" [routerLink]="'/property/view/' + item.slug">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  </div>
+                  <div class="col-md-6">
+                    <button class="btn btn-sm btn-danger text-end" (click)="markAsSold(item.slug)">
+                      <i class="bi bi-check-circle"></i> Sold
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="propertyList?.data?.length === 0" class="text-center mt-5">
+          <i class="bi bi-exclamation-triangle text-danger"></i>
+          <p class="text-muted">No properties found. Try changing the filter.</p>
+        </div>
+      </div> -->
+      <div class="col-md-12 ">
+        <h3 class="text-success mb-5 fw-bold">
+          <i class="bi bi-building"></i> Available Properties
+        </h3>
+
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+          <div class="col" *ngFor="let item of propertyList?.data; let i = index">
+            <div class="card shadow-sm border-0 rounded h-100 property-card">
+              <div class="image-wrapper">
+                <img [src]="item.image ? item.image : '/assets/images/propert1.jpg'"
+                  class="card-img-top img-fluid property-image" alt="Property Image" />
+              </div>
+              <div class="card-body">
+                <h5 class="card-title text-primary text-center">
+                  <i class="bi bi-house-door"></i> {{ item.title }}
+                </h5>
+                <div class="row mb-2">
+                  <div class="col-6">
+                    <p class="mb-1"><strong>City:</strong></p>
+                  </div>
+                  <div class="col-6">
+                    <p class="mb-1">{{ item.city }}</p>
+                  </div>
+                </div>
+                <div class="row mb-2">
+                  <div class="col-6">
+                    <p class="mb-1"><strong>Price:</strong></p>
+                  </div>
+                  <div class="col-6">
+                    <p class="mb-1">{{ item.price | currency:'INR':'symbol':'1.0-0' }}</p>
+                  </div>
+                </div>
+                <div class="row mt-3">
+                  <!-- <div class="col-6">
+                    <button class="btn btn-sm w-100" [ngClass]="item.status === 'sold' ? 'btn-secondary' : 'btn-danger'"
+                      (click)="markAsSold(item.slug)" [disabled]="item.status === 'sold'">
+                      <i class="bi" [ngClass]="item.status === 'sold' ? 'bi-x-circle' : 'bi-check-circle'"></i>
+                      {{ item.status === 'sold' ? 'Sold Out' : 'Sold' }}
+                    </button>
+                  </div> -->
+                  <div class="col-6">
+                    <button class="btn btn-sm btn-primary w-100" [routerLink]="'/property/view/' + item.slug">
+                      <i class="bi bi-eye"></i> View
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- If no property found -->
+        <div *ngIf="propertyList?.data?.length === 0" class="text-center mt-5">
+          <i class="bi bi-exclamation-triangle text-danger"></i>
+          <p class="text-muted">No properties found. Try changing the filter.</p>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+
+</div>

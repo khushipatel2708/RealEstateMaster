@@ -1,0 +1,66 @@
+.property-card {
+    transition: all 0.3s ease-in-out;
+    border: none;
+    overflow: hidden;
+    background-color: #ffffff;
+  }
+  
+  .property-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Property Image Size */
+  .property-image {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  /* Button Effects */
+  button {
+    transition: all 0.3s;
+  }
+  
+  button:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Mark as Sold Button */
+  .btn-danger {
+    background-color: #dc3545;
+    border: none;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+  }
+  
+  /* Card Title */
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Grid Adjustment */
+  .row-cols-md-3 > .col {
+    flex: 0 0 32%;
+    max-width: 32%;
+  }
+  
+  /* Responsive Behavior */
+  @media (max-width: 768px) {
+    .row-cols-md-3 > .col {
+      flex: 0 0 48%;
+      max-width: 48%;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .row-cols-md-3 > .col {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  

@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../../common/services/user.service';
+import { CommonService } from 'app/common/services/common.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+declare const Swal:any;
 
 @Component({
   selector: 'app-dashboard-home',
@@ -8,15 +13,170 @@ import { UserService } from '../../../../../common/services/user.service';
 })
 export class DashboardHomeComponent implements OnInit {
 
-  constructor(
-    private userService: UserService,
-    // private commonService: CommonService
-  ) { }
+  propertyList: any = { data: [], totalCount: 0 }; 
+    cityList: any[] = [];
+    propertyTypeList: any[] = [];
+    form: FormGroup;
+    totalRecord = 0;
+    page = 1;
+    pageSize = 20;
+  
+    // ✅ Add Property For Dropdown Data
+    propertyFor = [
+      { value: 'sell', name: 'sell' },
+      { value: 'rent', name: 'Rent' }
+    ];
+  
+    pageSizeList = [
+      { pageSize: 10, name: "10 items per page" },
+      { pageSize: 20, name: "20 items per page" },
+      { pageSize: 50, name: "50 items per page" },
+      { pageSize: 100, name: "100 items per page" },
+      { pageSize: 500, name: "500 items per page" },
+      { pageSize: 1000, name: "1000 items per page" },
+      { pageSize: 100000, name: "All items" },
+    ];
+  
+    constructor(
+      public commonService: CommonService,
+      private formBuilder: FormBuilder,
+      private router: Router,
+      private toastr: ToastrService
+    ) { }
+  
+    ngOnInit() {
+      this.form = this.formBuilder.group({
+        searchText: [null],
+        city: [null],
+        type: [null],
+        for: [null] // ✅ Added Property For Field
+      });
+      this.getCityList();
+      this.getPropertyList();
+      this.getPropertyTypeList();
+    }
+  
+    getPropertyTypeList() {
+      this.commonService.getPropertyTypeList()
+        .subscribe(result => {
+          this.propertyTypeList = result;
+        });
+    }
+  
+    getCityList() {
+      this.commonService.getCitylist().subscribe((response) => {
+        if (response.length > 0) {
+          this.cityList = response;
+        }
+      });
+    }
+  
+    getPropertyList() {
+      const data = {
+        city: this.form.get('city').value || '',
+        type: Number(this.form.get('type').value) || null,
+        propertyFor: this.form.get('for').value || '', // ✅ Pass Property For
+        searchText: this.form.get('searchText').value || '',
+        page: this.page,
+        pageSize: Number(this.pageSize),
+      }
+  
+      this.commonService.getPropertyList(data).subscribe((result: any) => {
+        if (result) this.propertyList = result;
+        this.totalRecord = result.totalCount;
+        this.toastr.success("Data loaded successfully.");
+      },
+        (err) => this.toastr.error("Failed to get data."));
+    }
+  
+    // markAsSold(propertySlug: string) {
+    //   const request = { status: 'sold' };
+    //   this.commonService.markAsSold(propertySlug, request).subscribe(
+    //     (response: any) => {
+    //       this.toastr.success(response.message);
+    //       this.getPropertyList();
+    //     },
+    //     (error) => this.toastr.error(error.message || "Failed to mark property as sold.")
+    //   );
+    // }
+   
+    // markAsSold(propertySlug: string) {
+    //   const status = 'sold'; // Just pass the status as a string
+    //   console.log('Sending request:', status, 'to slug:', propertySlug); // Debug log
+    //   this.commonService.markAsSold(propertySlug, status).subscribe(
+    //     (response: any) => {
+    //       console.log('API response:', response); // Debug log
+    //       // this.toastr.success(response.message);
+    //       alert("submit")
+    //       this.getPropertyList();
+    //     },
+    //     (error) => {
+    //       console.error('API error:', error); // Debug log
+    //       this.toastr.error(error.message || "Failed to mark property as sold.");
+    //     }
+    //   );
+    // }
+    // markAsSold(propertySlug: string) {
+    //   const status = 'sold'; // ✅ Pass the status as a string
+    //   this.commonService.markAsSold(propertySlug, status).subscribe(
+    //     (response: any) => {
+    //       this.toastr.success('Property successfully marked as sold!');
+    
+    //       // ✅ Update the local property list right away
+    //       const property = this.propertyList.data.find((p: any) => p.slug === propertySlug);
+    //       if (property) {
+    //         property.status = 'sold';
+    //       }
+    //     },
+    //     (error) => {
+    //       this.toastr.error(error.message || "Failed to mark property as sold.");
+    //     }
+    //   );
+    // }
 
-  // queryParams = '?userId='+this.userService.currentUser.user._id;
+markAsSold(propertySlug: string) {
+  const status = 'sold';
 
-  ngOnInit() {
-    // this.commonService.togglePageLoaderFn(false);
-  }
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'Do you really want to mark this property as sold?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, mark as sold!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.commonService.markAsSold(propertySlug, status).subscribe(
+        (response: any) => {
+          this.toastr.success('Property successfully marked as sold!');
 
+          const property = this.propertyList.data.find((p: any) => p.slug === propertySlug);
+          if (property) {
+            property.status = 'sold';
+          }
+
+          Swal.fire({
+            title: 'Marked as Sold!',
+            text: 'The property has been successfully marked as sold.',
+            icon: 'success'
+          });
+        },
+        (error) => {
+          this.toastr.error(error.message || "Failed to mark property as sold.");
+        }
+      );
+    }
+  });
 }
+
+    
+    
+    
+    
+    
+    
+    
+    
+  }
+  
