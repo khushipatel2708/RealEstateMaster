@@ -116,59 +116,43 @@ export class DashboardHomeComponent implements OnInit {
     //     }
     //   );
     // }
-    // markAsSold(propertySlug: string) {
-    //   const status = 'sold'; // ✅ Pass the status as a string
-    //   this.commonService.markAsSold(propertySlug, status).subscribe(
-    //     (response: any) => {
-    //       this.toastr.success('Property successfully marked as sold!');
     
-    //       // ✅ Update the local property list right away
-    //       const property = this.propertyList.data.find((p: any) => p.slug === propertySlug);
-    //       if (property) {
-    //         property.status = 'sold';
-    //       }
-    //     },
-    //     (error) => {
-    //       this.toastr.error(error.message || "Failed to mark property as sold.");
-    //     }
-    //   );
-    // }
 
-markAsSold(propertySlug: string) {
-  const status = 'sold';
+// markAsSold(propertySlug: string) {
+//   const status = 'sold';
 
-  Swal.fire({
-    title: 'Are you sure?',
-    text: 'Do you really want to mark this property as sold?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, mark as sold!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.commonService.markAsSold(propertySlug, status).subscribe(
-        (response: any) => {
-          this.toastr.success('Property successfully marked as sold!');
+//   Swal.fire({
+//     title: 'Are you sure?',
+//     text: 'Do you really want to mark this property as sold?',
+//     icon: 'warning',
+//     showCancelButton: true,
+//     confirmButtonColor: '#3085d6',
+//     cancelButtonColor: '#d33',
+//     confirmButtonText: 'Yes, mark as sold!'
+//   }).then((result) => {
+//     if (result.isConfirmed) {
+//       this.commonService.markAsSold(propertySlug, status).subscribe(
+//         (response: any) => {
+//           this.toastr.success('Property successfully marked as sold!');
 
-          const property = this.propertyList.data.find((p: any) => p.slug === propertySlug);
-          if (property) {
-            property.status = 'sold';
-          }
+//           const property = this.propertyList.data.find((p: any) => p.slug === propertySlug);
+//           if (property) {
+//             property.status = 'sold';
+//           }
 
-          Swal.fire({
-            title: 'Marked as Sold!',
-            text: 'The property has been successfully marked as sold.',
-            icon: 'success'
-          });
-        },
-        (error) => {
-          this.toastr.error(error.message || "Failed to mark property as sold.");
-        }
-      );
-    }
-  });
-}
+//           Swal.fire({
+//             title: 'Marked as Sold!',
+//             text: 'The property has been successfully marked as sold.',
+//             icon: 'success'
+//           });
+//         },
+//         (error) => {
+//           this.toastr.error(error.message || "Failed to mark property as sold.");
+//         }
+//       );
+//     }
+//   });
+// }
 
     
     
