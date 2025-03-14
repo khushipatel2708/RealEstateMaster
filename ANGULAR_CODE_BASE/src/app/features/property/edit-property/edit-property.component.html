@@ -1,7 +1,20 @@
-<h3 class="container text-center text-danger">
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" [fullScreen]="true">
+  <div class="clock-spinner">
+      <div class="text-white" style="margin-top:120%;">Loading...</div>
+    </div>
+  </ngx-spinner>
+  <!-- <button (click)="locationBack()" class="btn btn-secondary btn-sm">Back</button> -->
+  <div class="row">
+    <div class="col text-end">
+      <button (click)="locationBack()" class="btn btn-secondary btn-sm d-flex align-items-end">
+        <i class="bi bi-arrow-left fs-9 me-2"></i> Back
+      </button>
+    </div>
+  </div>
+<!-- <h3 class="container text-center text-danger">
   <button (click)="locationBack()" class="float-left btn btn-secondary btn-sm mt-2 mb-2">Back</button>
   <span>Edit Property-</span>
-</h3>
+</h3> -->
 <div class="container border-main border-box-manage mt-4">
   <form [formGroup]="form" (ngSubmit)="submitForm()">
     <h4>Property Info- </h4>

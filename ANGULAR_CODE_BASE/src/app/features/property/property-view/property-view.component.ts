@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../../common/services/common.service';
 import { environment } from 'environments/environment';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-property-view',
@@ -12,7 +13,8 @@ export class PropertyViewComponent implements OnInit {
 
 constructor(
   private activatedRoute: ActivatedRoute,
-  private commonService: CommonService
+  private commonService: CommonService,
+    private spinner: NgxSpinnerService,
 ) { }
 
 propertyDetail = {
@@ -57,15 +59,18 @@ imageDetail: any[] = []; // Ensure it's always an array
 // }
 
 getProperty(propertySlug: string) {
+  this.spinner.show();
   this.commonService.togglePageLoaderFn(true);
   this.commonService.getSingleProperty(propertySlug)
     .subscribe(result => {
+      this.spinner.hide()
       console.log(result); 
       this.propertyDetail = result['result'];
       this.imageDetail = result['result'].files || []; // Now files contain full URLs
       console.log(this.imageDetail);
     },
     (err) => {
+      this.spinner.hide()
       console.log({ err });
       this.commonService.togglePageLoaderFn(false);
     },

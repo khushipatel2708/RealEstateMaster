@@ -5,6 +5,8 @@ import { CommonService } from '../../../common/services/common.service';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-property-new',
@@ -17,7 +19,9 @@ export class PropertyNewComponent implements OnInit {
     public userService: UserService,
     private http: HttpClient,
     private router: Router,
-    // private toastr:ToastrService
+    private toastr:ToastrService,
+    private spinner: NgxSpinnerService,
+    
   ) { 
     this.getPropertyTypeList();
     // this.getstateList();
@@ -32,6 +36,7 @@ export class PropertyNewComponent implements OnInit {
   imgsToUpload = [];
   isSubmittingForm: Boolean = false;
   builderList:any[]=[];
+  
 
   getPropertyTypeList() {
      this.commonService.togglePageLoaderFn(true);
@@ -175,8 +180,9 @@ export class PropertyNewComponent implements OnInit {
     
   // }
 
-submitForm(data) {
+  submitForm(data) {
     this.isSubmittingForm = true;
+    this.spinner.show(); // Show spinner when form submission starts
     this.userService.getCurrentUserDetail.subscribe({
       next: (userDetail) => {
         console.log('Fetched user detail:', userDetail); // Debug log
@@ -199,9 +205,10 @@ submitForm(data) {
           this.http.post<any>(`${environment.BASE_URL}/property/new`, imageData)
             .subscribe({
               next: (result) => {
+                this.spinner.hide();
                 let message = result?.message || 'Property added successfully.';
                 this.commonService.changeHeaderMessage({ type: 'success', message });
-                alert(message);
+                this.toastr.success(message); // Changed alert to toastr
                 this.router.navigate(['/property/list']); // Redirecting to the list page
               },
               error: (err) => {
@@ -210,18 +217,22 @@ submitForm(data) {
                 this.commonService.changeHeaderMessage({ type: 'danger', message: errMessage });
               },
               complete: () => {
+                this.spinner.hide(); // Hide spinner after form submission completes
                 this.commonService.togglePageLoaderFn(false);
               }
             });
         } else {
           console.error('User details are missing');
+          this.spinner.hide(); // Ensure spinner is hidden if user details are missing
         }
       },
       error: (err) => {
         console.error('Failed to fetch user details:', err);
+        this.spinner.hide(); // Ensure spinner is hidden if fetching user details fails
       }
     });
 }
+
 
 
 
@@ -300,6 +311,7 @@ submitForm(data) {
           this.stateList = response;
         }
       });
+      
 
   }
 

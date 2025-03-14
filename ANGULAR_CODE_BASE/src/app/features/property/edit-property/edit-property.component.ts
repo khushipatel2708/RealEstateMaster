@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { CommonService } from '../../../common/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-property',
@@ -20,6 +21,7 @@ export class EditPropertyComponent implements OnInit {
     private location: Location,
     public toastr: ToastrService,
     private builder:FormBuilder,
+    private spinner: NgxSpinnerService,
     private router:Router
   ) { }
 
@@ -66,8 +68,10 @@ export class EditPropertyComponent implements OnInit {
   }
   
   getProperty(propertySlug) {
+    this.spinner.show();
     this.commonService.getSingleProperty(propertySlug)
       .subscribe((response: any) => {
+        this.spinner.hide();
         const result = response.result;
         if (result) {
           this.propertyDetail = result;
@@ -93,6 +97,7 @@ export class EditPropertyComponent implements OnInit {
           }
         }
       }, (error) => {
+        this.spinner.hide();
         console.error('Error fetching property:', error);
       });
   }
@@ -204,6 +209,7 @@ submitForm() {
   imageData.append('pincode', this.form.get("pincode").value || '');
   imageData.append('cornerPlot', this.form.get("cornerPlot").value);
   imageData.append('builderId', this.form.get("builder").value || '');
+  this.spinner.show();
 
   this.imgsToUpload.forEach((ele) => {
     imageData.append("propImages", ele, ele.name);
@@ -214,12 +220,14 @@ submitForm() {
   this.commonService.togglePageLoaderFn(true);
   this.commonService.editProperty(imageData, id).subscribe(
     (result) => {
+      this.spinner.hide()
       this.commonService.togglePageLoaderFn(false);
       this.toastr.success("Property edited successfully.");
-      alert("Property edited successfully.");
+      // alert("Property edited successfully.");
       this.router.navigate(['/property/list']);
     },
     (err) => {
+      this.spinner.hide();
       this.commonService.togglePageLoaderFn(false);
       this.toastr.error("Failed to edit property list");
     }
