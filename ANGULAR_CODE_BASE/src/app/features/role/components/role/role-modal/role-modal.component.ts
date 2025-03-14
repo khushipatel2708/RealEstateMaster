@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from 'app/common/services/common.service';
 import { Role } from 'app/features/role/model/role';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 // import { Role } from 'app/administration/models/user';
 
 @Component({
@@ -20,6 +22,8 @@ export class RoleModalComponent implements OnInit {
     private commonService: CommonService,
     private formBuilder: FormBuilder,
     public activeModal: NgbActiveModal,
+    private spinner: NgxSpinnerService,
+        private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -49,8 +53,10 @@ export class RoleModalComponent implements OnInit {
   // }
   getRoleById() {
     console.log('Calling getMenuByMenuId service with menuId:', this.id);
+    this.spinner.show('model')
     this.commonService.getRoleById(this.id).subscribe(
       (result) => {
+        this.spinner.hide('model')
         console.log('Service response:', result);
         if (result) {
           this.form.patchValue({
@@ -59,6 +65,7 @@ export class RoleModalComponent implements OnInit {
         }
       },
       (error) => {
+        this.spinner.hide('model')
         console.error('Service error:', error);
       }
     );
@@ -78,12 +85,14 @@ onSubmit_Form() {
     if (this.id) {
       // Update role
       this.commonService.addEditRole(roleData).subscribe((result) => {
+        this.toastr.success('Role updated successfully', 'Success');
         this.onRole_Emit.emit(true);
         this.activeModal.close();
       });
     } else {
       // Create new role
       this.commonService.addEditRole(roleData).subscribe((result) => {
+        this.toastr.success('Role added successfully', 'Success');
         this.onRole_Emit.emit(true);
         this.activeModal.close();
       });

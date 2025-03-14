@@ -3,6 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RoleModalComponent } from './role-modal/role-modal.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommonService } from 'app/common/services/common.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 declare const Swal: any;
 
 @Component({
@@ -30,7 +32,9 @@ export class RoleComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private commonService: CommonService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -69,14 +73,17 @@ export class RoleComponent implements OnInit {
       page: this.page || 1,  // Default to 1 if undefined
       pageSize: this.pageSize || 10,  // Default to 10 if undefined
     };
-  
+    this.spinner.show();
     // Call the backend service
     this.commonService.getRoleList(filters).subscribe({
       next: (result: any) => {
+        this.spinner.hide();
         this.roleList = result.data;
         this.totalRecord = result.totalCount;
       },
       error: (err) => {
+        this.spinner.hide();
+        this.toastr.error(err,"Failed to get data."),
         console.error('Error fetching roles', err);
       }
     });
@@ -94,13 +101,18 @@ export class RoleComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.commonService.deleterole(id).subscribe({
           next: () => {
-            Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+            this.spinner.hide();
+            Swal.fire('Deleted!', 'Your role has been deleted.', 'success');
+            this.toastr.success('Your role has been deleted successfully!', 'Deleted');
             this.getRoleList();
           },
           error: (err) => {
-            Swal.fire('Error!', 'There was an error deleting the item.', 'error');
+            this.spinner.hide();
+            Swal.fire('Error!', 'There was an error deleting the role.', 'error');
+            this.toastr.error('There was an error deleting the role.', 'Error');
           }
         });
       }

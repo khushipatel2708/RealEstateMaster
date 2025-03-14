@@ -3,6 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Menu1ModalComponent } from './menu1-modal/menu1-modal.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CommonService } from 'app/common/services/common.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
 declare const Swal: any;
 
@@ -31,7 +33,9 @@ export class Menu1Component implements OnInit {
   constructor(
     private modalService: NgbModal,
     private commonService: CommonService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -67,17 +71,22 @@ export class Menu1Component implements OnInit {
       page: this.page || 1, 
       pageSize: this.pageSize || 10,  
     };
+    this.spinner.show();
     this.commonService.getMenu1List(filters)  
       .subscribe({
         next: (result: any) => {
+          this.spinner.hide();
           this.menuList = result.data;
           this.totalRecord = result.totalCount;
         },
         error: (err) => {
+          this.spinner.hide();
+          this.toastr.error(err,"Failed to get data."),
           console.error('Error fetching menus', err);
         }
       });
   }
+
 
   onDelete(menuId: any) {
     Swal.fire({
@@ -90,13 +99,18 @@ export class Menu1Component implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.commonService.deleteMenu(menuId).subscribe({
           next: () => {
-            Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+            this.spinner.hide();
+            Swal.fire('Deleted!', 'Your menu has been deleted.', 'success');
+            this.toastr.success('Your menu has been deleted successfully!', 'Deleted');
             this.getMenuList();  
           },
           error: (err) => {
-            Swal.fire('Error!', 'There was an error deleting the item.', 'error');
+            this.spinner.hide();
+            Swal.fire('Error!', 'There was an error deleting the menu.', 'error');
+            this.toastr.error('There was an error deleting the menu.', 'Error');
           }
         });
       }

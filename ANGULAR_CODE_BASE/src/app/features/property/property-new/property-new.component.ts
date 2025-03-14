@@ -175,45 +175,39 @@ export class PropertyNewComponent implements OnInit {
     
   // }
 
-  submitForm(data) {
+submitForm(data) {
     this.isSubmittingForm = true;
     this.userService.getCurrentUserDetail.subscribe({
       next: (userDetail) => {
         console.log('Fetched user detail:', userDetail); // Debug log
-    
-        if (userDetail && userDetail.id) { // Updated check
+
+        if (userDetail && userDetail.id) {
           data.value.userId = userDetail.id;
           console.log("getCurrentUserDetail", userDetail);
-    
+
           const imageData = new FormData();
           this.imgsToUpload.forEach((ele) => {
             imageData.append("propImages", ele, ele['name']);
           });
-    
+
           for (let key in data.value) {
             imageData.append(key, data.value[key]);
           }
-    
+
           this.commonService.togglePageLoaderFn(true);
-    
+
           this.http.post<any>(`${environment.BASE_URL}/property/new`, imageData)
             .subscribe({
               next: (result) => {
-                let data = result?.result || {};
-                let message = result?.message || '';
-                if (data?.slug) {
-                  this.commonService.changeHeaderMessage({ type: 'success', message });
-                  alert("Property added successfully.");
-                  this.router.navigate([`/property/view/${data.slug}`]);
-                } else {
-                  this.commonService.changeHeaderMessage({ type: 'danger', message: 'Something Went Wrong' });
-                }
+                let message = result?.message || 'Property added successfully.';
+                this.commonService.changeHeaderMessage({ type: 'success', message });
+                alert(message);
+                this.router.navigate(['/property/list']); // Redirecting to the list page
               },
               error: (err) => {
-                let errMessage = err.error?.message || '';
+                let errMessage = err.error?.message || 'Something went wrong!';
                 console.log({ err }, errMessage);
                 this.commonService.changeHeaderMessage({ type: 'danger', message: errMessage });
-                this.commonService.togglePageLoaderFn(false);
               },
               complete: () => {
                 this.commonService.togglePageLoaderFn(false);
@@ -227,7 +221,8 @@ export class PropertyNewComponent implements OnInit {
         console.error('Failed to fetch user details:', err);
       }
     });
-  }
+}
+
 
 
   // submitForm(data) {

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'app/common/services/common.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 declare const Swal:any;
 
@@ -40,7 +41,8 @@ export class PropertyListComponent implements OnInit {
     public commonService: CommonService,
     private formBuilder:FormBuilder,
     private router:Router,
-    private toastr:ToastrService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -87,15 +89,19 @@ for:[null]
      page:this.page,
      pageSize:Number(this.pageSize),
     }
+    this.spinner.show();
   this.commonService.togglePageLoaderFn(true);
   this.commonService.getPropertyList(data).subscribe((result:any) =>{
+    this.spinner.hide();
     if(result) this.propertyList=result;
     this.totalRecord=result.totalCount;
-    this.toastr.success("success");
   },
     (err) => this.toastr.error(err,"Failed to get data."),
-      () => this.commonService.togglePageLoaderFn(false));
-      
+    () => {
+      this.spinner.hide();
+      this.commonService.togglePageLoaderFn(false);
+    }
+  );
 }
 
 onAddEdit(slug:any){
@@ -113,14 +119,18 @@ onDelete(id:any){
     })
     .then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.commonService.deleteProperty(id).subscribe({
           next: () => {
-             Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
-            this.toastr.success("Data deleted successfully.","Success");
+            this.spinner.hide();
+             Swal.fire('Deleted!', 'Your property has been deleted.', 'success');
+             this.toastr.success('Your property has been deleted successfully!', 'Deleted');
             this.getPropertyList();  // Refresh the list after deletion
           },
           error: (err) => {
-            Swal.fire('Error!', 'There was an error deleting the item.', 'error');
+            this.spinner.hide()
+            Swal.fire('Error!', 'There was an error deleting the property.', 'error');
+            this.toastr.error('There was an error deleting the property.', 'Error');
           }
         });
       }

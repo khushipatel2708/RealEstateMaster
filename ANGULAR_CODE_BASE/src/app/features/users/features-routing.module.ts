@@ -25,6 +25,7 @@ const ChildRoutes: Routes = [
     children: [
       {
         path: '',
+        data:{title:'Dashboard',icon:'fa-solid bi bi-layers'},
         component: DashboardHomeComponent
       }
     ],

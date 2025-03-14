@@ -1,8 +1,12 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" [fullScreen]="true">
+  <div class="clock-spinner">
+      <div class="text-white" style="margin-top:120%;">Loading...</div>
+    </div>
+  </ngx-spinner>
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <div class="card">
-        <div class="card-header">
+        <div class="card-body">
           <form [formGroup]="form">
             <div class="row align-items-center">
               <div class="col-md-2 pr-0">
@@ -43,15 +47,13 @@
                   </select>
                 </div>
               </div>
-            <div class="col-md-4 d-flex pl-1">
-                <button type="button" class="btn btn-warning me-1" (click)="onFilter()"><i class="bi bi-search me-1"></i>Filter</button>
-                <button type="button" class="btn btn-secondary me-1" (click)="onClear_Filter()"><i class="bi bi-x"></i>Clear</button>
-                <button type="button" class="btn btn-primary" routerLink="/property/new" style="padding-left: 20px;padding-right: 20px;"><i class="bi bi-plus"></i> Add New</button>
+            <div class="col-md-4 d-flex align-items-center mb-2">
+                <button type="button" class="btn btn-sm btn-warning m-1" (click)="onFilter()"><i class="bi bi-search me-1"></i>Filter</button>
+                <button type="button" class="btn btn-sm btn-secondary m-1" (click)="onClear_Filter()"><i class="bi bi-x"></i>Clear</button>
+                <button type="button" class="btn btn-sm btn-primary m-1" routerLink="/property/new" style="padding-left: 20px;padding-right: 20px;"><i class="bi bi-plus"></i> Add New</button>
               </div>
             </div>
           </form>
-          </div>
-        <div class="card-body">
           <table class="table text-center m-0">
             <thead>
               <tr class="fw-bold">
@@ -62,7 +64,7 @@
                 <th>location</th>
                 <th>PropertyFor</th>
                 <th>PropertyType</th>
-                <th>status</th>
+                <!-- <th>status</th> -->
                 <th>Action</th>
                 </tr>
                 <tr *ngFor="let item of propertyList?.data;let i = index">
@@ -73,13 +75,13 @@
                   <td>{{item.locality}}</td>
                   <td>{{item.propertyFor}}</td>
                   <td>{{item.type}}</td>
-                  <td>{{item.status}}</td>
+                  <!-- <td>{{item.status}}</td> -->
                   <td>
                     <a class="info p-0" [routerLink]="'/property/view/' + item.slug"> 
                       <i class="bi bi-eye text-info font-medium-3 mr-2"></i>
                     </a>
-                    <a class="info p-0" (click)="onAddEdit(item.slug)"> 
-                    <i class="bi bi-pencil-square text-info font-medium-3 mr-2"></i>
+                    <a class="success p-0" (click)="onAddEdit(item.slug)"> 
+                    <i class="bi bi-pencil-square text-success font-medium-3 mr-2"></i>
                   </a>
                   <a class="danger p-0" (click)="onDelete(item.id)">
                     <i class="bi bi-trash text-danger font-medium-3"></i>
@@ -108,7 +110,6 @@
               </select>
             </div>
           </div>
-        </div>
         </div>
     </div>
     </div>

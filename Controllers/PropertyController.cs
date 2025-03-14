@@ -18,6 +18,7 @@ namespace RealEstate.Controllers
     {
       _context = context;
     }
+
     private async Task<string> GenerateSlug(string title)
     {
       if (string.IsNullOrWhiteSpace(title))
@@ -29,6 +30,7 @@ namespace RealEstate.Controllers
 
       return await Task.FromResult($"{slug}-{Guid.NewGuid()}");
     }
+
 
     [HttpPost("new")]
     public async Task<IActionResult> AddNewProperty([FromForm] PropertyViewModel model)
@@ -56,7 +58,8 @@ namespace RealEstate.Controllers
               await file.CopyToAsync(stream);
             }
 
-            images.Add(fileName);
+            var imageUrl = $"/properties/{fileName}";
+            images.Add(imageUrl);
           }
         }
 
@@ -68,8 +71,6 @@ namespace RealEstate.Controllers
           Slug = slug,
           TypeId = model.TypeId,
           CornerPlot = model.CornerPlot ?? false,
-          Images = string.Join(",", images),
-          ImgPath = "properties",
           IsSociety = model.IsSociety,
           FlatNo = model.IsSociety == true ? model.FlatNo : string.Empty,
           SocietyName = model.IsSociety == true ? model.SocietyName : string.Empty,
@@ -91,7 +92,8 @@ namespace RealEstate.Controllers
           Length = model.Length,
           Breadth = model.Breadth,
           BuilderId = model.BuilderId,
-          Version = model.Version
+          Version = model.Version,
+          Images = string.Join(",", images)
         };
 
         _context.Properties.Add(property);
@@ -105,17 +107,22 @@ namespace RealEstate.Controllers
         return BadRequest(new { message = ex.Message });
       }
     }
+
     [HttpPost("propertyList")]
     public async Task<IActionResult> GetPropertyList([FromBody] PropertyFilter filter)
     {
       try
       {
+        var scheme = Request.Scheme;
+        var host = Request.Host.ToString();
+
         var query = from property in _context.Properties
                     join city in _context.Cities on property.CityId equals city.Id
                     join type in _context.PropertyOriginals on property.TypeId equals type.Id
                     select new
                     {
                       property.Id,
+                      property.Price,
                       property.Description,
                       property.Title,
                       city = city.Name,
@@ -124,7 +131,10 @@ namespace RealEstate.Controllers
                       property.PropertyFor,
                       property.TypeId,
                       property.Status,
-                      property.Slug
+                      property.Slug,
+                      property.Images,
+                      property.CityId,
+                      property.UserId
                     };
 
         if (!string.IsNullOrEmpty(filter.PropertyFor))
@@ -135,6 +145,11 @@ namespace RealEstate.Controllers
         if (filter.Type.HasValue && filter.Type > 0)
         {
           query = query.Where(p => p.TypeId == filter.Type.Value);
+        }
+
+        if (filter.CityId.HasValue && filter.CityId > 0)
+        {
+          query = query.Where(p => p.CityId == filter.CityId.Value);
         }
 
         if (!string.IsNullOrEmpty(filter.SearchText))
@@ -153,10 +168,26 @@ namespace RealEstate.Controllers
             .Take(pageSize)
             .ToListAsync();
 
+        var result = properties.Select(p => new
+        {
+          p.Id,
+          p.Price,
+          p.Description,
+          p.Title,
+          p.city,
+          p.type,
+          p.Locality,
+          p.PropertyFor,
+          p.TypeId,
+          p.Status,
+          p.Slug,
+          Images = p.Images?.Split(',').Select(img => $"{scheme}://{host}{img}").ToList()
+        }).ToList();
+
         return Ok(new
         {
           TotalCount = totalCount,
-          Data = properties
+          Data = result
         });
       }
       catch (Exception ex)
@@ -165,152 +196,111 @@ namespace RealEstate.Controllers
       }
     }
 
-    //[HttpPost("propertyList")]
-    //public async Task<IActionResult> GetPropertyList([FromBody] PropertyFilter filter)
+
+
+    //[HttpPost("new")]
+    //public async Task<IActionResult> AddNewProperty([FromForm] PropertyViewModel model)
     //{
-    //  if (filter == null)
+    //  try
     //  {
-    //    return BadRequest(new { message = "Filters cannot be null" });
+    //    var images = new List<string>();
+    //    var directoryPath = Path.Combine("wwwroot", "properties");
+
+    //    // Ensure the directory exists
+    //    if (!Directory.Exists(directoryPath))
+    //    {
+    //      Directory.CreateDirectory(directoryPath);
+    //    }
+
+    //    if (Request.Form.Files.Count > 0)
+    //    {
+    //      foreach (var file in Request.Form.Files)
+    //      {
+    //        var fileName = Path.GetFileName(file.FileName);
+    //        var filePath = Path.Combine(directoryPath, fileName);
+
+    //        using (var stream = new FileStream(filePath, FileMode.Create))
+    //        {
+    //          await file.CopyToAsync(stream);
+    //        }
+
+    //        images.Add(fileName);
+    //      }
+    //    }
+
+    //    var slug = await GenerateSlug(model.Title ?? throw new ArgumentNullException(nameof(model.Title)));
+
+    //    var property = new Property
+    //    {
+    //      Title = model.Title,
+    //      Slug = slug,
+    //      TypeId = model.TypeId,
+    //      CornerPlot = model.CornerPlot ?? false,
+    //      IsSociety = model.IsSociety,
+    //      FlatNo = model.IsSociety == true ? model.FlatNo : string.Empty,
+    //      SocietyName = model.IsSociety == true ? model.SocietyName : string.Empty,
+    //      Address = model.Address,
+    //      CityId = model.CityId,
+    //      StateId = model.StateId,
+    //      Pincode = model.Pincode,
+    //      Locality = model.Locality,
+    //      Description = model.Description,
+    //      Price = model.Price,
+    //      UserId = model.UserId,
+    //      CreatedOn = DateTime.UtcNow,
+    //      UpdatedOn = DateTime.UtcNow,
+    //      PropertyFor = model.PropertyFor,
+    //      Status = model.Status,
+    //      IsActive = model.IsActive ?? true,
+    //      Email = model.Email,
+    //      PhoneNo = model.PhoneNo,
+    //      Length = model.Length,
+    //      Breadth = model.Breadth,
+    //      BuilderId = model.BuilderId,
+    //      Version = model.Version
+    //    };
+
+    //    _context.Properties.Add(property);
+    //    await _context.SaveChangesAsync();
+
+    //    return Ok(new { property, message = "Your property has been successfully posted" });
     //  }
-
-    //  int page = filter.Page > 0 ? filter.Page : 1;
-    //  int pageSize = filter.PageSize > 0 ? filter.PageSize : 20;
-
-    //  if (page < 1 || pageSize < 1)
+    //  catch (Exception ex)
     //  {
-    //    return BadRequest(new { message = "Invalid pagination parameters" });
+    //    Console.WriteLine(ex);
+    //    return BadRequest(new { message = ex.Message });
     //  }
-
-    //  var query = _context.Properties.AsQueryable();
-
-    //  if (!string.IsNullOrEmpty(filter.PropertyFor))
-    //  {
-    //    query = query.Where(p => p.PropertyFor == filter.PropertyFor);
-    //  }
-
-    //  if (filter.Type.HasValue && filter.Type > 0)
-    //  {
-    //    query = query.Where(p => p.TypeId == filter.Type.Value);
-    //  }
-
-    //  if (!string.IsNullOrEmpty(filter.SearchText))
-    //  {
-    //    query = query.Where(p => p.Description.Contains(filter.SearchText) ||
-    //                             p.Title.Contains(filter.SearchText));
-    //  }
-
-    //  var totalCount = await query.CountAsync();
-
-    //  var properties = await query.OrderBy(p => p.Id)
-    //                              .Skip((page - 1) * pageSize)
-    //                              .Take(pageSize)
-    //                              .Select(p => new
-    //                              {
-    //                                p.Id,
-    //                                p.PropertyFor,
-    //                                p.Status,
-    //                                p.IsActive,
-    //                                p.Price,
-    //                                p.Locality,
-    //                                p.SocietyName,
-    //                                p.FlatNo,
-    //                                p.Description,
-    //                                p.Address,
-    //                                p.Email,
-    //                                p.PhoneNo,
-    //                                p.Title,
-    //                                p.UpdatedOn,
-    //                                p.CreatedOn,
-    //                                p.CityId,
-    //                                p.StateId,
-    //                                p.Pincode,
-    //                                p.ImgPath,
-    //                                p.CornerPlot,
-    //                                p.BuilderId,
-    //                                p.Version
-    //                              })
-    //                              .ToListAsync();
-
-    //  return Ok(new { data = properties, totalCount });
     //}
-
-    //[HttpPost("propertyList")]
-    //public async Task<IActionResult> GetPropertyList([FromBody] PropertyFilter filters)
-    //{
-    //  if (filters == null)
-    //  {
-    //    return BadRequest(new { message = "Filters cannot be null" });
-    //  }
-
-    //  int page = filters.Page > 0 ? filters.Page : 1;
-    //  int pageSize = filters.PageSize > 0 ? filters.PageSize : 20;
-
-    //  if (page < 1 || pageSize < 1)
-    //  {
-    //    return BadRequest(new { message = "Invalid pagination parameters" });
-    //  }
-
-    //  var query = _context.Properties.AsQueryable();
-
-    //  if (!string.IsNullOrWhiteSpace(filters.PropertyFor))
-    //  {
-    //    query = query.Where(p => p.PropertyFor == filters.PropertyFor);
-    //  }
-
-    //  if (filters.Type.HasValue && filters.Type > 0)
-    //  {
-    //    query = query.Where(p => p.TypeId == filters.Type.Value);
-    //  }
-
-    //  if (!string.IsNullOrWhiteSpace(filters.SearchText))
-    //  {
-    //    query = query.Where(p => p.Title.Contains(filters.SearchText) ||
-    //                             p.Description.Contains(filters.SearchText) ||
-    //                             p.Locality.Contains(filters.SearchText) ||
-    //                             p.SocietyName.Contains(filters.SearchText));
-    //  }
-
-    //  var totalCount = await query.CountAsync();
-
-    //  var data = await query.Skip((page - 1) * pageSize)
-    //                        .Take(pageSize)
-    //                        .Select(p => new
-    //                        {
-    //                          p.Id,
-    //                          p.Title,
-    //                          p.PropertyFor,
-    //                          p.Price,
-    //                          p.Locality,
-    //                          p.SocietyName,
-    //                          p.ImgPath,
-    //                          p.CreatedOn,
-    //                          p.CityId,
-    //                          p.StateId,
-    //                          p.BuilderId,
-    //                          p.TypeId,
-    //                          p.Description,
-    //                          p.Address,
-    //                          p.Status,
-
-    //                        })
-    //                        .ToListAsync();
-
-    //  return Ok(new { data, totalCount });
-    //}
-
     //[HttpPost("propertyList")]
     //public async Task<IActionResult> GetPropertyList([FromBody] PropertyFilter filter)
     //{
     //  try
     //  {
-    //    var query = _context.Properties.AsQueryable();
+    //    var query = from property in _context.Properties
+    //                join city in _context.Cities on property.CityId equals city.Id
+    //                join type in _context.PropertyOriginals on property.TypeId equals type.Id
+    //                select new
+    //                {
+    //                  property.Id,
+    //                  property.Price,
+    //                  property.Description,
+    //                  property.Title,
+    //                  city = city.Name,
+    //                  type = type.Title,
+    //                  property.Locality,
+    //                  property.PropertyFor,
+    //                  property.TypeId,
+    //                  property.Status,
+    //                  property.Slug,
+    //                  ImageUrl = property.Images
+    //                };
 
     //    if (!string.IsNullOrEmpty(filter.PropertyFor))
     //    {
     //      query = query.Where(p => p.PropertyFor == filter.PropertyFor);
     //    }
 
-    //    if (filter.Type.HasValue && filter.Type > 0) // If Type is nullable int
+    //    if (filter.Type.HasValue && filter.Type > 0)
     //    {
     //      query = query.Where(p => p.TypeId == filter.Type.Value);
     //    }
@@ -343,6 +333,30 @@ namespace RealEstate.Controllers
     //  }
     //}
 
+
+    [HttpPost("markAsSold/{propertySlug}")]
+    public async Task<IActionResult> MarkAsSold(string propertySlug, [FromBody] PropertyUpdateRequest request)
+    {
+      try
+      {
+        var property = await _context.Properties.FirstOrDefaultAsync(p => p.Slug == propertySlug);
+
+        if (property == null)
+        {
+          return NotFound(new { message = "Property not found" });
+        }
+
+        property.Status = request.Status;
+        await _context.SaveChangesAsync();
+
+        return Ok(new { property, message = "Property has been updated successfully" });
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
+    }
+   
     [HttpGet("propertyTypeList")]
     public IActionResult GetActivePropertyTypes()
     {
@@ -392,121 +406,153 @@ namespace RealEstate.Controllers
       }
     }
 
-      [HttpGet("getSingleProperty/{propertySlug}")]
-      public async Task<IActionResult> GetSingleProperty(string propertySlug)
+    [HttpGet("getSingleProperty/{propertySlug}")]
+    public async Task<IActionResult> GetSingleProperty(string propertySlug)
+    {
+      try
       {
-        try
+        var decodedSlug = Uri.UnescapeDataString(propertySlug); // Decode slug
+        var trimmedSlug = decodedSlug.Split('-').TakeWhile(part => !Guid.TryParse(part, out _)).ToList();
+        var cleanSlug = string.Join("-", trimmedSlug);
+
+        var property = await _context.Properties
+            .Include(p => p.City)
+            .Include(p => p.Type)
+            .Include(p => p.State)
+            .Include(p => p.Builder)
+            .Include(p => p.User)
+            .FirstOrDefaultAsync(p => p.Slug.StartsWith(cleanSlug));
+
+        if (property == null)
         {
-          var decodedSlug = Uri.UnescapeDataString(propertySlug); // Decode slug
-          var trimmedSlug = decodedSlug.Split('-').TakeWhile(part => !Guid.TryParse(part, out _)).ToList();
-          var cleanSlug = string.Join("-", trimmedSlug);
-
-          var property = await _context.Properties
-              .Include(p => p.City)
-              .Include(p => p.Type)
-              .Include(p => p.State)
-              .Include(p => p.Builder)
-              .Include(p => p.User)
-              .FirstOrDefaultAsync(p => p.Slug.StartsWith(cleanSlug));
-
-          if (property == null)
-          {
-            return NotFound(new { message = "Property not found" });
-          }
-
-          var files = new List<string>();
-          if (!string.IsNullOrEmpty(property.Images))
-          {
-            files = property.Images.Split(',').ToList();
-          }
-
-          // Creating a simplified response to avoid circular references
-          var result = new
-          {
-            property.Id,
-            property.Title,
-            property.Images,
-            property.Slug,
-            property.Price,
-            property.Description,
-            property.Address,
-            property.Email,
-            property.PhoneNo,
-            property.Pincode,
-            property.Locality,
-            property.CornerPlot,
-            property.SocietyName,
-            property.FlatNo,
-            property.CityId,
-            property.StateId,
-            property.BuilderId,
-            property.TypeId,
-            property.PropertyFor,
-            City = property.City?.Name,
-            State = property.State?.Name,
-            Builder = property.Builder?.Fname,
-            Type=property.Type?.Title,
-            User = new
-            {
-              property.User?.Id,
-              property.User?.Fname,
-              property.User?.Lname,
-              property.User?.Email
-            },
-            files
-          };
-
-          return Ok(new { result });
+          return NotFound(new { message = "Property not found" });
         }
-        catch (Exception ex)
+
+        // Format image URLs properly so the frontend can access them
+        var files = new List<string>();
+        if (!string.IsNullOrEmpty(property.Images))
         {
-          return BadRequest(new { message = ex.Message });
+          files = property.Images.Split(',').Select(img => $"{Request.Scheme}://{Request.Host}{img}").ToList();
         }
+
+        // Creating a simplified response to avoid circular references
+        var result = new
+        {
+          property.Id,
+          property.Title,
+          property.Images,
+          property.Slug,
+          property.Status,
+          property.Price,
+          property.Description,
+          property.Address,
+          property.Email,
+          property.PhoneNo,
+          property.Pincode,
+          property.Locality,
+          property.CornerPlot,
+          property.SocietyName,
+          property.FlatNo,
+          property.CityId,
+          property.StateId,
+          property.BuilderId,
+          property.TypeId,
+          property.PropertyFor,
+          City = property.City?.Name,
+          State = property.State?.Name,
+          Builder = property.Builder?.Fname,
+          Type = property.Type?.Title,
+          User = new
+          {
+            property.User?.Id,
+            property.User?.Fname,
+            property.User?.Lname,
+            property.User?.Email
+          },
+          files // Formatted image URLs
+        };
+
+        return Ok(new { result });
       }
+      catch (Exception ex)
+      {
+        return BadRequest(new { message = ex.Message });
+      }
+    }
 
 
-    //[HttpPut("edit/{id}")]
-    //public async Task<IActionResult> EditProperty(int id, [FromForm] PropertyViewModel dataToSend)
+    //[HttpGet("getSingleProperty/{propertySlug}")]
+    //public async Task<IActionResult> GetSingleProperty(string propertySlug)
     //{
     //  try
     //  {
-    //    var property = await _context.Properties.FindAsync(id);
+    //    var decodedSlug = Uri.UnescapeDataString(propertySlug); // Decode slug
+    //    var trimmedSlug = decodedSlug.Split('-').TakeWhile(part => !Guid.TryParse(part, out _)).ToList();
+    //    var cleanSlug = string.Join("-", trimmedSlug);
+
+    //    var property = await _context.Properties
+    //        .Include(p => p.City)
+    //        .Include(p => p.Type)
+    //        .Include(p => p.State)
+    //        .Include(p => p.Builder)
+    //        .Include(p => p.User)
+    //        .FirstOrDefaultAsync(p => p.Slug.StartsWith(cleanSlug));
+
     //    if (property == null)
     //    {
     //      return NotFound(new { message = "Property not found" });
     //    }
 
-    //    // Update property fields
-    //    property.Title = dataToSend.Title;
-    //    property.PropertyFor = dataToSend.PropertyFor;
-    //    property.TypeId = dataToSend.TypeId;
-    //    property.StateId = dataToSend.StateId;
-    //    property.CityId = dataToSend.CityId;
-    //    property.Locality = dataToSend.Locality;
-    //    property.Description = dataToSend.Description;
-    //    property.Address = dataToSend.Address;
-    //    property.Email = dataToSend.Email;
-    //    property.PhoneNo = dataToSend.PhoneNo;
-    //    property.Pincode = dataToSend.Pincode;
-    //    property.CornerPlot = dataToSend.CornerPlot ?? false;
-    //    property.BuilderId = dataToSend.BuilderId;
-
-    //    if (!string.IsNullOrEmpty(dataToSend.Title))
+    //    var files = new List<string>();
+    //    if (!string.IsNullOrEmpty(property.Images))
     //    {
-    //      property.Slug = await GenerateSlug(dataToSend.Title);
+    //      files = property.Images.Split(',').ToList();
     //    }
 
-    //    _context.Properties.Update(property);
-    //    await _context.SaveChangesAsync();
+    //    // Creating a simplified response to avoid circular references
+    //    var result = new
+    //    {
+    //      property.Id,
+    //      property.Title,
+    //      property.Images,
+    //      property.Slug,
+    //      property.Status,
+    //      property.Price,
+    //      property.Description,
+    //      property.Address,
+    //      property.Email,
+    //      property.PhoneNo,
+    //      property.Pincode,
+    //      property.Locality,
+    //      property.CornerPlot,
+    //      property.SocietyName,
+    //      property.FlatNo,
+    //      property.CityId,
+    //      property.StateId,
+    //      property.BuilderId,
+    //      property.TypeId,
+    //      property.PropertyFor,
+    //      City = property.City?.Name,
+    //      State = property.State?.Name,
+    //      Builder = property.Builder?.Fname,
+    //      Type=property.Type?.Title,
+    //      User = new
+    //      {
+    //        property.User?.Id,
+    //        property.User?.Fname,
+    //        property.User?.Lname,
+    //        property.User?.Email
+    //      },
+    //      files
+    //    };
 
-    //    return Ok(new { updatedProperty = property, message = "Property has been successfully updated." });
+    //    return Ok(new { result });
     //  }
     //  catch (Exception ex)
     //  {
     //    return BadRequest(new { message = ex.Message });
     //  }
     //}
-
 
     [HttpPut("edit/{id}")]
     public async Task<IActionResult> EditProperty(int id, [FromForm] PropertyViewModel dataToSend, [FromForm] List<IFormFile> propImages)
@@ -521,6 +567,7 @@ namespace RealEstate.Controllers
 
         // Update property fields
         property.Title = dataToSend.Title;
+        property.Images = dataToSend.Images;
         property.PropertyFor = dataToSend.PropertyFor;
         property.TypeId = dataToSend.TypeId;
         property.StateId = dataToSend.StateId;
@@ -604,6 +651,7 @@ namespace RealEstate.Controllers
                                 .Select(p => new PropertyViewModel
                                 {
                                   Id = p.Id,
+                                  Locality = p.Locality,
                                   PropertyFor = p.PropertyFor,
                                   Status = p.Status,
                                   CityId = p.CityId,
@@ -611,7 +659,12 @@ namespace RealEstate.Controllers
                                   TypeId = p.TypeId,
                                   UserId = p.UserId,
                                   Title = p.Title,
-                                  Price = p.Price
+                                  Price = p.Price,
+                                  Slug = p.Slug,
+                                  CornerPlot = p.CornerPlot,
+                                  Length = p.Length,
+                                  Breadth = p.Breadth,
+
                                 }).ToListAsync();
 
         return Ok(result);
@@ -623,14 +676,55 @@ namespace RealEstate.Controllers
     }
 
 
+    [HttpPost("uploadPropertyImage")]
+    public async Task<IActionResult> UploadPropertyImage(IFormFile file)
+    {
+      try
+      {
+        if (file == null || file.Length == 0)
+        {
+          return BadRequest("No file uploaded.");
+        }
+
+        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+        if (!Directory.Exists(uploadsFolder))
+        {
+          Directory.CreateDirectory(uploadsFolder);
+        }
+
+        var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+          await file.CopyToAsync(stream);
+        }
+
+        var imageUrl = $"/uploads/{uniqueFileName}";
+
+        return Ok(new { imageUrl });
+      }
+      catch (Exception ex)
+      {
+        return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+      }
+    }
+
+
   }
 
   public class PropertyFilter
   {
     public string? PropertyFor { get; set; }
     public int? Type { get; set; }
+    public int? CityId { get; set; }
     public string? SearchText { get; set; }
     public int? Page { get; set; }
     public int? PageSize { get; set; }
   }
+  public class PropertyUpdateRequest
+  {
+    public string Status { get; set; }
+  }
+
 }

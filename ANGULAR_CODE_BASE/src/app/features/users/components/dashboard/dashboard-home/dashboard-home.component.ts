@@ -12,7 +12,7 @@ declare const Swal:any;
   styleUrls: ['./dashboard-home.component.scss']
 })
 export class DashboardHomeComponent implements OnInit {
-
+z
   propertyList: any = { data: [], totalCount: 0 }; 
     cityList: any[] = [];
     propertyTypeList: any[] = [];
@@ -70,7 +70,21 @@ export class DashboardHomeComponent implements OnInit {
         }
       });
     }
-  
+    getImageUrl(images: string[] | null | undefined): string {
+      const defaultImage = '/assets/images/property-no-image.png';
+    
+      if (images && images.length > 0 && images[0]) {
+        const imageUrl = images[0].trim();
+        // Check if the URL is just the base path or empty
+        if (imageUrl === 'http://localhost:5026' || !imageUrl) {
+          return defaultImage;
+        }
+        return imageUrl;
+      }
+    
+      return defaultImage;
+    }
+    
     getPropertyList() {
       const data = {
         city: this.form.get('city').value || '',

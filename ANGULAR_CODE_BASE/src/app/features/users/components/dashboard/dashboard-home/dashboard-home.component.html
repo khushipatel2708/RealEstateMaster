@@ -81,17 +81,33 @@
         </div>
       </div> -->
       <div class="col-md-12 ">
-        <h3 class="text-success mb-5 fw-bold">
+        <!-- <h3 class="text-success mb-5 fw-bold">
           <i class="bi bi-building"></i> Available Properties
-        </h3>
+        </h3> -->
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
           <div class="col" *ngFor="let item of propertyList?.data; let i = index">
             <div class="card shadow-sm border-0 rounded h-100 property-card">
               <div class="image-wrapper">
+                <!-- <img [src]="item.images && item.images.length > 0 ? item.images[0] : '/assets/images/property-no-image.png'"
+                     class="card-img-top img-fluid property-image"
+                     alt="Property Image" /> -->
+                     <!-- <div class="image-wrapper"> -->
+                      <!-- <img [src]="item.images && item.images.length > 0 && item.images[0] ? item.images[0] : '/assets/images/property-no-image.png'"
+                           class="card-img-top img-fluid property-image"
+                           alt="Property Image" /> -->
+                           <div class="image-wrapper">
+                            <img [src]="getImageUrl(item.images)"
+                                 class="card-img-top img-fluid property-image"
+                                 alt="Property Image" />
+                          <!-- </div> -->
+                    </div>
+                    
+              </div>
+              <!-- <div class="image-wrapper">
                 <img [src]="item.image ? item.image : '/assets/images/propert1.jpg'"
                   class="card-img-top img-fluid property-image" alt="Property Image" />
-              </div>
+              </div> -->
               <div class="card-body">
                 <h5 class="card-title text-primary text-center">
                   <i class="bi bi-house-door"></i> {{ item.title }}

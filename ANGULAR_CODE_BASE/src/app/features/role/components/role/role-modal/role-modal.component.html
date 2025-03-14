@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css">
 
-
+<ngx-spinner name="model" bdColor="rgba(0, 0, 0, 0.8)" [fullScreen]="false">
+  <div class="clock-spinner">
+      <div class="text-white" style="margin-top:120%;">Loading...</div>
+    </div>
+  </ngx-spinner>
 <!-- <ngx-spinner name="modalspin" type="timer" [fullScreen]="false"></ngx-spinner>
 <div class="modal-header">
   <div *ngIf="menuId > 0; then editMenu; else addMenu"></div>

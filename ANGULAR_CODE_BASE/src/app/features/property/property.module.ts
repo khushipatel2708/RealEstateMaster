@@ -14,6 +14,7 @@ import { PropertyListComponent } from './property-list/property-list.component';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,12 @@ import { ToastrModule } from 'ngx-toastr';
     PropertyRoutingModule,
     NgbModule,
     NgbModalModule,
+    NgxSpinnerModule,
+            ToastrModule.forRoot({
+              timeOut: 3000,
+              positionClass: 'toast-top-right',
+              preventDuplicates: true
+            })
   ]
 })
 export class PropertyModule { }

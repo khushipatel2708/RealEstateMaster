@@ -8,6 +8,8 @@ import { Menu1ModalComponent } from './component/menu1/menu1-modal/menu1-modal.c
 import { NgbModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReUsableModule } from 'app/common/re-usable.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgbModule,
     ReUsableModule,
     ReactiveFormsModule,
-    NgbTooltipModule
+    NgbTooltipModule,
+    NgxSpinnerModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true
+    })
   ]
 })
 export class Menu1Module { }
