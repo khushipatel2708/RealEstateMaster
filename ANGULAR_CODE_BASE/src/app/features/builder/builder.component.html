@@ -50,7 +50,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of builderList; let i = index">
-              <td>{{ i + 1 }}</td>
+              <td>{{ (page - 1) * pageSize + i + 1 }}</td>
               <td>{{item.fname}} {{item.lname}}</td>
               <td>{{item.email}}</td>
               <td>{{item.phoneNo}}</td>
