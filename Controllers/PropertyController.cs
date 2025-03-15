@@ -134,7 +134,7 @@ namespace RealEstate.Controllers
                       property.Slug,
                       property.Images,
                       property.CityId,
-                      property.UserId
+                      property.UserId,
                     };
 
         if (!string.IsNullOrEmpty(filter.PropertyFor))
@@ -181,6 +181,7 @@ namespace RealEstate.Controllers
           p.TypeId,
           p.Status,
           p.Slug,
+          p.UserId,
           Images = p.Images?.Split(',').Select(img => $"{scheme}://{host}{img}").ToList()
         }).ToList();
 

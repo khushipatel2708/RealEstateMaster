@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from 'app/common/services/common.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { UserService } from 'app/common/services/user.service';
 import { ToastrService } from 'ngx-toastr';
 declare const Swal:any;
 
@@ -20,6 +20,7 @@ export class PropertyListComponent implements OnInit {
     { value: 'buy', name: 'Buy' },
     { value: 'rent', name: 'Rent' }
   ];
+  userRole: string = '';
   totalRecord=0;
   page = 1;
   pageSize = 20;
@@ -32,6 +33,8 @@ export class PropertyListComponent implements OnInit {
     { pageSize: 1000, name: "1000 items per page" },
     { pageSize: 100000, name: "All items" },
   ];
+  UserDetails: any = {}; 
+
   @Input('blockView') blockView = false;
   @Input('blockSize') blockSize = 12;
   @Input('queryParams') queryParams = '';
@@ -41,8 +44,8 @@ export class PropertyListComponent implements OnInit {
     public commonService: CommonService,
     private formBuilder:FormBuilder,
     private router:Router,
-    private spinner: NgxSpinnerService,
-    private toastr: ToastrService
+    private toastr:ToastrService,    private userService: UserService,
+    
   ) { }
 
   ngOnInit() {
@@ -52,6 +55,7 @@ city:[null],
 type:[null],
 for:[null]
     });
+    this.getCurrentUserDetails();
     this.getCityList();
     this.getPropertyList();
     this.getPropertyTypeList();
@@ -65,6 +69,20 @@ for:[null]
         this.commonService.togglePageLoaderFn(false);
      });
  }
+ getCurrentUserDetails() {
+  this.commonService.togglePageLoaderFn(true);
+  this.userService.getCurrentUserDetails().subscribe({
+    next: (result: any) => {
+      this.UserDetails = result;
+      this.userRole = result.role || ''; // Store user role
+      this.commonService.togglePageLoaderFn(false);
+    },
+    error: (err) => {
+      console.error("Error fetching user details:", err);
+      this.commonService.togglePageLoaderFn(false);
+    }
+  });
+}
 
   getCityList() {
     this.commonService.togglePageLoaderFn(true);
@@ -88,20 +106,16 @@ for:[null]
      searchText:this.form.get('searchText').value || '', 
      page:this.page,
      pageSize:Number(this.pageSize),
+     userRole: this.userRole  // Pass user role in request
     }
-    this.spinner.show();
   this.commonService.togglePageLoaderFn(true);
   this.commonService.getPropertyList(data).subscribe((result:any) =>{
-    this.spinner.hide();
     if(result) this.propertyList=result;
     this.totalRecord=result.totalCount;
   },
     (err) => this.toastr.error(err,"Failed to get data."),
-    () => {
-      this.spinner.hide();
-      this.commonService.togglePageLoaderFn(false);
-    }
-  );
+      () => this.commonService.togglePageLoaderFn(false));
+      
 }
 
 onAddEdit(slug:any){
@@ -119,18 +133,14 @@ onDelete(id:any){
     })
     .then((result) => {
       if (result.isConfirmed) {
-        this.spinner.show();
         this.commonService.deleteProperty(id).subscribe({
           next: () => {
-            this.spinner.hide();
-             Swal.fire('Deleted!', 'Your property has been deleted.', 'success');
-             this.toastr.success('Your property has been deleted successfully!', 'Deleted');
+             Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+            this.toastr.success("Data deleted successfully.","Success");
             this.getPropertyList();  // Refresh the list after deletion
           },
           error: (err) => {
-            this.spinner.hide()
-            Swal.fire('Error!', 'There was an error deleting the property.', 'error');
-            this.toastr.error('There was an error deleting the property.', 'Error');
+            Swal.fire('Error!', 'There was an error deleting the item.', 'error');
           }
         });
       }
@@ -153,4 +163,3 @@ this.pageSize=this.pageSize;
 this.getPropertyList();
 }
 }
-
