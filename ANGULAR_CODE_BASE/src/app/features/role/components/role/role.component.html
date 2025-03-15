@@ -44,7 +44,7 @@
           </div>
         </form>
 
-        <table class="table table-striped mt-3">
+        <table class="table table-striped mt-3" *ngIf="roleList && roleList.length > 0; else noRole">
           <thead class="fs-5">
             <tr>
               <th>#</th>
@@ -67,6 +67,12 @@
             </tr>
           </tbody>
         </table>
+        <ng-template #noRole>
+          <div class="alert alert-warning text-center mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            No role available. Please add a new role.
+          </div>
+        </ng-template>
         <div class="row mt-5">
           <div class="col-md-10">
             <!-- <ngb-pagination>

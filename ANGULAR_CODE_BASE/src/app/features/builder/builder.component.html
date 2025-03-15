@@ -36,7 +36,7 @@
           </div>
         </form>
 
-        <table class="table table-striped mt-3">
+        <table class="table table-striped mt-3" *ngIf="builderList && builderList.length > 0; else noBuilder">
           <thead>
             <tr>
               <th>#</th>
@@ -67,6 +67,12 @@
             </tr>
           </tbody>
         </table>
+        <ng-template #noBuilder>
+          <div class="alert alert-warning text-center mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            No builder available. Please add a new builder.
+          </div>
+        </ng-template>
         <div class="row mt-2">
           <div class="col-md-10">
             <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)"

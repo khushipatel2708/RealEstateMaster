@@ -41,7 +41,7 @@
 
         <!-- Table -->
         <div class="table-responsive">
-          <table class="table table-striped mt-3 align-middle">
+          <table class="table table-striped mt-3 align-middle" *ngIf="menuList && menuList.length > 0; else noMenu">
             <thead>
               <tr>
                 <th>#</th>
@@ -72,6 +72,13 @@
               </tr>
             </tbody>
           </table>
+          <ng-template #noMenu>
+            <div class="alert alert-warning text-center mt-3" role="alert">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              No menus available. Please add a new menu.
+            </div>
+          </ng-template>
+
         </div>
 
         <!-- Pagination & Page Size -->
