@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-header">Builder Information</h4>
+  <h4 class="modal-header">Add Builder</h4>
   <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">&times;</button>
 </div>
 <form [formGroup]="form" novalidate  (ngSubmit)="submit_form()">
@@ -51,14 +51,14 @@
       <div class="col-md-8">
         <div class="input-group mb-1">
           <div class="input-group-prepend">
-            <span class="input-group-text text-dark" dir="ltr">+966</span>
+            <span class="input-group-text text-dark" dir="ltr">+91</span>
           </div>
           <input id="phoneNo" type="text" class="form-control" formControlName="phoneNo"
           [ngClass]="{'is-invalid': submitted && f.phoneNo.errors, 'is-valid': submitted && !f.phoneNo.errors}"/>
         </div>
         <div *ngIf="submitted && f.phoneNo.errors" class="text-danger">
-          <span *ngIf="f.phoneNo.errors.required">Phone Number is required</span>
-          <!-- <span *ngIf="f.phoneNo.errors.pattern">Phone Number must be 9 digits</span> -->
+          <span *ngIf="f.phoneNo.errors?.required">Phone Number is required</span>
+          <span *ngIf="f.phoneNo.errors.pattern">Please enter a valid 10-digit phone number</span>
         </div>
       </div>
     </div>
@@ -69,7 +69,8 @@
           <input formControlName="password" id="password" type="text" class="form-control"
           [ngClass]="{'is-invalid': submitted && f.password.invalid,'is-valid': submitted && !f.password.invalid}"/>
           <small class="form-text text-danger" *ngIf="submitted && f.password.invalid">
-            <span *ngIf="f.password.errors.required">password  is required </span>
+            <span *ngIf="f.password.errors?.required">Password is required</span>
+            <span *ngIf="f.password.errors.pattern">Password must contain uppercase,lowercase,digit,and special character, with a minimum length of 8 characters</span>
           </small>
       </div>
     </div>

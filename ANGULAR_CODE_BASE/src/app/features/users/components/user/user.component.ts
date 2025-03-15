@@ -4,6 +4,8 @@ import { UsersModelComponent } from './users-model/users-model.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from 'app/common/services/user.service';
 import { CommonService } from 'app/common/services/common.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 declare const Swal:any;
 
 @Component({
@@ -33,7 +35,9 @@ export class UserComponent implements OnInit {
     private userService: UserService,
     private commonService: CommonService,
     private formBuilder:FormBuilder,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -62,16 +66,19 @@ export class UserComponent implements OnInit {
       page: this.page || 1,  // Default to 1 if undefined
       pageSize: this.pageSize || 10,  // Default to 10 if undefined
     };
-    
+    this.spinner.show();
     this.commonService.getUserList(filters)  // Pass the filters to the service
       .subscribe({
         next: (result: any) => {
+          this.spinner.hide();
           this.userList = result.data;
           this.totalRecord = result.totalCount;
           this.cdRef.detectChanges();
         },
         error: (err) => {
-          console.error('Error fetching menus', err);
+          this.spinner.hide();
+          console.error('Error fetching users', err);
+          this.toastr.error(err,"Failed to get data.")
         }
       });
   }
@@ -97,13 +104,18 @@ export class UserComponent implements OnInit {
     })
     .then((result) => {
       if (result.isConfirmed) {
+        this.spinner.show();
         this.commonService.deleteUser(id).subscribe({
           next: () => {
+            this.spinner.hide();
             Swal.fire('Deleted!', 'User has been deleted.', 'success');
+            this.toastr.success('Your user has been deleted successfully!', 'Deleted');
             this.getUserList();  // Refresh the list after deletion
           },
           error: (err) => {
+            this.spinner.hide();
             Swal.fire('Error!', 'There was an error deleting the user.', 'error');
+            this.toastr.error('There was an error deleting the user.', 'Error');
           }
         });
       }

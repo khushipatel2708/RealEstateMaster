@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../user';
 import { CommonService } from 'app/common/services/common.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-users-model',
@@ -24,6 +25,7 @@ export class UsersModelComponent implements OnInit {
     private formBuilder: FormBuilder,
     private commonService: CommonService,
     private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) {
 
   }
@@ -34,8 +36,11 @@ export class UsersModelComponent implements OnInit {
       lname: ["", Validators.compose([Validators.required])],
       userName: ["", Validators.compose([Validators.required])],
       email: ["", [Validators.required, Validators.email]],
-      phoneNo: ["", Validators.required],
-      password: ["", Validators.compose([Validators.required])],
+      phoneNo: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
+      password: ["", [
+        Validators.required, 
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
+      ]],
       status: [null, Validators.compose([Validators.required])],
     });
     if (this.id && this.id > 0) {
@@ -46,10 +51,12 @@ export class UsersModelComponent implements OnInit {
 
   getUserById(): void {
     console.log('Calling getMenuByMenuId service with menuId:', this.id);
+    this.spinner.show('model')
     this.commonService.getUserById(this.id).subscribe(
       (result) => {
         console.log('Service response:', result);
         if (result) {
+          this.spinner.hide('model')
           this.form.patchValue({
             role:result.role,
             fname: result.fname,
@@ -65,6 +72,7 @@ export class UsersModelComponent implements OnInit {
         }
       },
       (error) => {
+        this.spinner.hide('model')
         console.error('Service error:', error);
       }
     );
@@ -122,6 +130,7 @@ export class UsersModelComponent implements OnInit {
   formData.append('status', this.form.get("status")?.value);
   formData.append('userName', this.form.get("userName")?.value);
   formData.append('role',this.form.get('role').value);
+  this.spinner.show('model');
   if (this.selectedFile) {
     formData.append("photo", this.selectedFile, this.selectedFile.name);
   }
@@ -130,13 +139,17 @@ export class UsersModelComponent implements OnInit {
     // if (this.id) {
     if (this.id > 0) {
       // Update user
+      this.spinner.hide('model');
       this.commonService.addEditUser(formData).subscribe((result) => {
+        this.toastr.success( "User updated successfully", "Success");
         this.onUser_Emit.emit(true);
         this.activeModal.close();
       });
     } else {
       // Create new user
+      this.spinner.hide('model');
       this.commonService.addEditUser(formData).subscribe((result) => {
+        this.toastr.success( "User added successfully", "Success");
         this.onUser_Emit.emit(true);
         this.activeModal.close();
       });

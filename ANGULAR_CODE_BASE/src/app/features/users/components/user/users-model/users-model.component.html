@@ -1,156 +1,162 @@
 <!-- <h1>this is modal</h1> -->
- <!-- <ng-spinner type="text">loding</ng-spinner> -->
+<!-- <ng-spinner type="text">loding</ng-spinner> -->
 <div class="modal-header">
-    <div *ngIf="id > 0; then editUser; else addUser"></div>
-    <ng-template #editUser>
-        <h4 class="modal-title">Edit User</h4>
-    </ng-template>
-    <ng-template #addUser>
-        <h4 class="modal-title">Add User</h4> 
-    </ng-template>
-    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-    </button>
+  <div *ngIf="id > 0; then editUser; else addUser"></div>
+  <ng-template #editUser>
+    <h4 class="modal-title">Edit User</h4>
+  </ng-template>
+  <ng-template #addUser>
+    <h4 class="modal-title">Add User</h4>
+  </ng-template>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <!-- <form > -->
-  <form [formGroup]="form" novalidate (ngSubmit)="onSubmit_Form()">
-    <div class="modal-body pb-0">
-      <div class="form-group row">
-        <label class="col-md-4 label-control" for="photo">Builder Photo</label>
-        <div class="col-md-8">
-          <input type="file" id="photo" class="form-control" (change)="onFileSelected($event)">
-          <div class="row pl-4">
-            <img *ngIf="previewUrl" [src]="previewUrl" alt="Builder Photo" class="img-thumbnail mt-2" style="width: 100px; height: 100px;">
-          </div>
+<form [formGroup]="form" novalidate (ngSubmit)="onSubmit_Form()">
+  <div class="modal-body pb-0">
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="photo">Builder Photo</label>
+      <div class="col-md-8">
+        <input type="file" id="photo" class="form-control" (change)="onFileSelected($event)">
+        <div class="row pl-4">
+          <img *ngIf="previewUrl" [src]="previewUrl" alt="Builder Photo" class="img-thumbnail mt-2"
+            style="width: 100px; height: 100px;">
         </div>
       </div>
-      <!-- Role -->
-      <div class="form-group row">
-        <label class="col-md-4 label-control" for="role">Role</label>
-        <div class="col-md-8">
-          <select id="role" class="form-select" placeholder="select" formControlName="role">
-              <option *ngFor="let role of roleList" [value]="role.name">{{ role.name }}</option>
-          </select>
-          <div *ngIf="submitted && f.role.errors" class="text-danger">
-            Role is required
-          </div>
+    </div>
+    <!-- Role -->
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="role">Role</label>
+      <div class="col-md-8">
+        <select id="role" class="form-select" placeholder="select" formControlName="role">
+          <option *ngFor="let role of roleList" [value]="role.name">{{ role.name }}</option>
+        </select>
+        <div *ngIf="submitted && f.role.errors" class="text-danger">
+          Role is required
         </div>
       </div>
-  
-      <!-- FullName -->
-      <div class="form-group row">
-        <label class="col-md-4 label-control" for="fname">First Name</label>
-        <div class="col-md-8">
-          <input id="fname" type="text" class="form-control" formControlName="fname"
-          [ngClass]="{'is-invalid': submitted && f.fname.errors, 'is-valid': submitted && !f.fname.errors}"/>
-          <div *ngIf="submitted && f.fname.errors" class="text-danger">
-            <span *ngIf="f.fname.errors.required">Full Name is required</span>
-          </div>
+    </div>
+
+    <!-- FullName -->
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="fname">First Name</label>
+      <div class="col-md-8">
+        <input id="fname" type="text" class="form-control" formControlName="fname"
+          [ngClass]="{'is-invalid': submitted && f.fname.errors, 'is-valid': submitted && !f.fname.errors}" />
+        <div *ngIf="submitted && f.fname.errors" class="text-danger">
+          <span *ngIf="f.fname.errors.required">Full Name is required</span>
         </div>
       </div>
-      <div class="form-group row">
-        <label class="col-md-4 label-control" for="lname">Last Name</label>
-        <div class="col-md-8">
-          <input id="lname" type="text" class="form-control" formControlName="lname"
-          [ngClass]="{'is-invalid': submitted && f.lname.errors, 'is-valid': submitted && !f.lname.errors}"/>
-          <div *ngIf="submitted && f.lname.errors" class="text-danger">
-            <span *ngIf="f.lname.errors.required">Full Name is required</span>
-          </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="lname">Last Name</label>
+      <div class="col-md-8">
+        <input id="lname" type="text" class="form-control" formControlName="lname"
+          [ngClass]="{'is-invalid': submitted && f.lname.errors, 'is-valid': submitted && !f.lname.errors}" />
+        <div *ngIf="submitted && f.lname.errors" class="text-danger">
+          <span *ngIf="f.lname.errors.required">Full Name is required</span>
         </div>
       </div>
-      <!-- Username -->
-      <div class="form-group row">
-        <label class="col-md-4 label-control" for="userName">User Name</label>
-        <div class="col-md-8">
-          <input id="userName" type="text" class="form-control" formControlName="userName"
-          [ngClass]="{'is-invalid': submitted && f.userName.errors, 'is-valid': submitted && !f.userName.errors}"/>
-          <div *ngIf="submitted && f.userName.errors" class="text-danger">
-            <span *ngIf="f.userName.errors.required">user Name is required</span>
-          </div>
+    </div>
+    <!-- Username -->
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="userName">User Name</label>
+      <div class="col-md-8">
+        <input id="userName" type="text" class="form-control" formControlName="userName"
+          [ngClass]="{'is-invalid': submitted && f.userName.errors, 'is-valid': submitted && !f.userName.errors}" />
+        <div *ngIf="submitted && f.userName.errors" class="text-danger">
+          <span *ngIf="f.userName.errors.required">user Name is required</span>
         </div>
       </div>
-  
-      <!-- Email -->
-      <div class="form-group row">
-        <label class="col-md-4 label-control" for="email">Email</label>
-        <div class="col-md-8">
-          <input id="email" type="text" class="form-control" formControlName="email"
-          [ngClass]="{'is-invalid': submitted && f.email.errors, 'is-valid': submitted && !f.email.errors}"/>
-          <div *ngIf="submitted && f.email.errors" class="text-danger">
-            <span *ngIf="f.email.errors.required">Email is required</span>
-            <span *ngIf="f.email.errors.email">Email must be valid</span>
-          </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="email">Email</label>
+      <div class="col-md-8">
+        <input id="email" type="text" class="form-control" formControlName="email"
+          [ngClass]="{'is-invalid': submitted && f.email.errors, 'is-valid': submitted && !f.email.errors}" />
+        <div *ngIf="submitted && f.email.errors" class="text-danger">
+          <span *ngIf="f.email.errors.required">Email is required</span>
+          <span *ngIf="f.email.errors.email">Email must be valid</span>
         </div>
       </div>
-  
-      <!-- Phone Number -->
-      <div class="form-group row">
-        <label class="col-md-4 label-control" for="phoneNo">Phone Number</label>
-        <div class="col-md-8">
-          <div class="input-group mb-1">
-            <div class="input-group-prepend">
-              <span class="input-group-text text-dark" dir="ltr">+966</span>
-            </div>
-            <input id="phoneNo" type="text" class="form-control" formControlName="phoneNo"
-            [ngClass]="{'is-invalid': submitted && f.phoneNo.errors, 'is-valid': submitted && !f.phoneNo.errors}"/>
+    </div>
+
+    <!-- Phone Number -->
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="phoneNo">Phone Number</label>
+      <div class="col-md-8">
+        <div class="input-group mb-1">
+          <div class="input-group-prepend">
+            <span class="input-group-text text-dark" dir="ltr">+91</span>
           </div>
-          <div *ngIf="submitted && f.phoneNo.errors" class="text-danger">
-            <span *ngIf="f.phoneNo.errors.required">Phone Number is required</span>
-            <span *ngIf="f.phoneNo.errors.pattern">Phone Number must be 9 digits</span>
+          <input id="phoneNo" type="text" class="form-control" formControlName="phoneNo"
+            [ngClass]="{'is-invalid': submitted && f.phoneNo.errors, 'is-valid': submitted && !f.phoneNo.errors}" />
+        </div>
+        <div *ngIf="submitted && f.phoneNo.errors" class="text-danger">
+          <span *ngIf="f.phoneNo.errors?.required">Phone Number is required</span>
+          <span *ngIf="f.phoneNo.errors.pattern">Please enter a valid 10-digit phone number</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="password">Password</label>
+      <div class="col-md-8">
+        <div class="input-group mb-0">
+          <input id="password" type="password" [type]="showPassword ? 'text' : 'password'" class="form-control"
+            formControlName="password"
+            [ngClass]="{'is-invalid': submitted && f.password.errors, 'is-valid': submitted && !f.password.errors}" />
+          <div class="input-group-append">
+            <span class="input-group-text" (click)="onClick_TogglePassword()">
+              <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+            </span>
           </div>
+        </div>
+        <div *ngIf="submitted && f.password.errors" class="text-danger">
+          <span *ngIf="f.password.errors?.required">Password is required</span>
+          <span *ngIf="f.password.errors.pattern">Password must contain uppercase,lowercase,digit,and special character,
+            with a minimum length of 8 characters</span>
         </div>
       </div>
 
-      <!-- Password -->
-      <div class="form-group row">
-        <label class="col-md-4 label-control" for="password">Password</label>
-        <div class="col-md-8">
-          <div class="input-group mb-0">
-          <input id="password" type="password" [type]="showPassword ? 'text' : 'password'"  class="form-control" formControlName="password"
-            [ngClass]="{'is-invalid': submitted && f.password.errors, 'is-valid': submitted && !f.password.errors}"/>
-            <div class="input-group-append">
-              <span class="input-group-text" (click)="onClick_TogglePassword()">
-                <i [class]="showPassword ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
-              </span>
-            </div>
-          </div>
-            <div *ngIf="submitted && f.password.errors" class="text-danger">
-              <span *ngIf="f.password.errors.required">Password is required</span>
-            </div>
-          </div>
-          
-      </div>
-      <!-- Status -->
-      <div class="form-group row">
-        <label class="col-md-4 label-control">Status</label>
-        <div class="col-md-8 text-left">
-          <div class="radio d-inline-block mr-2 mb-2">
-            <input type="radio" id="active" name="status" formControlName="status" [value]="true" class="form-control-input mb-1 mr-1"
-            [ngClass]="{'is-invalid': submitted && f.status.errors, 'is-valid': submitted && !f.status.errors}"/>
-            <label for="active" class="m-0">Active</label>
-          </div>
-          <div class="radio d-inline-block">
-            <input type="radio" id="inactive" name="status" formControlName="status" [value]="false" class="form-control-input mb-1 mr-1"
-            [ngClass]="{'is-invalid': submitted && f.status.errors, 'is-valid': submitted && !f.status.errors}"/>
-            <label for="inactive">Inactive</label>
-          </div>
-          <div *ngIf="submitted && f.status.errors" class="text-danger">
-            Status is required
-          </div>
+    </div>
+    <!-- Status -->
+    <div class="form-group row">
+      <label class="col-md-4 label-control">Status</label>
+      <div class="col-md-8 text-left">
+        <div class="radio d-inline-block mr-2 mb-2">
+          <input type="radio" id="active" name="status" formControlName="status" [value]="true"
+            class="form-control-input mb-1 mr-1"
+            [ngClass]="{'is-invalid': submitted && f.status.errors, 'is-valid': submitted && !f.status.errors}" />
+          <label for="active" class="m-0">Active</label>
+        </div>
+        <div class="radio d-inline-block">
+          <input type="radio" id="inactive" name="status" formControlName="status" [value]="false"
+            class="form-control-input mb-1 mr-1"
+            [ngClass]="{'is-invalid': submitted && f.status.errors, 'is-valid': submitted && !f.status.errors}" />
+          <label for="inactive">Inactive</label>
+        </div>
+        <div *ngIf="submitted && f.status.errors" class="text-danger">
+          Status is required
         </div>
       </div>
     </div>
-  
-    <hr>
-  
-    <div class="modal-footer">
-      <button type="submit" class="btn btn-primary btn-sm m-1">
-        <i class="bi bi-check2" aria-hidden="true"></i>
-        Save
-      </button>
-      <button type="button" class="btn btn-secondary btn-sm m-1" (click)="activeModal.dismiss('Cross click')">
-        <i class="bi bi-x-lg" aria-hidden="true"></i>
-        Cancel
-      </button>
-    </div>
-  </form>
+  </div>
+
+  <hr>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary btn-sm m-1">
+      <i class="bi bi-check2" aria-hidden="true"></i>
+      Save
+    </button>
+    <button type="button" class="btn btn-secondary btn-sm m-1" (click)="activeModal.dismiss('Cross click')">
+      <i class="bi bi-x-lg" aria-hidden="true"></i>
+      Cancel
+    </button>
+  </div>
+</form>

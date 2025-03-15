@@ -1,3 +1,8 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" [fullScreen]="true">
+  <div class="clock-spinner">
+      <div class="text-white" style="margin-top:120%;">Loading...</div>
+    </div>
+  </ngx-spinner>
 <div class="card p-4 shadow-lg">
   <div class="card-content">
     <div class="card-body">
@@ -35,9 +40,8 @@
           </div>
         </div>
       </form>
-      <div class="table-responsive table-lg">
-        <table class="table">
-          <thead>
+        <table class="table table-striped mt-3">
+          <thead class="fs-5">
             <tr>
               <th> # </th>
               <th>Role</th>
@@ -69,7 +73,6 @@
             </tr>
           </tbody>
         </table>
-      </div>
       <div class="row mt-5">
         <div class="col-md-10">
           <!-- <ngb-pagination>

@@ -20,7 +20,8 @@ const ChildRoutes: Routes = [
       {
         path: 'new',
         component: PropertyNewComponent,
-        canActivate: [AuthGuardService]
+        canActivate: [AuthGuardService],
+        data:{title:'Add Property',icon:'bi bi-house door-fill'}
       },
       {
         path: 'search',
@@ -29,7 +30,7 @@ const ChildRoutes: Routes = [
       {
         path:'list',
         component:PropertyListComponent,
-        data:{title:'Property',icon:'bi bi-house door-fill'}
+        data:{title:'List Property',icon:'bi bi-house door-fill'}
       },
       {
         path: 'listing',

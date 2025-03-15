@@ -33,10 +33,13 @@ export class BuilderModalComponent implements OnInit {
       fname: ['',Validators.required],
       lname: ['',Validators.required],
       email: ['',Validators.required],
-      password: [null,Validators.required],
+      password: ["", [
+        Validators.required, 
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
+      ]],
       pincode: ['',Validators.required],
       location:['',Validators.required],
-      phoneNo:['',Validators.required]
+      phoneNo: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
     });
     if (this.id) {
       this.getBuilderById();
