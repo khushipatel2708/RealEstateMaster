@@ -25,7 +25,6 @@ export class PropertyListComponent implements OnInit {
   page = 1;
   pageSize = 20;
   pageSizeList =  [
-    
     { pageSize: 10, name: "10 items per page" },
     { pageSize: 20, name: "20 items per page" },
     { pageSize: 50, name: "50 items per page" },
@@ -99,7 +98,7 @@ for:[null]
         });
   }
 
-  getPropertyList(previousLastIndex: number = 0){
+  getPropertyList(){
     const data={
       cityId: Number(this.form.get('city').value) || null,
      type:Number(this.form.get('type').value) || null,
@@ -113,9 +112,6 @@ for:[null]
   this.commonService.getPropertyList(data).subscribe((result:any) =>{
     if(result) this.propertyList=result;
     this.totalRecord=result.totalCount;
-    this.propertyList.data.forEach((item: any, index: number) => {
-      item.serialNumber = previousLastIndex + index + 1;
-    });
   },
     (err) => this.toastr.error(err,"Failed to get data."),
       () => this.commonService.togglePageLoaderFn(false));
@@ -157,10 +153,9 @@ onClear_Filter(){
  this.form.reset();
  this.getPropertyList(); 
 }
-onClick_PageChange(e: number) {
-  const previousLastIndex = (this.page - 1) * this.pageSize;
+onClick_PageChange(e) {
   this.page = e;
-  this.getPropertyList(previousLastIndex);
+  this.getPropertyList();
 }
 
 onChange_PageSize(){

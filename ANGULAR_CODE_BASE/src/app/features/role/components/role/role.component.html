@@ -54,7 +54,7 @@
           </thead>
           <tbody class="fs-5">
             <tr *ngFor="let item of roleList; let i = index">
-              <td>{{ i + 1 }}</td>
+              <td>{{ (page - 1) * pageSize + i + 1 }}</td>
               <td>{{item.name}}</td>
               <td>
                 <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item.id)">

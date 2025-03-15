@@ -81,9 +81,8 @@
               <!-- <th>status</th> -->
               <th>Action</th>
             </tr>
-            <tr *ngFor="let item of propertyList?.data;">
-              <!-- <td>{{i + 1}}</td> -->
-              <td>{{ item.serialNumber }}</td>
+            <tr *ngFor="let item of propertyList?.data;let i = index;">
+              <td>{{ (page - 1) * pageSize + i + 1 }}</td>
               <td>{{item.description}}</td>
               <td>{{item.title}}</td>
               <td>{{item.city}}</td>
