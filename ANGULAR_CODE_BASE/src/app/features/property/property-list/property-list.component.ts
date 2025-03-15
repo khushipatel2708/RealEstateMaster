@@ -100,7 +100,7 @@ for:[null]
 
   getPropertyList(){
     const data={
-     city:this.form.get('city').value || '',
+      cityId: Number(this.form.get('city').value) || null,
      type:Number(this.form.get('type').value) || null,
      propertyFor:this.form.get('for').value || '',
      searchText:this.form.get('searchText').value || '', 
