@@ -19,6 +19,7 @@ import { UsersModelComponent } from './users/components/user/users-model/users-m
 import { BuilderComponent } from './builder/builder.component';
 import { BuilderModalComponent } from './builder/builder-modal/builder-modal.component';
 import { BuilderModule } from './builder/builder.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { BuilderModule } from './builder/builder.module';
     PropertyModule,
     NgSelectModule,
     NgbModule,
-    BuilderModule
+    BuilderModule,
+    NgxSpinnerModule, 
   ],
   declarations: [
     RegistrationComponent,
