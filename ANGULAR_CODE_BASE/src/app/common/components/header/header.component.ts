@@ -123,7 +123,7 @@ currentUser:any={};
       route = route.firstChild;
     }
 
-    const title = route.snapshot.data['title'] || 'Default Title';
+    const title = route.snapshot.data['title'] || '';
     const icon =route.snapshot.data['icon'] ;
     this.pageTitle = title;
     this.pageIcon = icon;

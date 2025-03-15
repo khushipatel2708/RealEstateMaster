@@ -44,8 +44,12 @@ export class RegistrationComponent implements OnInit {
       lName: new FormControl('', [Validators.required]),
       userName: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.email, Validators.required], this.registrationValidators.checkEmailAvailability.bind(this.registrationValidators)),
-      phoneNo: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
+      phoneNo: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{10}$")]),
+      password: new FormControl('', [
+        Validators.required, 
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
+      ]
+),
       cPassword: new FormControl('', [Validators.required]),
       state: new FormControl('',Validators.required),
       city: new FormControl('',Validators.required),
