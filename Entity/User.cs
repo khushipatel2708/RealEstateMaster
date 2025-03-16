@@ -40,4 +40,9 @@ public partial class User
 
   public string? PhotoPath { get; set; }
 
+  //public virtual City? City { get; set; }
+
+  //public virtual State? State { get; set; }
+  public virtual ICollection<Property> Properties { get; set; } = new HashSet<Property>();
+
 }

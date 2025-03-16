@@ -1,12 +1,12 @@
 <div class="d-flex justify-content-center align-items-center vh-100 bg-grey">
-    <div class="row login-card bg-light">
+    <div class="row login-card glassmorphism">
         <!-- Image Section -->
-        <div class="col-md-6 login-image d-none d-md-block"></div>
+        <!-- <div class="col-md-6 login-image d-none d-md-block"></div> -->
         
         <!-- Login Form Section -->
-        <div class="col-md-6 p-4">
+        <div class="p-4">
             <h4 class="text-center">Login</h4>
-            <p class="text-center text-muted">Welcome back! Please login.</p>
+            <p class="text-center">Welcome back! Please login.</p>
             
             <form  [formGroup]="loginForm" (ngSubmit)="login()">
               <div class="form-group">
@@ -30,14 +30,14 @@
                   <i class="ft-alert-circle align-middle"></i> Password is required.
                 </div>
                 <div class="text-end">
-                  <a class="font-small-2 text-primary" href="/users/forgot-password">Forgot Password?</a>
+                  <a class="font-small-2 text-dark" href="/users/forgot-password">Forgot Password?</a>
                 </div>
               </div>
-                <button type="submit" class="btn btn-primary w-100">Login</button>
+                <button type="submit" class="btn btn-login w-100">Login</button>
             
             </form>
             <div class="mt-2">
-              <span class="text-secondary font-small-2">Don't have an account? <a href="/sign-up" class="text-primary"> SignUp</a></span>
+              <span class="text-secondary font-small-2">Don't have an account? <a href="/sign-up"> SignUp</a></span>
             </div>
         </div>
     </div>

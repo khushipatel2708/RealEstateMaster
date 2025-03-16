@@ -88,6 +88,10 @@ public class LoginController : ControllerBase
       {
         Console.WriteLine($"Header: {header.Key} = {header.Value}");
       }
+      foreach (var claim in User.Claims)
+      {
+        Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
+      }
 
       // Extract User ID from token
       var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

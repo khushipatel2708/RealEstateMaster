@@ -103,6 +103,7 @@ export class RegistrationComponent implements OnInit {
     if(this.registrationForm.invalid){
       return;
     }
+    console.log(data.value);
     const formData = { ...data.value,id:0, phoneNo: String(data.value.phoneNo) };
 
     this.http.post(environment.BASE_URL + '/auth/user/register', formData)

@@ -4,3 +4,18 @@
     object-fit: contain; 
     border-radius: 50%; 
   }
+  .service-item .icon {
+    font-size: 40px;
+    transition: transform 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .service-item:hover .icon {
+    transform: scale(-1) rotate(180deg);
+  }
+.main{
+  margin-top:80px;
+}  
+  

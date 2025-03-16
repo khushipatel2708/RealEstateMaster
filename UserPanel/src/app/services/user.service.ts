@@ -52,5 +52,7 @@ export class UserService {
       })
     );
   }
-  
+  contactUs(formData:any){
+    return this.http.post(`${environment.BASE_URL}/common/contactUs`,formData);
+  }
 }

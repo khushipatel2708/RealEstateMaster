@@ -1,1 +1,51 @@
-<p>property works!</p>
+<!-- <section id="agents" class="agents section">
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Our Property</h2>
+      <p>Experience exceptional craftsmanship and quality with our expert builders!</p>
+    </div>
+  
+    <div class="container">
+      <div class="row gy-5">
+        <div *ngFor="let builder of property" class="col-lg-4 col-md-6" data-aos="fade-up">
+          <div class="member">
+            <div class="pic">
+              <img [src]="builder.imageUrl ? builder.imageUrl : 'assets/images/img/team/default.jpg'" class="img-fluid" alt="Builder Image">
+            </div>
+            <div class="member-info">
+              <div class="d-flex justify-content-between">
+                <h4>{{ builder.title }}</h4>
+              <a routerLink="/property-detail"><i class="fa fa-eye text-info"></i></a>
+              </div>
+              <div class="row">
+                <span>Rs.{{ builder.price }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+  <section id="property-slider" class="property-slider section">
+    <div class="container section-title">
+      <h2>Featured Properties</h2>
+      <p>Explore our latest listings and find your dream home today!</p>
+    </div>
+  
+    <div class="slider-container">
+      <div class="slider" id="propertySlider">
+        <div class="slide" *ngFor="let builder of property">
+          <div class="property-card">
+            <img [src]="builder.imageUrl ? builder.imageUrl : 'assets/images/no-photo.jpg'" alt="Property Image" class="property-img">
+            <div class="property-info">
+              <h4>{{ builder.title }}</h4>
+              <span>Rs.{{ builder.price }}</span><br>
+              <span>{{builder.cityName}}</span>
+              <a [routerLink]="'/property-detail/' + builder.id" 
+              [queryParams]="{ title: builder.title }"  class="view-details" *ngIf="isUserLoggedIn"><i class="fa fa-eye text-info"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RealEstate.Entity;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("RealEstate"));
 builder.Services.AddCors(options =>
 {
   options.AddPolicy("AllowAngularApp",
-       builder => builder.WithOrigins("http://localhost:4200")
+       builder => builder.WithOrigins("http://localhost:4200", "http://localhost:18993")
                          .AllowAnyMethod()
                          .AllowAnyHeader()
                          .AllowCredentials());
@@ -38,10 +39,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidateAudience = true,
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
-        ValidateLifetime = true
+        ValidateLifetime = true,
       };
     });
-
+builder.Services.AddHttpClient("PayUClient", client =>
+{
+  client.Timeout = TimeSpan.FromSeconds(100); // Set timeout
+  client.BaseAddress = new Uri("https://sandboxsecure.payu.in/"); // Base URL
+});
+builder.Services.Configure<RealEstate.Models.Email>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddScoped<EmailService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
@@ -57,9 +64,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseRouting();
-
-
 //app.MapStaticAssets();
 
 //app.MapControllerRoute(
@@ -72,5 +78,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseStaticFiles();
-
 app.Run();

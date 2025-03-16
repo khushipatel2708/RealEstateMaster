@@ -14,4 +14,9 @@ public partial class City
     public bool? IsActive { get; set; }
 
     public DateTime? CreatedOn { get; set; }
+  public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
+
+  public virtual State? State { get; set; }
+
+  //public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

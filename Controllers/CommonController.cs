@@ -11,11 +11,12 @@ namespace RealEstate.Controllers
   {
     private readonly IHttpContextAccessor _contextAccessor;
     private readonly RealEstateContext _db;
-
-    public CommonController(IHttpContextAccessor contextAccessor, RealEstateContext context)
+    private readonly EmailService _emailService;
+    public CommonController(IHttpContextAccessor contextAccessor, RealEstateContext context, EmailService emailService)
     {
       _contextAccessor = contextAccessor;
       _db = context;
+      _emailService = emailService;
     }
 
 
@@ -125,5 +126,36 @@ namespace RealEstate.Controllers
         return StatusCode(500, new { message = ex.Message });
       }
     }
+    [HttpPost("ContactUs")]
+    public async Task<IActionResult> SendEmail([FromBody] ContactUsModel model)
+    {
+      if (model == null || string.IsNullOrWhiteSpace(model.Email))
+      {
+        return BadRequest("Invalid request");
+      }
+
+      string emailContent = $"<p><strong>Name:</strong> {model.Name}</p>" +
+                            $"<p><strong>Email:</strong> {model.Email}</p>" +
+                            $"<p><strong>Subject:</strong> {model.Subject}</p>" +
+                            $"<p><strong>Message:</strong><br>{model.Message}</p>";
+
+      bool isSent = await _emailService.SendEmailAsync(model.Email, model.Subject, emailContent);
+
+      if (isSent)
+      {
+        return Ok(new { message = "Email sent successfully!" });
+      }
+      else
+      {
+        return StatusCode(500, "Failed to send email");
+      }
+    }
   }
+}
+public class ContactUsModel
+{
+  public string Name { get; set; }
+  public string Email { get; set; }
+  public string Subject { get; set; }
+  public string Message { get; set; }
 }

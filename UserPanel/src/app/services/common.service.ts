@@ -63,11 +63,28 @@ getRoleDDList(){
    getPropertyList(data:any){
   return this.http.post(environment.BASE_URL + '/property/list',data);
  }
-
+getUserPanelPropertyList(){
+  return this.http.get(environment.BASE_URL + '/property');
+}
   propertyList(param = '') {
     return this.http.get<any>(environment.BASE_URL + '/property/list/' + param);
   }
-
+  generateHash(paymentData: any) {
+    return this.http.post(
+      `${environment.BASE_URL}/payments/generate-hash`,
+      paymentData,
+      { headers: { 'Content-Type': 'application/json' } }  // ✅ Ensure JSON Content-Type
+    );
+  }
+  
+  payWithPayU(paymentData: any) {
+    return this.http.post(
+      `${environment.BASE_URL}/payments/initiate-payment`,
+      paymentData,
+      { headers: { 'Content-Type': 'application/json' } }  // ✅ Ensure JSON Content-Type
+    );
+  }
+  
   getSingleProperty(propertySlug) {
     return this.http.get<any>(environment.BASE_URL + '/property/single/' + propertySlug);
   }
@@ -203,4 +220,8 @@ deleteBuilder(BuilderId: any) {
 forgotPassword(formData:any){
   return this.http.put(environment.BASE_URL + "/auth/user/forgotPassword",formData); 
 }
+initiatePayment(paymentData: any) {
+  return this.http.post<{ paymentUrl: string }>('http://localhost:5026/api/payments/initiate-payment', paymentData);
+}
+
 }

@@ -1,0 +1,48 @@
+.property-slider {
+    text-align: center;
+    overflow: hidden;
+    padding: 40px 0;
+  }
+  
+  .slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .slider {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .slide {
+    flex: 0 0 270px; /* Adjusted width for proper scrolling */
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .property-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .property-img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .property-info {
+    padding: 10px 0;
+  }
+  
+  .view-details {
+    display: block;
+    margin-top: 5px;
+    color: #007bff;
+    text-decoration: none;
+  }
+  

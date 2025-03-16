@@ -26,6 +26,6 @@ public partial class Builder
     public string? PhoneNo { get; set; }
 
     public int? Version { get; set; }
-  public string PhotoPath { get; set; }
-  public virtual ICollection<Property> Properties { get; set; } = new HashSet<Property>();
+  public string? PhotoPath { get; set; }
+  public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
 }

@@ -14,7 +14,6 @@ import { RegistrationValidators } from '../validators/registration.validators';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit{
-
 registrationForm:FormGroup;
   registrationSubmitted:boolean=false;
   stateId:any;

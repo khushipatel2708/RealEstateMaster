@@ -46,10 +46,7 @@ public partial class RealEstateContext : DbContext
 
       entity.HasIndex(e => e.Email, "UQ__Builder__AB6E61646E1D0678").IsUnique();
 
-      entity.Property(e => e.Id)
-          .HasMaxLength(24)
-          .IsUnicode(false)
-          .HasColumnName("id");
+      entity.Property(e => e.Id).HasColumnName("id");
       entity.Property(e => e.City)
           .HasMaxLength(24)
           .IsUnicode(false)
@@ -158,7 +155,7 @@ public partial class RealEstateContext : DbContext
 
     modelBuilder.Entity<Property>(entity =>
     {
-      entity.HasKey(e => e.Id).HasName("PK__Property__3213E83FEF728009");
+      entity.HasKey(e => e.Id).HasName("PK__Property__3213E83F31A18A3B");
 
       entity.ToTable("Property");
 
@@ -170,14 +167,8 @@ public partial class RealEstateContext : DbContext
           .HasColumnType("text")
           .HasColumnName("address");
       entity.Property(e => e.Breadth).HasColumnName("breadth");
-      entity.Property(e => e.BuilderId)
-          .HasMaxLength(50)
-          .IsUnicode(false)
-          .HasColumnName("builderId");
-      entity.Property(e => e.CityId)
-          .HasMaxLength(50)
-          .IsUnicode(false)
-          .HasColumnName("cityId");
+      entity.Property(e => e.BuilderId).HasColumnName("builderId");
+      entity.Property(e => e.CityId).HasColumnName("cityId");
       entity.Property(e => e.CornerPlot).HasColumnName("cornerPlot");
       entity.Property(e => e.CreatedOn)
           .HasColumnType("datetime")
@@ -230,10 +221,7 @@ public partial class RealEstateContext : DbContext
           .HasMaxLength(255)
           .IsUnicode(false)
           .HasColumnName("societyName");
-      entity.Property(e => e.StateId)
-          .HasMaxLength(50)
-          .IsUnicode(false)
-          .HasColumnName("stateId");
+      entity.Property(e => e.StateId).HasColumnName("stateId");
       entity.Property(e => e.Status)
           .HasMaxLength(50)
           .IsUnicode(false)
@@ -258,7 +246,7 @@ public partial class RealEstateContext : DbContext
 
     modelBuilder.Entity<PropertyOriginal>(entity =>
     {
-      entity.HasKey(e => e.Id).HasName("PK__Property__3213E83F394B1445");
+      entity.HasKey(e => e.Id).HasName("PK__Property__3213E83F67E55751");
 
       entity.ToTable("PropertyOriginal");
 
@@ -275,107 +263,106 @@ public partial class RealEstateContext : DbContext
           .HasMaxLength(100)
           .IsUnicode(false)
           .HasColumnName("type");
-    });
-
+    }); 
     modelBuilder.Entity<Role>(entity =>
-    {
-      entity.HasKey(e => e.Id).HasName("PK__Roles__3213E83F15640FF9");
+      {
+        entity.HasKey(e => e.Id).HasName("PK__Roles__3213E83F15640FF9");
 
-      entity.Property(e => e.Id)
-          .ValueGeneratedNever()
-          .HasColumnName("id");
-      entity.Property(e => e.Name)
-          .HasMaxLength(50)
-          .IsUnicode(false)
-          .HasColumnName("name");
-     
-    });
+        entity.Property(e => e.Id)
+            .ValueGeneratedNever()
+            .HasColumnName("id");
+        entity.Property(e => e.Name)
+            .HasMaxLength(50)
+            .IsUnicode(false)
+            .HasColumnName("name");
 
-    modelBuilder.Entity<State>(entity =>
-    {
-      entity.HasKey(e => e.Id).HasName("PK__state__3213E83F6582B67A");
+      });
 
-      entity.ToTable("state");
+      modelBuilder.Entity<State>(entity =>
+      {
+        entity.HasKey(e => e.Id).HasName("PK__state__3213E83F6582B67A");
 
-      entity.Property(e => e.Id)
-          .ValueGeneratedNever()
-          .HasColumnName("id");
-      entity.Property(e => e.CreatedOn)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnType("datetime")
-          .HasColumnName("created_on");
-      entity.Property(e => e.IsActive)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("is_active");
-      entity.Property(e => e.Name)
-          .HasMaxLength(255)
-          .IsUnicode(false)
-          .HasColumnName("name");
-    });
+        entity.ToTable("state");
 
-    modelBuilder.Entity<User>(entity =>
-    {
-      entity.ToTable("users");
+        entity.Property(e => e.Id)
+            .ValueGeneratedNever()
+            .HasColumnName("id");
+        entity.Property(e => e.CreatedOn)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnType("datetime")
+            .HasColumnName("created_on");
+        entity.Property(e => e.IsActive)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("is_active");
+        entity.Property(e => e.Name)
+            .HasMaxLength(255)
+            .IsUnicode(false)
+            .HasColumnName("name");
+      });
 
-      entity.Property(e => e.Id).HasColumnName("id");
-      entity.Property(e => e.CityId)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("city_id");
-      entity.Property(e => e.CreatedOn)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnType("datetime")
-          .HasColumnName("createdOn");
-      entity.Property(e => e.Email)
-          .HasMaxLength(255)
-          .IsUnicode(false)
-          .HasColumnName("email");
-      entity.Property(e => e.Fname)
-          .HasMaxLength(255)
-          .IsUnicode(false)
-          .HasColumnName("fname");
-      entity.Property(e => e.IsAdmin)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("isAdmin");
-      entity.Property(e => e.Lname)
-          .HasMaxLength(255)
-          .IsUnicode(false)
-          .HasColumnName("lname");
-      entity.Property(e => e.Password)
-          .HasMaxLength(255)
-          .IsUnicode(false)
-          .HasColumnName("password");
-      entity.Property(e => e.PhoneNo)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("phoneNo");
-      entity.Property(e => e.Pincode)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("pincode");
-      entity.Property(e => e.Role)
-          .HasMaxLength(50)
-          .IsUnicode(false)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("role");
-      entity.Property(e => e.StateId)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("state_id");
-      entity.Property(e => e.Status)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("status");
-      entity.Property(e => e.UpdatedOn)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnType("datetime")
-          .HasColumnName("updatedOn");
-      entity.Property(e => e.UserName)
-          .HasMaxLength(255)
-          .IsUnicode(false)
-          .HasColumnName("userName");
-      entity.Property(e => e.UserType)
-          .HasDefaultValueSql("(NULL)")
-          .HasColumnName("userType");
-    });
+      modelBuilder.Entity<User>(entity =>
+      {
+        entity.ToTable("users");
 
-    OnModelCreatingPartial(modelBuilder);
-  }
+        entity.Property(e => e.Id).HasColumnName("id");
+        entity.Property(e => e.CityId)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("city_id");
+        entity.Property(e => e.CreatedOn)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnType("datetime")
+            .HasColumnName("createdOn");
+        entity.Property(e => e.Email)
+            .HasMaxLength(255)
+            .IsUnicode(false)
+            .HasColumnName("email");
+        entity.Property(e => e.Fname)
+            .HasMaxLength(255)
+            .IsUnicode(false)
+            .HasColumnName("fname");
+        entity.Property(e => e.IsAdmin)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("isAdmin");
+        entity.Property(e => e.Lname)
+            .HasMaxLength(255)
+            .IsUnicode(false)
+            .HasColumnName("lname");
+        entity.Property(e => e.Password)
+            .HasMaxLength(255)
+            .IsUnicode(false)
+            .HasColumnName("password");
+        entity.Property(e => e.PhoneNo)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("phoneNo");
+        entity.Property(e => e.Pincode)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("pincode");
+        entity.Property(e => e.Role)
+            .HasMaxLength(50)
+            .IsUnicode(false)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("role");
+        entity.Property(e => e.StateId)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("state_id");
+        entity.Property(e => e.Status)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("status");
+        entity.Property(e => e.UpdatedOn)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnType("datetime")
+            .HasColumnName("updatedOn");
+        entity.Property(e => e.UserName)
+            .HasMaxLength(255)
+            .IsUnicode(false)
+            .HasColumnName("userName");
+        entity.Property(e => e.UserType)
+            .HasDefaultValueSql("(NULL)")
+            .HasColumnName("userType");
+      });
+
+      OnModelCreatingPartial(modelBuilder);
+    }
 
   partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

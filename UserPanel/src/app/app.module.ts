@@ -25,6 +25,8 @@ import { PropertyComponent } from './property/property.component';
 import { ServiceComponent } from './service/service.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { AgentComponent } from './agent/agent.component';
+import { PaymentComponent } from './payment/payment.component';
+import { PropertyDetailComponent } from './property-detail/property-detail.component';
 @NgModule({
   
   declarations: [
@@ -38,7 +40,9 @@ import { AgentComponent } from './agent/agent.component';
     PropertyComponent,
     ServiceComponent,
     ContactUsComponent,
-    AgentComponent
+    AgentComponent,
+    PaymentComponent,
+    PropertyDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +50,7 @@ import { AgentComponent } from './agent/agent.component';
     NgbCarouselModule,
     FormsModule,
     NgbModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     ToastrModule.forRoot(), 
     HttpClientModule,

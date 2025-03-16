@@ -86,18 +86,8 @@ z
     }
     
     getPropertyList() {
-      const data = {
-        city: this.form.get('city').value || '',
-        type: Number(this.form.get('type').value) || null,
-        propertyFor: this.form.get('for').value || '', // ✅ Pass Property For
-        searchText: this.form.get('searchText').value || '',
-        page: this.page,
-        pageSize: Number(this.pageSize),
-      }
-  
-      this.commonService.getPropertyList(data).subscribe((result: any) => {
+     this.commonService.getProperty().subscribe((result: any) => {
         if (result) this.propertyList = result;
-        this.totalRecord = result.totalCount;
         this.toastr.success("Data loaded successfully.");
       },
         (err) => this.toastr.error("Failed to get data."));

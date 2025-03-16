@@ -86,7 +86,7 @@
         </h3> -->
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col" *ngFor="let item of propertyList?.data; let i = index">
+          <div class="col" *ngFor="let item of propertyList; let i = index">
             <div class="card shadow-sm border-0 rounded h-100 property-card">
               <div class="image-wrapper">
                 <!-- <img [src]="item.images && item.images.length > 0 ? item.images[0] : '/assets/images/property-no-image.png'"
@@ -117,7 +117,7 @@
                     <p class="mb-1"><strong>City:</strong></p>
                   </div>
                   <div class="col-6">
-                    <p class="mb-1">{{ item.city }}</p>
+                    <p class="mb-1">{{ item.cityName }}</p>
                   </div>
                 </div>
                 <div class="row mb-2">

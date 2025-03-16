@@ -8,6 +8,8 @@ import { AboutComponent } from './about/about.component';
 import { PropertyComponent } from './property/property.component';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { ServiceComponent } from './service/service.component';
+import { PropertyDetailComponent } from './property-detail/property-detail.component';
+import { PaymentComponent } from './payment/payment.component';
 
 
 // const routes: Routes = [
@@ -74,6 +76,8 @@ const routes=[
   {path:'property',component:PropertyComponent},
   {path:'contact-us',component:ContactUsComponent},
   {path:'service',component:ServiceComponent},
+  {path:'property-detail/:id',component:PropertyDetailComponent},
+  {path:'payment/:id',component:PaymentComponent},
   {path:'**',redirectTo:''}
 ];
 

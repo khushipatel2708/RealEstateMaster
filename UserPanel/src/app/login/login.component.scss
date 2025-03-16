@@ -1,5 +1,5 @@
 .bg-grey {
-    background: url('~assets/images/carousel/grey.jpg') no-repeat center center !important;
+    background: url('~assets/images/interior7.png') no-repeat center center !important;
     background-size: cover !important;
     backdrop-filter: blur(10px);
 }
@@ -10,8 +10,8 @@
     backdrop-filter: blur(10px);
     border-radius: 12px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    width: 100%;
+    max-width: 400px;
+    width: 50%;
 }
 .login-image {
     background: url('~assets/images/carousel/Home.png') no-repeat center;
@@ -21,4 +21,16 @@
 .font-small-2{
     font-size:.8rem !important;
 
+}
+.btn-login{
+    background: color-mix(in srgb, var(--accent-color), transparent 20%);
+    color:white;
+}
+.glassmorphism {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }

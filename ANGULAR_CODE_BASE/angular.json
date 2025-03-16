@@ -112,6 +112,7 @@
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
+      "sourceMap":true,
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",

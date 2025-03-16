@@ -64,6 +64,9 @@ getRoleDDList(){
   getPropertyList(filters: any): Observable<any> {
     return this.http.post<any>(`${environment.BASE_URL}/property/propertyList`, filters);
   }
+  getProperty(): Observable<any>{
+    return this.http.get<any>(environment.BASE_URL + '/property');
+  }
 
   propertyList(param = '') {
     return this.http.get<any>(environment.BASE_URL + '/property/list/' + param);

@@ -101,10 +101,10 @@ for:[null]
   getPropertyList(){
     const data={
       cityId: Number(this.form.get('city').value) || null,
-     type:Number(this.form.get('type').value) || null,
+     type:Number(this.form.get('type').value) || 0,
      propertyFor:this.form.get('for').value || '',
      searchText:this.form.get('searchText').value || '', 
-     page:this.page,
+     page:Number(this.page),
      pageSize:Number(this.pageSize),
      userRole: this.userRole  // Pass user role in request
     }

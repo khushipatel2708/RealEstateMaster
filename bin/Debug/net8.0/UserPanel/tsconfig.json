@@ -1,0 +1,65 @@
+// {
+//   "compileOnSave": false,
+//   "compilerOptions": {
+//     "importHelpers": true,
+//     "skipLibCheck": true,
+//     "outDir": "./dist/out-tsc",
+//     "sourceMap": true,
+//     "declaration": false,
+//     "module": "esnext",
+//     "moduleResolution": "node",
+//     "emitDecoratorMetadata": true,
+//     "experimentalDecorators": true,
+//     "target": "es2022",
+//     "types": [
+//       "node",
+//       "jasmine",
+//       "tinymce"
+//     ],
+//     "typeRoots": [
+//       "node_modules/@types"
+//     ],
+//     "lib": [
+//       "es2022",
+//       "dom"
+//     ],
+//     // "baseUrl": "./",
+//     "baseUrl": "src",
+//     "paths": {
+//       "@sa-core/*": [
+//         "app/common/components/*"
+//       ],
+//       "@sa-services/*": [
+//         "app/common/services/*"
+//       ],
+//       "@sa-environments/*": [
+//         "environments/*"
+//       ]
+//     }
+//   }
+// }
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "module": "es2022",
+    "outDir": "./dist/out-tsc",
+    "baseUrl": "src",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "target": "es2022",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2020",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": false
+  }
+}
