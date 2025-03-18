@@ -93,6 +93,7 @@ namespace RealEstate.Controllers
           Breadth = model.Breadth,
           BuilderId = model.BuilderId,
           Version = model.Version,
+          AgencyName =model.AgencyName,
           Images = string.Join(",", images)
         };
 
@@ -275,18 +276,21 @@ namespace RealEstate.Controllers
           property.CityId,
           property.StateId,
           property.BuilderId,
+          property.AgencyName,
           property.TypeId,
+          property.UserId,
           property.PropertyFor,
           City = property.City?.Name,
           State = property.State?.Name,
-          Builder = property.Builder?.Fname,
+          Builder = property.User?.Fname,
           Type = property.Type?.Title,
           User = new
           {
             property.User?.Id,
             property.User?.Fname,
             property.User?.Lname,
-            property.User?.Email
+            property.User?.Email,
+            property.User?.Role,
           },
           files // Formatted image URLs
         };
@@ -324,7 +328,9 @@ namespace RealEstate.Controllers
         property.PhoneNo = dataToSend.PhoneNo;
         property.Pincode = dataToSend.Pincode;
         property.CornerPlot = dataToSend.CornerPlot ?? false;
-        property.BuilderId = dataToSend.BuilderId;
+        property.BuilderId = dataToSend.UserId;
+        property.UserId = dataToSend.UserId;
+        property.AgencyName = dataToSend.AgencyName;
 
         if (!string.IsNullOrEmpty(dataToSend.Title))
         {

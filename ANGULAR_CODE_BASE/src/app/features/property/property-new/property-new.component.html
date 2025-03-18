@@ -39,13 +39,15 @@
       <div class="form-row">
         <div class="col-4">
           <label for="">Property For: </label> <br>
-          <label> <input type="radio" ngModel #propertyFor="ngModel" required name="propertyFor" value="sell"> Sell
-          </label> &nbsp;
-          <label> <input type="radio" ngModel #propertyFor="ngModel" required name="propertyFor" value="rent"> Rent
+          <label> 
+            <input type="radio" [(ngModel)]="propertyFor" name="propertyFor" value="sell"> Sell
           </label>
-
-          <small class="text-danger" *ngIf="propertyFor.touched && propertyFor.invalid">This field is required</small>
         </div>
+        <!-- <div class="col-4">
+          <label for="">Property For: </label> <br>
+          <label> <input type="radio" ngModel #propertyFor="ngModel" name="propertyFor" value="sell" checked> Sell
+          </label> &nbsp;
+        </div> -->
         <div class="col-4">
           <label for="">Property Type:</label>
           <select required name="typeId" ngModel #Proptype="ngModel" class="custom-select">
@@ -198,15 +200,28 @@
         <small class="text-danger" *ngIf="phoneNo.touched && phoneNo.invalid">
           This field is required</small>
       </div>
-      <div class="form-group col-md-4">
+      <!-- <div class="form-group col-md-4" *ngIf="UserDetails.role !== 'builder'">
         <label for="">Builder: </label>
-        <select name="builderId" ngModel #builder="ngModel" required class="custom-select">
+        <select name="builderId" ngModel #builder="ngModel" class="custom-select" >
             <option value="">Select builder</option>
-            <option *ngFor="let builder of builderList" value="{{builder.id}}">{{builder.fname}}</option>
+            <option *ngFor="let user of builderUserList" [value]="user.id">{{ user.fname }}</option>
           </select>
-        <small class="text-danger" *ngIf="builder.touched && builder.invalid">
-          This field is required</small>
-      </div>
+      </div> -->
+      <!-- Builder Dropdown (Visible only when role is NOT 'builder') -->
+<div class="form-group col-md-4" *ngIf="UserDetails.role !== 'builder'">
+  <label for="">Builder: </label>
+  <select name="builderId" ngModel #builder="ngModel" class="custom-select">
+      <option value="">Select builder</option>
+      <option *ngFor="let user of builderUserList" [value]="user.id">{{ user.fname }}</option>
+  </select>
+</div>
+
+<!-- Agent Name Input Field (Visible only when role is 'builder') -->
+<div class="form-group col-md-4" *ngIf="UserDetails.role === 'builder'">
+  <label for="agencyName">Agency Name:</label>
+  <input type="text" id="agencyName" name="agencyName" ngModel #agencyName="ngModel" class="form-control" placeholder="Enter Agency Name">
+</div>
+
     </div>
     <div class="form-group propertyTitle">
       <p> {{f.cornerPlot?.value}} {{f.Proptype?.value}} {{f.societyName?.value}} {{f.city?.value}} {{f.state?.value}}</p>
@@ -222,7 +237,10 @@
       <small class="text-danger" *ngIf="title.touched && title.invalid">
         This field is required</small>
     </div>
-    <button [disabled]="f.invalid || isSubmittingForm" class="btn btn-primary btn-block"> 
-        <i class="bi bi-check-square me-1"></i>save</button>
+    <div class="text-end">
+      <button [disabled]="f.invalid || isSubmittingForm" class="btn btn-primary">
+        <i class="bi bi-check-square me-1"></i> Save
+      </button>
+    </div>
   </form>
 </div>

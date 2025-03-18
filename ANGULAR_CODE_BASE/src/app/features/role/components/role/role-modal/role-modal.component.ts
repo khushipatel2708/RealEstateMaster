@@ -75,27 +75,28 @@ export class RoleModalComponent implements OnInit {
 onSubmit_Form() {
     this.submitted = true;
     if (this.form.invalid) {
+       this.toastr.warning("Enter valid data");
       return;
     }
     const roleData = {
-      id:this.id || 0,
+      id:this.id,
       name:this.form.get("name").value,
     };
 
-    if (this.id) {
-      // Update role
-      this.commonService.addEditRole(roleData).subscribe((result) => {
-        this.toastr.success('Role updated successfully', 'Success');
+    this.spinner.show("model")
+    this.commonService.addEditRole(roleData).subscribe({
+      next: (result) => {
+        this.spinner.hide("model");
+        let message = this.id > 0 ? "Role updated successfully" : "Role added successfully";
+        this.toastr.success(message, "Success");
         this.onRole_Emit.emit(true);
         this.activeModal.close();
-      });
-    } else {
-      // Create new role
-      this.commonService.addEditRole(roleData).subscribe((result) => {
-        this.toastr.success('Role added successfully', 'Success');
-        this.onRole_Emit.emit(true);
-        this.activeModal.close();
-      });
-    }
+      },
+      error: (err) => {
+        this.spinner.hide("model");
+        this.toastr.error("Failed save role");
+        console.error("Error while saving role:", err);
+      }
+    });
   }  
 }

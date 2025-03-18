@@ -91,3 +91,9 @@ ul.header-drp-dwn li button {
     padding-bottom: 5px;
 }
 
+.dropdown-menu .dropdown-item:hover, 
+.dropdown-menu .dropdown-item:focus, 
+.dropdown-menu .dropdown-item.active {
+    background-color: var(--bs-primary) !important; 
+    color: #fff !important;
+}

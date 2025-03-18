@@ -59,17 +59,19 @@ public partial class Property
 
   public bool? CornerPlot { get; set; }
 
-  public int? BuilderId { get; set; }
-
   public int? Version { get; set; }
 
-  public virtual Builder? Builder { get; set; }
+  public int? BuilderId { get; set; }
+
+  public string? AgencyName { get; set; }
+
+  public virtual User? Builder { get; set; }
 
   public virtual City? City { get; set; }
 
   public virtual State? State { get; set; }
 
-  public virtual User? User { get; set; }
-
   public virtual PropertyOriginal? Type { get; set; }
+
+  public virtual User? User { get; set; }
 }

@@ -110,6 +110,7 @@ export class Menu1ModalComponent implements OnInit {
   onSubmit_Menu() {
     this.submitted = true;
     if (this.form.invalid) {
+      this.toastr.warning("Enter valid data");
       return;
     }
   

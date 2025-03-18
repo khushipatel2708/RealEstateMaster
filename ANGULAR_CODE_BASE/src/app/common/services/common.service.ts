@@ -186,6 +186,10 @@ getUserList(filters: any): Observable<any> {
   return this.http.post<any>(`${environment.BASE_URL}/user/getUserList`, filters);
 }
 
+getUserDdlList() {
+  return this.http.get<any>(`${environment.BASE_URL}/user/GetUserDDLList`);
+}
+
 addEditUser(userdata: any): Observable<any> {
   return this.http.post(`${environment.BASE_URL}/user`, userdata);
 }

@@ -34,15 +34,14 @@ public partial class User
 
   public string? Role { get; set; }
 
+
   public DateTime? CreatedOn { get; set; }
 
   public string Password { get; set; } = null!;
 
   public string? PhotoPath { get; set; }
 
-  //public virtual City? City { get; set; }
+  public virtual ICollection<Property> PropertyBuilders { get; set; } = new List<Property>();
 
-  //public virtual State? State { get; set; }
-  public virtual ICollection<Property> Properties { get; set; } = new HashSet<Property>();
-
+  public virtual ICollection<Property> PropertyUsers { get; set; } = new List<Property>();
 }

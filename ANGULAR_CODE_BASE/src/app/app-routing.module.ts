@@ -43,12 +43,12 @@ const routes: Routes = [
     loadChildren: () => import('./features/permission/permission.module').then(m => m.PermissionModule)
     
   },
-  {
-    path: 'builder',
-    component: MainComponent,
-    loadChildren: () => import('./features/builder/builder.module').then(m => m.BuilderModule)
+  // {
+  //   path: 'builder',
+  //   component: MainComponent,
+  //   loadChildren: () => import('./features/builder/builder.module').then(m => m.BuilderModule)
     
-  },
+  // },
   {
     path: 'admin',
     component: MainComponent,

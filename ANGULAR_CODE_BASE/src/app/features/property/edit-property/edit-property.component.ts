@@ -5,6 +5,7 @@ import { CommonService } from '../../../common/services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { UserService } from 'app/common/services/user.service';
 
 @Component({
   selector: 'app-edit-property',
@@ -22,7 +23,8 @@ export class EditPropertyComponent implements OnInit {
     public toastr: ToastrService,
     private builder:FormBuilder,
     private spinner: NgxSpinnerService,
-    private router:Router
+    private router:Router,
+    public userService: UserService,
   ) { }
 
   propertyDetail: any = {
@@ -53,7 +55,8 @@ export class EditPropertyComponent implements OnInit {
       pincode:[null],
       locality:[null],
       cornerPlot:[null],
-      builder:[null]
+      builder:[],
+      agencyName:[],
     });
     let propertySlug = this.activatedRoute.snapshot.paramMap.get('propertySlug');
     console.log(propertySlug,"propertyslug")
@@ -61,12 +64,47 @@ export class EditPropertyComponent implements OnInit {
       this.getProperty(propertySlug);
       }
       this.getStateList();
-      this.getBuilderList();
+      this.getUserList();
+      this.getCurrentUserDetails();
     this.commonService.getPropertyTypeList()
       .subscribe(result => this.propertyTypeList = result);
 
   }
   
+  UserDetails: any = {}; 
+  userRole: string = '';
+  
+  getCurrentUserDetails() {
+    this.commonService.togglePageLoaderFn(true);
+    this.userService.getCurrentUserDetails().subscribe({
+      next: (result: any) => {
+        this.UserDetails = result;
+        this.userRole = result.role || ''; // Store user role
+        this.commonService.togglePageLoaderFn(false);
+      },
+      error: (err) => {
+        console.error("Error fetching user details:", err);
+        this.commonService.togglePageLoaderFn(false);
+      }
+    });
+  }
+
+  userList: any[] = [];
+builderUserList: any[] = [];
+
+getUserList() {
+  this.commonService.getUserDdlList()
+    .subscribe(result => {
+      this.userList = result;
+
+      // Filter users with role as 'builder'
+      this.builderUserList = this.userList.filter(user => user.role === 'builder');
+      console.log("builderUserList",this.builderUserList)
+    }, error => {
+      console.error(error);
+    });
+}
+
   getProperty(propertySlug) {
     this.spinner.show();
     this.commonService.getSingleProperty(propertySlug)
@@ -89,6 +127,7 @@ export class EditPropertyComponent implements OnInit {
             pincode: result.pincode,
             cornerPlot: !!result.cornerPlot,
             builder: result.builderId,
+            agencyName: result.agencyName,
           });
   
           const stateId = this.form.get('state')?.value;
@@ -148,46 +187,7 @@ export class EditPropertyComponent implements OnInit {
     }
   }
 
-// submitForm() {
-//     this.isSubmittingForm = true;
-//     if(this.form.invalid){
-//       alert("enter valid details");
-//     }
-//     const imageData = new FormData();
-//     imageData.append('title', this.form.get("title").value);
-//     imageData.append('propertyFor', this.form.get("propertyFor").value);
-//     imageData.append('type', this.form.get("type").value || '');
-//     imageData.append('state', this.form.get("state").value || '');
-//     imageData.append('city', this.form.get("city").value || '');
-//     imageData.append('locality', this.form.get("locality").value || '');
-//     imageData.append('address', this.form.get("address").value || '');
-//     imageData.append('description', this.form.get("description").value || '');
-//     imageData.append('email', this.form.get("email").value || '');
-//     imageData.append('phoneNo', this.form.get("phoneNo").value || '');
-//     imageData.append('pincode', this.form.get("pincode").value || '');
-//     imageData.append('cornerPlot',this.form.get("cornerPlot").value);
-//     imageData.append('builder',this.form.get("builder").value || '');
-//     this.imgsToUpload.forEach((ele, index) => {
-//       imageData.append("propImages", ele, ele['name']);
-//     });
-//     const dataToSend = {};
-//     imageData.forEach((value, key) => {
-//       dataToSend[key] = value;
-//     });
-//   const id=this.propertyDetail.id;
-//     this.commonService.togglePageLoaderFn(true);
-//     this.commonService.editProperty(dataToSend,id).subscribe(
-//       (result) => {
-//         this.commonService.togglePageLoaderFn(false);
-//         this.toastr.success("Property edited successfully.");
-//         alert("Property edited successfully.");
-//         this.router.navigate(['/property/list']);
-//       },(err) =>{
-//         this.commonService.togglePageLoaderFn(false);
-//         this.toastr.error("Failed to edit property list");
-//       }
-//     )
-//   }
+
 submitForm() {
   this.isSubmittingForm = true;
   if (this.form.invalid) {
@@ -209,6 +209,11 @@ submitForm() {
   imageData.append('pincode', this.form.get("pincode").value || '');
   imageData.append('cornerPlot', this.form.get("cornerPlot").value);
   imageData.append('builderId', this.form.get("builder").value || '');
+  imageData.append('agencyName', this.form.get("agencyName").value || '');
+
+  // Add userId to the form data (from the current user details)
+  imageData.append('userId', this.UserDetails.id);
+
   this.spinner.show();
 
   this.imgsToUpload.forEach((ele) => {
@@ -223,7 +228,6 @@ submitForm() {
       this.spinner.hide()
       this.commonService.togglePageLoaderFn(false);
       this.toastr.success("Property edited successfully.");
-      // alert("Property edited successfully.");
       this.router.navigate(['/property/list']);
     },
     (err) => {
@@ -234,25 +238,76 @@ submitForm() {
   );
 }
 
-  getBuilderList() {
-    this.commonService.getBuilderDdlList()
-      .subscribe(result => {
-        this.builderList = result;
-      }, error => {
-        console.error(error);
-      });
-  }
 
-  locationBack() {
-    this.location.back();
-  }
-getStateList(){
-  this.commonService.getStatelist().subscribe(response => {
-    if (response.length > 0) {
-      this.stateList = response;
-    
-    }
-  });
+
+// submitForm() {
+//   this.isSubmittingForm = true;
+//   if (this.form.invalid) {
+//     alert("Enter valid details");
+//     return;
+//   }
+
+//   const imageData = new FormData();
+//   imageData.append('title', this.form.get("title").value);
+//   imageData.append('propertyFor', this.form.get("propertyFor").value);
+//   imageData.append('typeId', this.form.get("type").value || '');
+//   imageData.append('stateId', this.form.get("state").value || '');
+//   imageData.append('cityId', this.form.get("city").value || '');
+//   imageData.append('locality', this.form.get("locality").value || '');
+//   imageData.append('address', this.form.get("address").value || '');
+//   imageData.append('description', this.form.get("description").value || '');
+//   imageData.append('email', this.form.get("email").value || '');
+//   imageData.append('phoneNo', this.form.get("phoneNo").value || '');
+//   imageData.append('pincode', this.form.get("pincode").value || '');
+//   imageData.append('cornerPlot', this.form.get("cornerPlot").value);
+//   imageData.append('builderId', this.form.get("builder").value || '');
+//   imageData.append('agencyName', this.form.get("agencyName").value || '');
+//   this.spinner.show();
+
+//   this.imgsToUpload.forEach((ele) => {
+//     imageData.append("propImages", ele, ele.name);
+//   });
+
+//   const id = this.propertyDetail.id;
+
+//   this.commonService.togglePageLoaderFn(true);
+//   this.commonService.editProperty(imageData, id).subscribe(
+//     (result) => {
+//       this.spinner.hide()
+//       this.commonService.togglePageLoaderFn(false);
+//       this.toastr.success("Property edited successfully.");
+//       // alert("Property edited successfully.");
+//       this.router.navigate(['/property/list']);
+//     },
+//     (err) => {
+//       this.spinner.hide();
+//       this.commonService.togglePageLoaderFn(false);
+//       this.toastr.error("Failed to edit property list");
+//     }
+//   );
+// }
+
+locationBack() {
+  this.location.back();
 }
+getStateList(){
+this.commonService.getStatelist().subscribe(response => {
+  if (response.length > 0) {
+    this.stateList = response;
+  
+  }
+});
+}
+
+  // getBuilderList() {
+  //   this.commonService.getBuilderDdlList()
+  //     .subscribe(result => {
+  //       this.builderList = result;
+  //     }, error => {
+  //       console.error(error);
+  //     });
+  // }
+
+
  
 }
