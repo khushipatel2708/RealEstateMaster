@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CommonService } from '../../../common/services/common.service';
 import { RegistrationValidators } from '../../../common/validators/registration.validators';
 import { environment } from 'environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class RegistrationComponent implements OnInit {
     private commonService: CommonService,
     private registrationValidators: RegistrationValidators,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private toast:ToastrService
   ) { }
  
   get lf() {
@@ -46,10 +48,10 @@ export class RegistrationComponent implements OnInit {
       email: new FormControl('', [Validators.email, Validators.required], this.registrationValidators.checkEmailAvailability.bind(this.registrationValidators)),
       phoneNo: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{10}$")]),
       password: new FormControl('', [
-        Validators.required, 
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
-      ]
-),
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$')
+      ]),
       cPassword: new FormControl('', [Validators.required]),
       state: new FormControl('',Validators.required),
       city: new FormControl('',Validators.required),
@@ -114,10 +116,10 @@ export class RegistrationComponent implements OnInit {
             queryParams: { action: 'signUpsuccess' }
           });
         }
+        this.toast.success("Registre Data Successfully")
       },
         (error: Response) => {
           this.mainErrorMessage.type = 'danger';
-
           if (error.status === 400) {
             this.mainErrorMessage.message = 'Your request is invalid';
           }

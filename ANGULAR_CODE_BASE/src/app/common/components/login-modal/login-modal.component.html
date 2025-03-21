@@ -49,10 +49,10 @@
           
           <form  [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="form-group">
-              <input type="text" formControlName="emailPhone" class="form-control" placeholder="emailPhone"
+              <input type="text" formControlName="emailPhone" class="form-control" placeholder="email or Phone number"
                 [ngClass]="{'is-invalid': loginFormSubmitted && lf.emailPhone.invalid, 'is-valid': loginFormSubmitted && !lf.emailPhone.invalid }" />
               <div class="help-block mt-1 text-danger" *ngIf="loginFormSubmitted && (lf.emailPhone.invalid || lf.emailPhone.errors?.required)">
-                <i class="ft-alert-circle align-middle"></i> EmailPhone is required.
+                <i class="ft-alert-circle align-middle"></i> Email or Phone is required.
               </div>
             </div>
             <div class="form-group">

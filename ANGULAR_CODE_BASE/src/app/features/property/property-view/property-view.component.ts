@@ -30,33 +30,10 @@ propertyDetail = {
   locality: '',
   type: ''
 };
-// imageDetail: any;
 env = environment;
 
-imageDetail: any[] = []; // Ensure it's always an array
+imageDetail: any[] = [];
 
-// getProperty(propertySlug: string) {
-//   this.commonService.togglePageLoaderFn(true);
-//   this.commonService.getSingleProperty(propertySlug)
-//     .subscribe(result => {
-//       console.log(result); 
-//       if (this.imageDetail.length) {
-//         console.log(this.env.BASE_URL + this.imageDetail[0]);
-//       }
-//       this.propertyDetail = result['result'];
-//       this.imageDetail = result['files'] || []; // Fallback to an empty array if no files
-//       console.log(this.imageDetail);
-//       console.log(this.imageDetail);
-// console.log(this.env.BASE_URL + this.imageDetail[0]?.path);
-//     },
-//     (err) => {
-//       console.log({ err });
-//       this.commonService.togglePageLoaderFn(false);
-//     },
-//     () => {
-//       this.commonService.togglePageLoaderFn(false);
-//     });
-// }
 
 getProperty(propertySlug: string) {
   this.spinner.show();

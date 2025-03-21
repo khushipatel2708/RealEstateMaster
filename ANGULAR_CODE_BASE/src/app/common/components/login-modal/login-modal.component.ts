@@ -4,6 +4,7 @@ import { LoginService } from '../../services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login-modal',
@@ -21,7 +22,8 @@ export class LoginModalComponent implements OnInit {
     private router: Router,
     private commonService: CommonService,
     private cdRef: ChangeDetectorRef,
-    private formBuilder:FormBuilder
+    private formBuilder:FormBuilder,
+    private toast:ToastrService
   ) { }
   get lf() {
     return this.loginForm.controls;
@@ -68,6 +70,7 @@ export class LoginModalComponent implements OnInit {
           status: true,
           message: 'Logged In successfully'
         }
+        this.toast.success("Login Successfully")
         // this.loginCheck = false;
         // this.alertMessage.message = '';
         const token = response['token'];
@@ -81,6 +84,7 @@ export class LoginModalComponent implements OnInit {
       // this.alertMessage.type = 'danger';
       // this.loginCheck = false;
       console.log('Unexpected error occured ', error);
+      this.toast.error("Invalid Email and Password")
       if (error.status === 401) {
         this.alertMessage.message = "Either of you details is incorrect";
       }

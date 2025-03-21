@@ -104,16 +104,13 @@ export class UserComponent implements OnInit {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        this.spinner.show();
         this.commonService.deleteUser(id).subscribe({
           next: () => {
-            this.spinner.hide();
             Swal.fire('Deleted!', 'User has been deleted.', 'success');
             this.toastr.success('Your user has been deleted successfully!', 'Deleted');
             this.getUserList();  // Refresh the list after deletion
           },
           error: (err) => {
-            this.spinner.hide();
             Swal.fire('Error!', 'There was an error deleting the user.', 'error');
             this.toastr.error('There was an error deleting the user.', 'Error');
           }

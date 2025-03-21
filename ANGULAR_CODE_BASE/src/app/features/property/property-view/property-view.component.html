@@ -229,11 +229,20 @@
         <i class="bi bi-images"></i> Property Images
       </h3>
       <div class="row g-3">
-        <div class="col-md-3 col-sm-6" >
-     <img [src]="imageDetail.length ? imageDetail[0] : '/assets/images/property-no-image.png'"
-     class="img-fluid rounded shadow-sm"
+        <div class="col-md-3 col-sm-6" *ngFor="let image of imageDetail">
+     <img [src]="image"
+     class="img-fluid rounded shadow-sm" style="width: 260px; height: 150px;"
      alt="Property Image">
       </div>
+      <!-- <div class="row">
+        <div class="col-md-2" *ngFor="let image of imageDetail">
+          <img [src]="image" 
+               class="img-fluid rounded shadow-sm"
+               alt="Property Image"
+               style="width: 200px; height: 120px;">
+        </div>
+      </div> -->
+      
 
       <h3 class="mt-5 text-primary fw-bold">
         <i class="bi bi-file-earmark-text"></i> Property Details
