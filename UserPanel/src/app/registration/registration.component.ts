@@ -98,13 +98,13 @@ registrationForm:FormGroup;
     if(this.registrationForm.invalid){
       return;
     }
-    const formData = { ...data.value,id:0, phoneNo: String(data.value.phoneNo),cityId:Number(data.value.cityId),stateId:Number(data.value.stateId),pincode:Number(data.value.pincode) };
+    const formData = { ...data.value,id:0, phoneNo: String(data.value.phoneNo),cityId:Number(data.value.cityId),stateId:Number(data.value.stateId),pincode:Number(data.value.pincode),role:'user'};
 
-    this.http.post(environment.BASE_URL + '/user/register', formData)
+    this.http.post(environment.BASE_URL + '/auth/user/register', formData)
       .subscribe(response => {
         console.log('--- reg form -- ', response);
         if (response && response['message']) {
-          this.router.navigate(['/'], {
+          this.router.navigate(['/login'], {
             queryParams: { action: 'signUpsuccess' }
           });
         }

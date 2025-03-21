@@ -1,4 +1,88 @@
-<p class="mt-3">property-detail works!</p>
-<div>
-    <button [routerLink]="'/payment/' + id" [queryParams]="{ title: propertyTitle }" class="btn btn-primary">Buy</button>
+<div class="card shadow-lg mt ml-3 mr-3">
+    <h3 class="mt-2 fw-bold p-3 title">
+        <i class="bi bi-camera"></i> Image Gallery
+      </h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 p-3">
+        <div class="col-md-3 col-sm-6" *ngFor="let image of imageDetail">
+            <img [src]="image" class="img-fluid rounded shadow-sm property-img" alt="Property Image">
+          </div>
+    </div>
 </div>
+<div class="card shadow-lg mt-2 ml-3 mr-3">
+    <div class="d-flex justify-content-between align-items-center mt-2 p-3">
+        <h3 class="fw-bold title">
+          <i class="bi bi-file-earmark-text"></i> Property Details
+        </h3>
+      
+        <button [routerLink]="'/payment/' + id" [queryParams]="{ title: propertyTitle }" class="btn btn-submit mr-3" *ngIf="propertyDetail.status == 'available'">
+          Buy
+        </button>
+      </div>
+        <div class="row g-3 p-3">
+            <!-- Property Name -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-building me-1"></i> Property Name</strong>
+                <p class="mt-3 ml-4 text-muted">{{propertyDetail?.title}}</p>
+            </div>
+    
+            <!-- Property Slug -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-link-45deg me-1"></i> Property Slug</strong>
+                <p class="mt-3 ml-4 text-muted">{{propertyDetail?.slug}}</p>
+            </div>
+    
+            <!-- Property Type -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-houses me-1"></i> Property Type</strong>
+                <p class="mt-3 ml-4 text-muted">{{propertyDetail?.type}}</p>
+            </div>
+    <div class="col-md-6">
+        <strong><i class="bi bi-map me-1"></i> Sqft.</strong>
+        <p class="mt-3 ml-4 text-muted">{{ (propertyDetail?.breadth | number) * (propertyDetail?.length | number) }} sqft</p>
+    </div>
+            <!-- State -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-map me-1"></i> State</strong>
+                <p class="mt-3 ml-4 text-muted">{{propertyDetail?.state}}</p>
+            </div>
+    
+            <!-- City -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-geo-alt me-1"></i> City</strong>
+                <p class="mt-3 ml-4 text-muted">{{propertyDetail?.city}}</p>
+            </div>
+    
+            <!-- Locality -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-geo-fill me-1"></i> Locality</strong>
+                <p class="mt-3 ml-4 text-muted">{{propertyDetail?.locality}}</p>
+            </div>
+    
+            <!-- Property For -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-key me-1"></i> Property For</strong>
+                  <p class="mt-3 ml-4 text-muted">{{propertyDetail?.propertyFor}}</p>
+            </div>
+    
+            <!-- Status -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-info-circle"></i> Status</strong>
+                <p class="mt-3 ml-4">
+                  <span class="badge bg-success">{{propertyDetail.status}}</span>
+                </p>
+            </div>
+    
+            <!-- Society Name -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-building"></i> Society Name</strong>
+                <p class="mt-3 ml-4 text-muted">{{propertyDetail?.societyName}}</p>
+            </div>
+    
+            <!-- Flat No -->
+            <div class="col-md-6">
+                <strong><i class="bi bi-door-closed me-1"></i> Flat No</strong>
+                <p class="mt-3 ml-4 text-muted">{{propertyDetail?.flatNo}}</p>
+              </div>
+          </div>
+</div> 
+

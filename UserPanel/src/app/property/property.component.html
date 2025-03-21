@@ -25,23 +25,50 @@
       </div>
     </div>
   </section> -->
-  <section id="property-slider" class="property-slider section">
+  <section id="property-slider" class="property-slider section p-3">
     <div class="container section-title">
       <h2>Featured Properties</h2>
       <p>Explore our latest listings and find your dream home today!</p>
     </div>
   
     <div class="slider-container">
-      <div class="slider" id="propertySlider">
-        <div class="slide" *ngFor="let builder of property">
+      <div class="slider row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-2" id="propertySlider" >
+        <div class="slide col" *ngFor="let builder of property">
           <div class="property-card">
-            <img [src]="builder.imageUrl ? builder.imageUrl : 'assets/images/no-photo.jpg'" alt="Property Image" class="property-img">
-            <div class="property-info">
-              <h4>{{ builder.title }}</h4>
-              <span>Rs.{{ builder.price }}</span><br>
-              <span>{{builder.cityName}}</span>
-              <a [routerLink]="'/property-detail/' + builder.id" 
-              [queryParams]="{ title: builder.title }"  class="view-details" *ngIf="isUserLoggedIn"><i class="fa fa-eye text-info"></i></a>
+            <!-- <img [src]="builder.imageUrl ? builder.imageUrl : 'assets/images/no-photo.jpg'" alt="Property Image" class="property-img"> -->
+            <div id="carousel-{{ builder.id }}-{{ i }}" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div *ngFor="let image of builder.imageUrls; let i = index" 
+                     class="carousel-item" 
+                     [ngClass]="{ 'active': i === 0 }">
+                  <img [src]="image" class="property-img d-block w-100" alt="Property Image">
+                </div>
+              </div>
+          </div>
+            <div>
+              <h4 class="pt-2" *ngIf="builder.role == 'builder'">{{builder.agencyName}}</h4>
+              <h4 class="pt-2" *ngIf="builder.role == 'admin'">Admin Property</h4>
+              <!-- <h6 class="property-info"><i class="bi bi-buildings me-1"></i>{{ builder.title }}</h6> -->
+              <div class="row align-items-center">
+                <div class="col d-flex align-items-center">
+                  <p class="mt-0 mb-0 text-muted"><i class="bi bi-houses me-1"></i>&nbsp; {{builder.propertyType}}</p>
+                  </div>
+                  <div class="col-auto text-end">
+                  <p class="mt-0 mb-0 text-muted"><i class="bi bi-info-circle me-1"></i>{{builder.status}}</p>
+                  </div>
+              </div>
+              <div class="row align-items-center">
+                <div class="col d-flex align-items-center">
+                <p class="mt-0 mb-0 text-start"><i class="bi bi-wallet"></i>&nbsp; <b>{{ builder.price | currency:'INR':'symbol':'1.0-0' }}</b></p>
+                </div>
+                <div class="col-auto text-end">
+                <p class="mt-0 mb-0 text-muted"><i class="bi bi-geo-alt me-1"></i> {{ builder.cityName }},{{builder.stateName}}</p>
+                </div>
+                </div>
+                <div class="button-container pleft-5">
+                  <button [routerLink]="'/property-detail/' + builder.id" 
+                  [queryParams]="{ title: builder.slug }"  class="btn btn-custom view-details" *ngIf="isUserLoggedIn"><i class="fa fa-eye text-white"></i> View</button>
+                </div>
             </div>
           </div>
         </div>

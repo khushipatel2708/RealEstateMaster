@@ -77,7 +77,8 @@ login() {
   const payload = JSON.parse(atob(tokenParts[1]));
   const role = payload.user.role;
       this.loginSuccess(response['token']);
-      this.router.navigate(['/users/dashboard']);
+      // this.router.navigate(['/users/dashboard']);
+      this.router.navigate(['/home']);
   },
   (error: Response) => {
     // this.alertMessage.type = 'danger';

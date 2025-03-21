@@ -61,24 +61,28 @@ imageDetail: any[] = []; // Ensure it's always an array
 getProperty(propertySlug: string) {
   this.spinner.show();
   this.commonService.togglePageLoaderFn(true);
-  this.commonService.getSingleProperty(propertySlug)
-    .subscribe(result => {
-      this.spinner.hide()
-      console.log(result); 
-      this.propertyDetail = result['result'];
-      this.imageDetail = result['result'].files || []; // Now files contain full URLs
-      console.log(this.imageDetail);
+  
+  this.commonService.getSingleProperty(propertySlug).subscribe(
+    (result) => {
+      this.spinner.hide();
+      console.log(result);
+
+      // Store property details
+      this.propertyDetail = result?.property || {}; 
+      
+      // Store images; fallback to an empty array if no images are provided
+      this.imageDetail = result?.files?.length ? result.files : ['/assets/images/property-no-image.png'];
     },
     (err) => {
-      this.spinner.hide()
-      console.log({ err });
+      this.spinner.hide();
+      console.error({ err });
       this.commonService.togglePageLoaderFn(false);
     },
     () => {
       this.commonService.togglePageLoaderFn(false);
-    });
+    }
+  );
 }
-
 
 // getProperty(propertySlug) {
 //   this.commonService.togglePageLoaderFn(true);

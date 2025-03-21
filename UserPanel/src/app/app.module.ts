@@ -27,6 +27,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { AgentComponent } from './agent/agent.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PropertyDetailComponent } from './property-detail/property-detail.component';
+import { CommonModule } from '@angular/common';
 @NgModule({
   
   declarations: [
@@ -49,6 +50,7 @@ import { PropertyDetailComponent } from './property-detail/property-detail.compo
     BrowserAnimationsModule,
     NgbCarouselModule,
     FormsModule,
+    CommonModule,
     NgbModule,
     ReactiveFormsModule,
     AppRoutingModule,

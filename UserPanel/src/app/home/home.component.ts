@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { CommonService } from '../services/common.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 declare var bootstrap: any;
 
 @Component({
@@ -9,11 +10,21 @@ declare var bootstrap: any;
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit{
+  searchForm:FormGroup;
+  cities = [];
+  propertyTypes = [];
   builders: any[] = [];
-
-  constructor(private commonService: CommonService) {}
+  priceRanges = ['< ₹50 Lakh', '₹50 Lakh - ₹1 Crore', '₹1 Crore - ₹2 Crore', '> ₹2 Crore'];
+  constructor(private commonService: CommonService,private formBuilder:FormBuilder,private router:Router) {}
 ngOnInit(): void {
+  this.searchForm=this.formBuilder.group({
+    city:[null,Validators.required],
+    propertyType:[null,Validators.required],
+    priceRanges:[null,Validators.required]
+  });
   this.getBuilders();
+  this.getCityDdlList();
+  this.getPropertyTypeDdlList();
 }
 @ViewChild('heroCarousel', { static: false }) heroCarousel!: ElementRef;
 
@@ -39,6 +50,37 @@ getBuilders(): void {
     }));
   });
 }
+getCityDdlList(){
+this.commonService.getCitylist().subscribe(
+  (result) =>{
+    this.cities=result;
+  },
+  (error) =>{
+    console.log(error);
+  }
+)
+}
+getPropertyTypeDdlList(){
+  this.commonService.getPropertyTypeList().subscribe(
+    (result) =>{
+      this.propertyTypes=result;
+    },
+    (error) =>{
+      console.log(error);
+    }
+  )
+}
 
+searchProperties() {
+  if (this.searchForm.valid) {
+    const queryParams = {
+      city: this.searchForm.value.city,
+      propertyType: this.searchForm.value.propertyType,
+      priceRange: this.searchForm.value.priceRanges
+    };
+
+    this.router.navigate(['/property'], { queryParams });
+  }
+}
 }
 

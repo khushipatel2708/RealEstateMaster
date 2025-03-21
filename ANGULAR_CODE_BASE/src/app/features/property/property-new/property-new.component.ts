@@ -81,7 +81,7 @@ submitForm(data) {
 
       if (userDetail && userDetail.id) {
         data.value.userId = userDetail.id;
-        console.log("getCurrentUserDetail", userDetail);
+       console.log("getCurrentUserDetail", userDetail);
 
         // Find selected builder's fname
         const selectedBuilder = this.builderUserList.find(user => user.id === this.selectedBuilderId);

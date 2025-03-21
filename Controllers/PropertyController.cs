@@ -85,7 +85,7 @@ namespace RealEstate.Controllers
           CreatedOn = DateTime.UtcNow,
           UpdatedOn = DateTime.UtcNow,
           PropertyFor = model.PropertyFor,
-          Status = model.Status,
+          Status = "available",
           IsActive = model.IsActive ?? true,
           Email = model.Email,
           PhoneNo = model.PhoneNo,
@@ -248,6 +248,13 @@ namespace RealEstate.Controllers
           return NotFound(new { message = "Property not found" });
         }
 
+        // Extract Agency Name from related entity if applicable
+        string agencyName = null;
+        if (property.User != null) // If User is the Agency
+        {
+          agencyName = property.User.Fname; // Replace 'Fname' with actual column if needed
+        }
+
         // Format image URLs properly so the frontend can access them
         var files = new List<string>();
         if (!string.IsNullOrEmpty(property.Images))
@@ -268,6 +275,8 @@ namespace RealEstate.Controllers
           property.Address,
           property.Email,
           property.PhoneNo,
+          property.Length,
+          property.Breadth,
           property.Pincode,
           property.Locality,
           property.CornerPlot,
@@ -276,7 +285,7 @@ namespace RealEstate.Controllers
           property.CityId,
           property.StateId,
           property.BuilderId,
-          property.AgencyName,
+          AgencyName = agencyName, // Avoid direct reference to non-existing column
           property.TypeId,
           property.UserId,
           property.PropertyFor,
@@ -299,10 +308,10 @@ namespace RealEstate.Controllers
       }
       catch (Exception ex)
       {
-        return BadRequest(new { message = ex.Message });
+        return BadRequest(new { message = ex.Message, stackTrace = ex.StackTrace });
       }
     }
-
+    
     [HttpPut("edit/{id}")]
     public async Task<IActionResult> EditProperty(int id, [FromForm] PropertyViewModel dataToSend, [FromForm] List<IFormFile> propImages)
     {
@@ -366,7 +375,7 @@ namespace RealEstate.Controllers
     }
 
     [HttpGet("filterProperties")]
-    public async Task<IActionResult> FilterProperties([FromQuery] string propertyFor = "",[FromQuery] string type = "",[FromQuery] string city = "",[FromQuery] int userId = 0,[FromQuery] int notUserId = 0,[FromQuery] string status = "")
+    public async Task<IActionResult> FilterProperties([FromQuery] string propertyFor = "", [FromQuery] string type = "", [FromQuery] string city = "", [FromQuery] int userId = 0, [FromQuery] int notUserId = 0, [FromQuery] string status = "")
     {
       try
       {
@@ -427,27 +436,85 @@ namespace RealEstate.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> getPropertyList()
+    public async Task<IActionResult> getPropertyList([FromQuery] string city = null, [FromQuery] string propertyType = null, [FromQuery] string priceRange = null)
     {
       try
       {
-        return Ok(await _context.Properties.Select(s => new
+        var baseUrl = "http://localhost:5026"; // Define base URL
+        var propertiesQuery = _context.Properties
+            .Include(p => p.Builder)
+            .Include(p => p.State)
+            .Include(p => p.City)
+            .AsQueryable();
+
+        // Apply filters if query parameters exist
+        if (!string.IsNullOrEmpty(city))
+          propertiesQuery = propertiesQuery.Where(p => p.City.Name == city);
+
+        if (!string.IsNullOrEmpty(propertyType))
+          propertiesQuery = propertiesQuery.Where(p => p.Type.Title == propertyType);
+
+        if (!string.IsNullOrEmpty(priceRange))
+        {
+          if (priceRange == "< ₹50 Lakh")
+            propertiesQuery = propertiesQuery.Where(p => p.Price < 5000000);
+          else if (priceRange == "₹50 Lakh - ₹1 Crore")
+            propertiesQuery = propertiesQuery.Where(p => p.Price >= 5000000 && p.Price <= 10000000);
+          else if (priceRange == "₹1 Crore - ₹2 Crore")
+            propertiesQuery = propertiesQuery.Where(p => p.Price > 10000000 && p.Price <= 20000000);
+          else if (priceRange == "> ₹2 Crore")
+            propertiesQuery = propertiesQuery.Where(p => p.Price > 20000000);
+        }
+
+        var properties = await propertiesQuery
+            .Select(s => new
+            {
+              s.Id,
+              s.Title,
+              s.Price,
+              s.Images, // Using Images column
+              BuilderFname = s.Builder.Fname,
+              BuilderPhoneNo = s.Builder.PhoneNo,
+              StateName = s.State.Name,
+              CityName = s.City.Name,
+              PropertyType=s.Type.Title,
+              Role=s.User.Role,
+              s.Status,
+              s.AgencyName,
+              s.Slug
+            })
+            .AsNoTracking()
+            .ToListAsync(); // Fetch data first
+
+        // Process image URLs after fetching data
+        var propertyList = properties.Select(s => new
         {
           s.Id,
           s.Title,
           s.Price,
-          s.ImgPath,
-          BuilderFname = s.Builder.Fname,
-          BuilderPhoneNo = s.Builder.PhoneNo,
-          StateName = s.State.Name,  // Renamed to avoid conflict
-          CityName = s.City.Name
-        }).ToListAsync());
+          s.BuilderFname,
+          s.BuilderPhoneNo,
+          s.StateName,
+          s.CityName,
+          s.PropertyType,
+          s.Status,
+          s.AgencyName,
+          s.Slug,
+          s.Role,
+          ImageUrls = !string.IsNullOrEmpty(s.Images)
+                ? s.Images.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                          .Select(img => $"{baseUrl}{img.Trim()}")
+                          .ToList()
+                : new List<string>() // If no images, return an empty list
+        }).ToList();
+
+        return Ok(propertyList);
       }
-catch (Exception ex)
+      catch (Exception ex)
       {
         return StatusCode(500, new { message = "Internal server error", error = ex.Message });
       }
-      }
+    }
 
     [HttpPost("uploadPropertyImage")]
     public async Task<IActionResult> UploadPropertyImage(IFormFile file)

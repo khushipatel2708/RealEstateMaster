@@ -2,6 +2,7 @@
     text-align: center;
     overflow: hidden;
     padding: 40px 0;
+    margin-top: 5%;
   }
   
   .slider-container {
@@ -22,7 +23,9 @@
   }
   
   .property-card {
-    background: #fff;
+    width: 270px; 
+  height: 360px; 
+    background: #d0debb;
     border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -31,18 +34,44 @@
   
   .property-img {
     width: 100%;
-    height: auto;
+    height: 200px;
     border-radius: 10px;
+    object-fit: cover;
+    max-width: 250px;
+    max-height: 200px;
   }
   
   .property-info {
+    min-height: 40px; 
     padding: 10px 0;
+    text-align: center;
   }
+
   
   .view-details {
     display: block;
     margin-top: 5px;
-    color: #007bff;
+    color: white;
     text-decoration: none;
   }
+  .carousel-control-prev,
+.carousel-control-next {
+  width: 10%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+}
+.btn-custom{
+  background: #798b70d1;
+  border-radius: 30px;
   
+}
+
+.pleft-5{
+  padding-left: 22%;
+}
+@media (max-width: 768px) {
+  .carousel-control-prev,
+  .carousel-control-next {
+    display: none;
+  }
+}

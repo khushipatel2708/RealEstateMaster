@@ -18,4 +18,30 @@
 .main{
   margin-top:80px;
 }  
-  
+.img-builder{
+  max-width:200px;
+  max-height:200px;
+  min-width:200px;
+  min-height:200px;
+}  
+.btn-submit{
+  background: color-mix(in srgb, var(--accent-color), transparent 20%);
+  color:white;
+}
+#searchProperty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Aligns title above the card */
+  padding-top: 50px; /* Adds spacing at the top */
+}
+
+.search-bar {
+  border-radius: 100px !important;
+  background-color: #fff; 
+  padding: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 1000px; /* Adjust width to fit content */
+  display: flex;
+  justify-content: center;
+}

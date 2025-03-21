@@ -53,8 +53,52 @@
 
       </div>
 
-    </section><!-- /Hero Section -->
+    </section>
+    <!-- /Hero Section -->
+    <!-- Hero Section -->
+    <section id="searchProperty">
+      <h2 class="section-title">Search Property</h2>
+      <div class="search-bar p-3 rounded-3">
+        <form [formGroup]="searchForm" class="d-flex align-items-center gap-2 w-100">
+          <!-- City Dropdown -->
+          <div class="col-md-3 col-lg-3 pl-3 pr-1">
+            <label for="city" class="form-label">City</label>
+            <select id="city" formControlName="city" class="form-select">
+              <option value="" disabled selected>Select City</option>
+              <option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</option>
+            </select>
+          </div>
+    
+          <!-- Property Type Dropdown -->
+          <div class="col-md-3 col-lg-3 pl-1 pr-1">
+            <label for="propertyType" class="form-label">Property Type</label>
+            <select id="propertyType" formControlName="propertyType" class="form-select">
+              <option value="" disabled selected>Select Property Type</option>
+              <option *ngFor="let type of propertyTypes" [value]="type.title">{{ type.title }}</option>
+            </select>
+          </div>
+    
+          <!-- Price Range Dropdown -->
+          <div class="col-lg-3 col-md-3 pl-1 pr-1">
+            <label for="priceRanges" class="form-label">Price Range</label>
+            <select id="priceRanges" formControlName="priceRanges" class="form-select">
+              <option value="" disabled selected>Select Price Range</option>
+              <option *ngFor="let range of priceRanges" [value]="range">{{ range }}</option>
+            </select>
+          </div>
+    
+          <!-- Search Button -->
+          <div class="col-lg-3 col-md-3 d-flex align-items-end">
+            <button class="btn btn-submit mt-3" (click)="searchProperties()">
+              <i class="bi bi-search"></i> Search
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+    
 
+    
     <!-- Services Section -->
     <section id="services" class="services section">
 
@@ -162,7 +206,7 @@
           <div *ngFor="let builder of builders" class="col-lg-4 col-md-6" data-aos="fade-up">
             <div class="member">
               <div class="pic">
-                <img [src]="builder.imageUrl ? builder.imageUrl : 'assets/images/img/team/default.jpg'" class="img-fluid" alt="Builder Image">
+                <img [src]="builder.imageUrl ? builder.imageUrl : 'assets/images/img/team/default.jpg'" class="img-fluid img-builder" alt="Builder Image">
               </div>
               <div class="member-info">
                 <h4>{{ builder.fname }} {{ builder.lname }}</h4>

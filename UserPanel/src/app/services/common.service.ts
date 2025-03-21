@@ -57,14 +57,14 @@ getRoleDDList(){
 }
   //Property Service
   getPropertyTypeList() {
-    return this.http.get<any>(environment.BASE_URL + '/common/type');
+    return this.http.get<any>(environment.BASE_URL + '/property/propertyTypeList');
   }
 
    getPropertyList(data:any){
   return this.http.post(environment.BASE_URL + '/property/list',data);
  }
-getUserPanelPropertyList(){
-  return this.http.get(environment.BASE_URL + '/property');
+ getUserPanelPropertyList(params?: any) {
+  return this.http.get(environment.BASE_URL + '/property', { params });
 }
   propertyList(param = '') {
     return this.http.get<any>(environment.BASE_URL + '/property/list/' + param);
@@ -86,7 +86,7 @@ getUserPanelPropertyList(){
   }
   
   getSingleProperty(propertySlug) {
-    return this.http.get<any>(environment.BASE_URL + '/property/single/' + propertySlug);
+    return this.http.get<any>(environment.BASE_URL + '/property/getSingleProperty/' + propertySlug);
   }
 
   filterProperties(param = '') {

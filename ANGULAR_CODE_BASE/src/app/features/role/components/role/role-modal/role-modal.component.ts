@@ -79,7 +79,7 @@ onSubmit_Form() {
       return;
     }
     const roleData = {
-      id:this.id,
+      id:this.id || 0,
       name:this.form.get("name").value,
     };
 
