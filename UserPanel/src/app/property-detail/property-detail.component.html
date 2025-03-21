@@ -17,6 +17,7 @@
         <button [routerLink]="'/payment/' + id" [queryParams]="{ title: propertyTitle }" class="btn btn-submit mr-3" *ngIf="propertyDetail.status == 'available'">
           Buy
         </button>
+        <button class="btn btn-danger mr-3" *ngIf="propertyDetail.status == 'sold'">Sold</button>
       </div>
         <div class="row g-3 p-3">
             <!-- Property Name -->

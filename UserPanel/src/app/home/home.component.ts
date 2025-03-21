@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonService } from '../services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from 'app/services/user.service';
 declare var bootstrap: any;
 
 @Component({
@@ -14,8 +15,9 @@ export class HomeComponent implements OnInit{
   cities = [];
   propertyTypes = [];
   builders: any[] = [];
+  currentUser:any={};
   priceRanges = ['< ₹50 Lakh', '₹50 Lakh - ₹1 Crore', '₹1 Crore - ₹2 Crore', '> ₹2 Crore'];
-  constructor(private commonService: CommonService,private formBuilder:FormBuilder,private router:Router) {}
+  constructor(private commonService: CommonService,private formBuilder:FormBuilder,private router:Router,private userService:UserService) {}
 ngOnInit(): void {
   this.searchForm=this.formBuilder.group({
     city:[null,Validators.required],
@@ -81,6 +83,17 @@ searchProperties() {
 
     this.router.navigate(['/property'], { queryParams });
   }
+}
+getCurrentUserDetail(){
+  this.userService.getCurrentUserDetails().subscribe(
+    (result) =>{
+      this.currentUser = result;
+      localStorage.setItem("role",this.currentUser.role);
+    },
+    (error) =>{
+      console.log(error);
+    }
+  )
 }
 }
 

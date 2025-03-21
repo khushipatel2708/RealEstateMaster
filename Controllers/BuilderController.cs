@@ -19,7 +19,7 @@ namespace RealEstate.Controllers
     [HttpGet("GetBuilderDDLList")]
     public async Task<IActionResult> GetBuilderDDLList()
     {
-      var builders = await _context.Builders.Select(s => new { s.Id,s.Location,s.Fname,s.State,s.Lname,s.City,s.Email,
+      var builders = await _context.Users.Where(w => w.Role == "builder").Select(s => new { s.Id,s.PhoneNo,s.Fname,s.State.Name,s.Lname,s.City,s.Email,
         PhotoPath = !string.IsNullOrEmpty(s.PhotoPath)
                 ? $"{Request.Scheme}://{Request.Host}/{s.PhotoPath.TrimStart('/')}"  // Remove extra slashes
                 : null
