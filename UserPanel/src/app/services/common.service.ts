@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Title } from '@angular/platform-browser';
 
-import { Observable, Subject } from 'rxjs';
+import { catchError, Observable, Subject, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 
@@ -46,6 +46,31 @@ export class CommonService {
     return this.http.get<any>(environment.BASE_URL + '/common/cities');
   }
 
+  updateProfile(userId: number, userData: any) {
+    return this.http.put<any>(`${environment.BASE_URL}/user/updateProfile/${userId}`, userData);
+}
+getCurrentUserDetails() {
+  const token = localStorage.getItem('token'); // Ensure token is stored in localStorage
+
+  if (!token) {
+    console.error("JWT Token is missing!");
+    return throwError(() => new Error("No token found"));
+  }
+
+  const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*', // Not necessary, but can be included
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      Authorization: `Bearer ${token}`
+  });
+  console.log("Sending Token:", token);
+  return this.http.get<any>(`${environment.BASE_URL}/auth/user/currentUser`, { headers }).pipe(
+    catchError(error => {
+      console.error("Error fetching user:", error);
+      return throwError(() => new Error(error));
+    })
+  );
+}
   getCitylistByState(stateId) {
     return this.http.get<any>(environment.BASE_URL + '/common/cities/' + stateId);
   }

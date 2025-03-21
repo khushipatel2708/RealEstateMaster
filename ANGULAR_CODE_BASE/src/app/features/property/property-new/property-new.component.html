@@ -76,13 +76,13 @@
             <small>Length</small>
             <input type="number" min="0" ngModel #length="ngModel" name="length" required placeholder="Plot length"
               class="form-control form-field-small">
-            <small class="text-danger" *ngIf="length.touched && length.invalid">required*</small>
+            <small class="text-danger" *ngIf="length.touched && length.invalid">Length is required.</small>
           </div>
           <div class="col-md-3">
             <small>Breadth</small>
             <input type="number" min="0" ngModel #breadth="ngModel" name="breadth" required placeholder="Plot breadth"
               class="form-control form-field-small">
-            <small class="text-danger" *ngIf="breadth.touched && breadth.invalid">required*</small>
+            <small class="text-danger" *ngIf="breadth.touched && breadth.invalid">Breadth is required.</small>
           </div>
           <div class="col-md-6">
             <p>Total-</p>
@@ -116,7 +116,7 @@
           <option *ngFor="let state of stateList" value="{{state.id}}" class="text-dark">{{state.name}}</option>
         </select>
         <small class="text-danger" *ngIf="state.touched && state.invalid">
-          This field is required</small>
+          State is required.</small>
       </div>
       <div class="form-group col-md-3">
         <label for="">City: <small *ngIf="FetchingCityList"><i class="fa fa-refresh fa-spin fa-fw"></i></small></label>
@@ -125,21 +125,21 @@
           <option *ngFor="let city of cityList" value="{{city.id}}">{{city.name}}</option>
         </select>
         <small class="text-danger" *ngIf="city.touched && city.invalid">
-          This field is required</small>
+          City is required.</small>
       </div>
       <div class="form-group col-md-3">
         <label for="">Pincode:</label>
         <input type="text" placeholder="Enter Pincode" ngModel #pincode="ngModel" required name="pincode"
           class="form-control">
         <small class="text-danger" *ngIf="pincode.touched && pincode.invalid">
-          This field is required</small>
+          Pincode is required.</small>
       </div>
       <div class="form-group col-md-3">
         <label for="">Locality:</label>
         <input type="text" name="locality" [appInputFormat]="'capitalize'" ngModel #locality="ngModel" required
           placeholder="Enter locality" class="form-control">
         <small class="text-danger" *ngIf="locality.touched && locality.invalid">
-          This field is required</small>
+          Locality is required..</small>
       </div>
       <div class="form-group col-md-4">
         <label>Is it a Society?</label> <br>
@@ -176,7 +176,7 @@
           class="form-control" resize="none" cols="30" maxlength="500" rows="5"></textarea>
 
         <small class="text-danger" *ngIf="description.touched && description.invalid">
-          This field is required</small>
+          Description is required.</small>
       </div>
       <div class="form-group col-md-12">
         <label for="">Property Complete Address:</label>
@@ -184,21 +184,21 @@
           placeholder="Enter complete Property's Address" class="form-control">
 
         <small class="text-danger" *ngIf="address.touched && address.invalid">
-          This field is required</small>
+          Address is required.</small>
       </div>
 
       <div class="form-group col-md-4">
         <label for="">Email:</label>
         <input type="text" placeholder="Enter Email" name="email" ngModel #email="ngModel" required class="form-control">
         <small class="text-danger" *ngIf="email.touched && email.invalid">
-          This field is required</small>
+          Email is required.</small>
       </div>
       <div class="form-group col-md-4">
         <label for="">Phone Number: </label>
         <input type="text" ngModel #phoneNo="ngModel" required name="phoneNo" placeholder="Enter Phone Number"
           class="form-control">
         <small class="text-danger" *ngIf="phoneNo.touched && phoneNo.invalid">
-          This field is required</small>
+          Phone Number is required.</small>
       </div>
       <!-- <div class="form-group col-md-4" *ngIf="UserDetails.role !== 'builder'">
         <label for="">Builder: </label>

@@ -28,6 +28,7 @@ import { AgentComponent } from './agent/agent.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PropertyDetailComponent } from './property-detail/property-detail.component';
 import { CommonModule } from '@angular/common';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   
   declarations: [
@@ -43,7 +44,8 @@ import { CommonModule } from '@angular/common';
     ContactUsComponent,
     AgentComponent,
     PaymentComponent,
-    PropertyDetailComponent
+    PropertyDetailComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

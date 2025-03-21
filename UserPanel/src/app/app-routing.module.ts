@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -10,6 +10,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { ServiceComponent } from './service/service.component';
 import { PropertyDetailComponent } from './property-detail/property-detail.component';
 import { PaymentComponent } from './payment/payment.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 // const routes: Routes = [
@@ -78,7 +79,11 @@ const routes=[
   {path:'service',component:ServiceComponent},
   {path:'property-detail/:id',component:PropertyDetailComponent},
   {path:'payment/:id',component:PaymentComponent},
-  {path:'**',redirectTo:''}
+  {
+    path:'profile',component:ProfileComponent
+  },
+  {path:'**',redirectTo:''},
+  
 ];
 
 @NgModule({

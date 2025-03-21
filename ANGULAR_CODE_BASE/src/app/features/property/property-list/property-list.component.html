@@ -91,17 +91,12 @@
               <td>{{item.type}}</td>
               <!-- <td>{{item.status}}</td> -->
               <td>
-                <!-- <a class="info p-0" [routerLink]="'/property/view/' + item.slug"> 
-                      <i class="bi bi-eye text-info font-medium-3 mr-2"></i>
-                    </a>
-                    <a class="success p-0" (click)="onAddEdit(item.slug)"> 
-                    <i class="bi bi-pencil-square text-success font-medium-3 mr-2"></i>
-                  </a>
-                  <a class="danger p-0" (click)="onDelete(item.id)">
-                    <i class="bi bi-trash text-danger font-medium-3"></i>
-                  </a> -->
-                <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails.id === item.userId)"
+
+                <!-- <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails.id === item.userId)"
                   class="info p-0" [routerLink]="'/property/view/' + item.slug">
+                  <i class="bi bi-eye text-info font-medium-3 mr-2"></i>
+                </a> -->
+                <a class="info p-0" [routerLink]="'/property/view/' + item.slug">
                   <i class="bi bi-eye text-info font-medium-3 mr-2"></i>
                 </a>
                 <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails.id === item.userId)"
@@ -115,7 +110,7 @@
                   <i class="bi bi-trash text-danger font-medium-3"></i></a>
               </td>
             </tr>
-          
+
           </thead>
         </table>
         <ng-template #noproperty>
