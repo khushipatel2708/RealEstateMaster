@@ -49,7 +49,7 @@ export class RegistrationComponent implements OnInit {
       phoneNo: new FormControl('', [Validators.required, Validators.pattern("^[0-9]{10}$")]),
       password: new FormControl('', [
         Validators.required, 
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8}$')
       ]
 ),
       cPassword: new FormControl('', [Validators.required]),

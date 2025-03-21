@@ -99,16 +99,13 @@ export class Menu1Component implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.spinner.show();
         this.commonService.deleteMenu(menuId).subscribe({
           next: () => {
-            this.spinner.hide();
             Swal.fire('Deleted!', 'Your menu has been deleted.', 'success');
             this.toastr.success('Your menu has been deleted successfully!', 'Deleted');
             this.getMenuList();  
           },
           error: (err) => {
-            this.spinner.hide();
             Swal.fire('Error!', 'There was an error deleting the menu.', 'error');
             this.toastr.error('There was an error deleting the menu.', 'Error');
           }

@@ -39,7 +39,7 @@ export class UsersModelComponent implements OnInit {
       phoneNo: ["", [Validators.required, Validators.pattern("^[0-9]{10}$")]],
       password: ["", [
         Validators.required, 
-        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$')
+        Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8}$')
       ]],
       status: [null, Validators.compose([Validators.required])],
     });

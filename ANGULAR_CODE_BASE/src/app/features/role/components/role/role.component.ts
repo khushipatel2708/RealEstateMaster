@@ -101,16 +101,13 @@ export class RoleComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.spinner.show();
         this.commonService.deleterole(id).subscribe({
           next: () => {
-            this.spinner.hide();
             Swal.fire('Deleted!', 'Your role has been deleted.', 'success');
             this.toastr.success('Your role has been deleted successfully!', 'Deleted');
             this.getRoleList();
           },
           error: (err) => {
-            this.spinner.hide();
             Swal.fire('Error!', 'There was an error deleting the role.', 'error');
             this.toastr.error('There was an error deleting the role.', 'Error');
           }
