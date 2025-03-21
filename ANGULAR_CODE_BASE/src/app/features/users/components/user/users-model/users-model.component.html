@@ -118,9 +118,12 @@
         </div>
         <div *ngIf="submitted && f.password.errors" class="text-danger">
           <span *ngIf="f.password.errors?.required">Password is required</span>
-          <span *ngIf="f.password.errors.pattern">Password must contain uppercase,lowercase,digit,and special character,
-            with a minimum length of 8 characters</span>
+          <span *ngIf="f.password.errors?.minlength">Password must be at least 8 characters</span>
+          <span *ngIf="f.password.errors?.pattern">
+            Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.
+          </span>
         </div>
+        
       </div>
 
     </div>
