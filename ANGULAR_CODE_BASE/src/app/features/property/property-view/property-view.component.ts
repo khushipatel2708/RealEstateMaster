@@ -30,47 +30,35 @@ propertyDetail = {
   locality: '',
   type: ''
 };
-// imageDetail: any;
 env = environment;
 
-imageDetail: any[] = []; // Ensure it's always an array
+imageDetail: any[] = [];
 
-// getProperty(propertySlug: string) {
-//   this.commonService.togglePageLoaderFn(true);
-//   this.commonService.getSingleProperty(propertySlug)
-//     .subscribe(result => {
-//       console.log(result); 
-//       if (this.imageDetail.length) {
-//         console.log(this.env.BASE_URL + this.imageDetail[0]);
-//       }
-//       this.propertyDetail = result['result'];
-//       this.imageDetail = result['files'] || []; // Fallback to an empty array if no files
-//       console.log(this.imageDetail);
-//       console.log(this.imageDetail);
-// console.log(this.env.BASE_URL + this.imageDetail[0]?.path);
-//     },
-//     (err) => {
-//       console.log({ err });
-//       this.commonService.togglePageLoaderFn(false);
-//     },
-//     () => {
-//       this.commonService.togglePageLoaderFn(false);
-//     });
-// }
 
 getProperty(propertySlug: string) {
   this.spinner.show();
   this.commonService.togglePageLoaderFn(true);
   this.commonService.getSingleProperty(propertySlug)
     .subscribe(result => {
-      this.spinner.hide()
-      console.log(result); 
+      this.spinner.hide();
+      console.log("Full API Response:", result);
+
       this.propertyDetail = result['result'];
-      this.imageDetail = result['result'].files || []; // Now files contain full URLs
-      console.log(this.imageDetail);
+
+      if (result['result'].files && result['result'].files.length > 0) {
+        this.imageDetail = result['result'].files;
+      } else if (result['result'].images) {
+        this.imageDetail = result['result'].images
+          .split(',')
+          .map(img => `http://localhost:5026${img.trim()}`);
+      } else {
+        this.imageDetail = [];
+      }
+
+      console.log("Final Image List:", this.imageDetail);
     },
     (err) => {
-      this.spinner.hide()
+      this.spinner.hide();
       console.log({ err });
       this.commonService.togglePageLoaderFn(false);
     },
@@ -78,25 +66,6 @@ getProperty(propertySlug: string) {
       this.commonService.togglePageLoaderFn(false);
     });
 }
-
-
-// getProperty(propertySlug) {
-//   this.commonService.togglePageLoaderFn(true);
-//   this.commonService.getSingleProperty(propertySlug)
-//     .subscribe(result => {
-//       this.propertyDetail = result['result'];
-//       this.imageDetail = result['files'];
-//       console.log(this.imageDetail);
-//     },
-//       (err) => {
-//         console.log({ err });
-//         this.commonService.togglePageLoaderFn(false);
-//       },
-//       () => {
-//         this.commonService.togglePageLoaderFn(false);
-//       }
-//     );
-// }
 
 ngOnInit() {
   let propertySlug = this.activatedRoute.snapshot.paramMap.get('propertySlug');
