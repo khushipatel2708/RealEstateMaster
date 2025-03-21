@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { CommonService } from '../../../common/services/common.service';
 import { RegistrationValidators } from '../../../common/validators/registration.validators';
 import { environment } from 'environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class RegistrationComponent implements OnInit {
     private commonService: CommonService,
     private registrationValidators: RegistrationValidators,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private toast:ToastrService
   ) { }
  
   get lf() {
@@ -114,10 +116,10 @@ export class RegistrationComponent implements OnInit {
             queryParams: { action: 'signUpsuccess' }
           });
         }
+        this.toast.success("Registre Data Successfully")
       },
         (error: Response) => {
           this.mainErrorMessage.type = 'danger';
-
           if (error.status === 400) {
             this.mainErrorMessage.message = 'Your request is invalid';
           }
