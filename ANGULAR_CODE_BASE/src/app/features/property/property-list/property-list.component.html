@@ -97,17 +97,17 @@
                   <i class="bi bi-eye text-info font-medium-3 mr-2"></i>
                 </a> -->
                 <a class="info p-0" [routerLink]="'/property/view/' + item.slug">
-                  <i class="bi bi-eye text-info font-medium-3 mr-2"></i>
+                  <i class="bi bi-eye text-info font-medium-3 mr-2" ngbTooltip="View"></i>
                 </a>
                 <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails.id === item.userId)"
                   class="info p-0" (click)="onAddEdit(item.slug)">
-                  <i class="bi bi-pencil-square text-info font-medium-3 mr-2"></i>
+                  <i class="bi bi-pencil-square text-info font-medium-3 mr-2" ngbTooltip="Edit"></i>
                 </a>
 
                 <!-- Delete Button: Show only for non-builders OR the builder who added it -->
                 <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails.id === item.userId)"
                   class="danger p-0" (click)="onDelete(item.id)">
-                  <i class="bi bi-trash text-danger font-medium-3"></i></a>
+                  <i class="bi bi-trash text-danger font-medium-3" ngbTooltip="Delete"></i></a>
               </td>
             </tr>
 
