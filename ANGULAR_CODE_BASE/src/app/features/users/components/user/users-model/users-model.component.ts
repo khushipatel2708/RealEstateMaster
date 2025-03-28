@@ -18,7 +18,6 @@ export class UsersModelComponent implements OnInit {
   roleList: any[] = [];
   previewUrl: string | ArrayBuffer | null = null;
   showPassword = false;
-
   form: FormGroup;
   constructor(
     public activeModal: NgbActiveModal,
