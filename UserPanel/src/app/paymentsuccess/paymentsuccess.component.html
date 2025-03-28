@@ -1,0 +1,15 @@
+<div class="success-container">
+    <div class="header">Sold Confirmation</div>
+    <div class="success-icon">
+      <div class="circle">
+        <i class="bi bi-check-lg"></i>
+      </div>
+    </div>
+    <h3>Payment Successful</h3>
+    <p>Transaction Number: {{ transactionNumber }}</p>
+    <hr />
+    <p>Amount paid <span class="amount">${{ amount }}</span></p>
+    <button [routerLink]="'/property-detail/' + propertyId" 
+    [queryParams]="{ title: firstName }"  class="btn btn-success"><i class="fa fa-eye text-white"></i> View</button>
+  </div>
+  

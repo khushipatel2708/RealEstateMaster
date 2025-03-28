@@ -29,6 +29,8 @@ import { PaymentComponent } from './payment/payment.component';
 import { PropertyDetailComponent } from './property-detail/property-detail.component';
 import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
+import { Payment1Component } from './payment1/payment1.component';
+import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
 @NgModule({
   
   declarations: [
@@ -45,7 +47,9 @@ import { ProfileComponent } from './profile/profile.component';
     AgentComponent,
     PaymentComponent,
     PropertyDetailComponent,
-    ProfileComponent
+    ProfileComponent,
+    Payment1Component,
+    PaymentsuccessComponent
   ],
   imports: [
     BrowserModule,

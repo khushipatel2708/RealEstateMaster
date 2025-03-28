@@ -1,12 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserService } from '../../../common/services/user.service';
-import { CommonService } from '../../../common/services/common.service';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { CommonService } from '../../../common/services/common.service';
+import { UserService } from '../../../common/services/user.service';
 
 @Component({
   selector: 'app-property-new',
@@ -73,17 +72,16 @@ export class PropertyNewComponent implements OnInit {
 
 submitForm(data) {
   this.isSubmittingForm = true;
-  this.spinner.show(); // Show spinner when form submission starts
+  this.spinner.show(); 
 
   this.userService.getCurrentUserDetail.subscribe({
     next: (userDetail) => {
       console.log('Fetched user detail:', userDetail);
 
       if (userDetail && userDetail.id) {
-        data.value.userId = userDetail.id;
+        data.value.userId = data.value.builderId;
        console.log("getCurrentUserDetail", userDetail);
 
-        // Find selected builder's fname
         const selectedBuilder = this.builderUserList.find(user => user.id === this.selectedBuilderId);
         if (selectedBuilder) {
           console.log("Selected Builder Name:", selectedBuilder.fname);
@@ -91,7 +89,6 @@ submitForm(data) {
           console.log("No builder selected.");
         }
 
-        // Submit Data
         const imageData = new FormData();
         this.imgsToUpload.forEach((ele) => {
           imageData.append("propImages", ele, ele['name']);
@@ -132,60 +129,6 @@ submitForm(data) {
   });
 }
 
-
-//   submitForm(data) {
-//     this.isSubmittingForm = true;
-//     this.spinner.show(); // Show spinner when form submission starts
-//     this.userService.getCurrentUserDetail.subscribe({
-//       next: (userDetail) => {
-//         console.log('Fetched user detail:', userDetail); // Debug log
-
-//         if (userDetail && userDetail.id) {
-//           data.value.userId = userDetail.id;
-//           console.log("getCurrentUserDetail", userDetail);
-
-//           const imageData = new FormData();
-//           this.imgsToUpload.forEach((ele) => {
-//             imageData.append("propImages", ele, ele['name']);
-//           });
-
-//           for (let key in data.value) {
-//             imageData.append(key, data.value[key]);
-//           }
-
-//           this.commonService.togglePageLoaderFn(true);
-
-//           this.http.post<any>(`${environment.BASE_URL}/property/new`, imageData)
-//             .subscribe({
-//               next: (result) => {
-//                 this.spinner.hide();
-//                 let message = result?.message || 'Property added successfully.';
-//                 this.commonService.changeHeaderMessage({ type: 'success', message });
-//                 this.toastr.success(message); // Changed alert to toastr
-//                 this.router.navigate(['/property/list']); // Redirecting to the list page
-//               },
-//               error: (err) => {
-//                 let errMessage = err.error?.message || 'Something went wrong!';
-//                 console.log({ err }, errMessage);
-//                 this.commonService.changeHeaderMessage({ type: 'danger', message: errMessage });
-//               },
-//               complete: () => {
-//                 this.spinner.hide(); // Hide spinner after form submission completes
-//                 this.commonService.togglePageLoaderFn(false);
-//               }
-//             });
-//         } else {
-//           console.error('User details are missing');
-//           this.spinner.hide(); // Ensure spinner is hidden if user details are missing
-//         }
-//       },
-//       error: (err) => {
-//         console.error('Failed to fetch user details:', err);
-//         this.spinner.hide(); // Ensure spinner is hidden if fetching user details fails
-//       }
-//     });
-// }
-
 getCurrentUserDetails() {
   this.commonService.togglePageLoaderFn(true);
   this.userService.getCurrentUserDetails().subscribe({
@@ -208,15 +151,12 @@ getUserList() {
   this.commonService.getUserDdlList()
     .subscribe(result => {
       this.userList = result;
-
-      // Filter users with role as 'builder'
       this.builderUserList = this.userList.filter(user => user.role === 'builder');
       console.log("builderUserList",this.builderUserList)
     }, error => {
       console.error(error);
     });
 }
-
 
   log(data) { console.log(data); console.log(data.value.cornerPlot)}
 
@@ -236,7 +176,6 @@ getUserList() {
         i++;
       })
     }
-    console.log('this.imgUrls', this.imgUrls, this.imgsToUpload);
   }
 
   removeSinglePic(img) {
@@ -260,8 +199,6 @@ getUserList() {
           this.stateList = response;
         }
       });
-      
-
   }
 
 }

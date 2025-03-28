@@ -102,13 +102,9 @@ getRoleDDList(){
     );
   }
   
-  payWithPayU(paymentData: any) {
-    return this.http.post(
-      `${environment.BASE_URL}/payments/initiate-payment`,
-      paymentData,
-      { headers: { 'Content-Type': 'application/json' } }  // ✅ Ensure JSON Content-Type
-    );
-  }
+successPayment(){
+  
+}
   
   getSingleProperty(propertySlug) {
     return this.http.get<any>(environment.BASE_URL + '/property/getSingleProperty/' + propertySlug);
@@ -248,5 +244,16 @@ forgotPassword(formData:any){
 initiatePayment(paymentData: any) {
   return this.http.post<{ paymentUrl: string }>('http://localhost:5026/api/payments/initiate-payment', paymentData);
 }
-
+payUBuy(amount:any,firstName:any,plainName:any) {
+  return this.http.get<any>(`${environment.BASE_URL}/payments1/payu-payment`,{
+    params: {
+           amount: amount,
+           firstName:firstName,
+           planName:plainName
+    }
+  });
+}
+initiatePayment1(paymentData: any) {
+  return this.http.post(`${environment.BASE_URL}/payments2/initiate-payment`, paymentData);
+}
 }

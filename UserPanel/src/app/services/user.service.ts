@@ -32,26 +32,37 @@ export class UserService {
   }
   getCurrentUserDetails() {
     const token = localStorage.getItem('token'); // Ensure token is stored in localStorage
-
+  
     if (!token) {
       console.error("JWT Token is missing!");
       return throwError(() => new Error("No token found"));
     }
   
     const headers = new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*', // Not necessary, but can be included
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        Authorization: `Bearer ${token}`
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
     });
+  
     console.log("Sending Token:", token);
+  
     return this.http.get<any>(`${environment.BASE_URL}/auth/user/currentUser`, { headers }).pipe(
       catchError(error => {
         console.error("Error fetching user:", error);
-        return throwError(() => new Error(error));
+  
+        // Improved error handling
+        let errorMsg = "An unknown error occurred!";
+        if (error.error instanceof ErrorEvent) {
+          // Client-side error
+          errorMsg = `Error: ${error.error.message}`;
+        } else if (error.status) {
+          // Backend error with status
+          errorMsg = `Error ${error.status}: ${error.statusText}`;
+        }
+        return throwError(() => new Error(errorMsg));
       })
     );
   }
+  
   contactUs(formData:any){
     return this.http.post(`${environment.BASE_URL}/common/contactUs`,formData);
   }

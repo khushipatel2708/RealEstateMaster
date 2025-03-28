@@ -30,36 +30,57 @@ propertyDetail = {
   locality: '',
   type: ''
 };
+// imageDetail: any;
 env = environment;
 
-imageDetail: any[] = [];
+imageDetail: any[] = []; // Ensure it's always an array
 
+// getProperty(propertySlug: string) {
+//   this.commonService.togglePageLoaderFn(true);
+//   this.commonService.getSingleProperty(propertySlug)
+//     .subscribe(result => {
+//       console.log(result); 
+//       if (this.imageDetail.length) {
+//         console.log(this.env.BASE_URL + this.imageDetail[0]);
+//       }
+//       this.propertyDetail = result['result'];
+//       this.imageDetail = result['files'] || []; // Fallback to an empty array if no files
+//       console.log(this.imageDetail);
+//       console.log(this.imageDetail);
+// console.log(this.env.BASE_URL + this.imageDetail[0]?.path);
+//     },
+//     (err) => {
+//       console.log({ err });
+//       this.commonService.togglePageLoaderFn(false);
+//     },
+//     () => {
+//       this.commonService.togglePageLoaderFn(false);
+//     });
+// }
 
 getProperty(propertySlug: string) {
   this.spinner.show();
   this.commonService.togglePageLoaderFn(true);
-  
-  this.commonService.getSingleProperty(propertySlug).subscribe(
-    (result) => {
-      this.spinner.hide();
-      console.log(result);
-
-      // Store property details
-      this.propertyDetail = result?.property || {}; 
-      
-      // Store images; fallback to an empty array if no images are provided
-      this.imageDetail = result?.files?.length ? result.files : ['/assets/images/property-no-image.png'];
+  this.commonService.getSingleProperty(propertySlug)
+    .subscribe(result => {
+      this.spinner.hide()
+      console.log(result); 
+      this.propertyDetail = result['result'];
+      this.imageDetail = result.result.files && result.result.files.length > 0 
+      ? result.result.files.map(img =>  img) 
+      : ['/assets/images/property-no-image.png'];// Now files contain full URLs
+      console.log(this.imageDetail);
     },
     (err) => {
-      this.spinner.hide();
-      console.error({ err });
+      this.spinner.hide()
+      console.log({ err });
       this.commonService.togglePageLoaderFn(false);
     },
     () => {
       this.commonService.togglePageLoaderFn(false);
-    }
-  );
+    });
 }
+
 
 // getProperty(propertySlug) {
 //   this.commonService.togglePageLoaderFn(true);

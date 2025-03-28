@@ -20,6 +20,7 @@ z
     totalRecord = 0;
     page = 1;
     pageSize = 20;
+    interval: any;
   
     // ✅ Add Property For Dropdown Data
     propertyFor = [
@@ -85,13 +86,58 @@ z
       return defaultImage;
     }
     
+    // getPropertyList() {
+    //  this.commonService.getProperty().subscribe((result: any) => {
+    //     if (result) this.propertyList = result;
+    //     this.toastr.success("Data loaded successfully.");
+    //   },
+    //     (err) => this.toastr.error("Failed to get data."));
+    // }
     getPropertyList() {
-     this.commonService.getProperty().subscribe((result: any) => {
-        if (result) this.propertyList = result;
-        this.toastr.success("Data loaded successfully.");
-      },
-        (err) => this.toastr.error("Failed to get data."));
+      const data = {
+        city: this.form.get('city').value || '',
+        type: Number(this.form.get('type').value) || null,
+        propertyFor: this.form.get('for').value || '',
+        searchText: this.form.get('searchText').value || '',
+        page: this.page,
+        pageSize: Number(this.pageSize),
+      };
+  
+      this.commonService.getPropertyList1(data).subscribe(
+        (result: any) => {
+          if (result) {
+            this.propertyList = result;
+            this.totalRecord = result.totalCount;
+  
+            // Initialize image index for each property
+            this.propertyList.data.forEach((item: any) => {
+              item.currentImageIndex = 0;
+            });
+  
+            // Start automatic image rotation
+            this.startImageRotation();
+          }
+          this.toastr.success("Data loaded successfully.");
+        },
+        (err) => this.toastr.error("Failed to get data.")
+      );
     }
+
+     // Function to start automatic image change
+  startImageRotation() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+
+    this.interval = setInterval(() => {
+      this.propertyList.data.forEach((item: any) => {
+        if (item.images && item.images.length > 1) {
+          item.currentImageIndex = (item.currentImageIndex + 1) % item.images.length;
+        }
+      });
+    }, 10000); // Change image every 15 seconds
+  }
+
   
     // markAsSold(propertySlug: string) {
     //   const request = { status: 'sold' };

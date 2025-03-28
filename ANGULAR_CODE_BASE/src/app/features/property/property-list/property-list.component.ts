@@ -74,6 +74,7 @@ for:[null]
   this.userService.getCurrentUserDetails().subscribe({
     next: (result: any) => {
       this.UserDetails = result;
+      console.log(this.UserDetails,"result");
       this.userRole = result.role || ''; // Store user role
       this.commonService.togglePageLoaderFn(false);
     },
@@ -109,7 +110,7 @@ for:[null]
      userRole: this.userRole  // Pass user role in request
     }
   this.commonService.togglePageLoaderFn(true);
-  this.commonService.getPropertyList(data).subscribe((result:any) =>{
+  this.commonService.getPropertyList1(data).subscribe((result:any) =>{
     if(result) this.propertyList=result;
     this.totalRecord=result.totalCount;
   },

@@ -55,7 +55,6 @@ public class LoginController : ControllerBase
       return BadRequest(new { message = "User already exists" });
     }
 
-    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
     var newUser = new User
     {
       Fname = model.Fname,
@@ -67,7 +66,7 @@ public class LoginController : ControllerBase
       CityId = model.CityId,
       Pincode = model.Pincode,
       Role = model.Role,
-      Password = hashedPassword,
+      Password = model.Password,
       CreatedOn = DateTime.UtcNow
     };
 

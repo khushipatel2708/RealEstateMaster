@@ -59,9 +59,9 @@ public partial class Property
 
   public bool? CornerPlot { get; set; }
 
-  public int? Version { get; set; }
-
   public int? BuilderId { get; set; }
+
+  public int? Version { get; set; }
 
   public string? AgencyName { get; set; }
 

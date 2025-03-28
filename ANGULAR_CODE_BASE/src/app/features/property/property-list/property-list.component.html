@@ -91,11 +91,6 @@
               <td>{{item.type}}</td>
               <!-- <td>{{item.status}}</td> -->
               <td>
-
-                <!-- <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails.id === item.userId)"
-                  class="info p-0" [routerLink]="'/property/view/' + item.slug">
-                  <i class="bi bi-eye text-info font-medium-3 mr-2"></i>
-                </a> -->
                 <a class="info p-0" [routerLink]="'/property/view/' + item.slug">
                   <i class="bi bi-eye text-info font-medium-3 mr-2" ngbTooltip="View"></i>
                 </a>
@@ -110,7 +105,6 @@
                   <i class="bi bi-trash text-danger font-medium-3" ngbTooltip="Delete"></i></a>
               </td>
             </tr>
-
           </thead>
         </table>
         <ng-template #noproperty>
@@ -122,8 +116,6 @@
       </div>
       <div class="row mt-2">
         <div class="col-md-10">
-          <!-- <ngb-pagination>
-              </ngb-pagination>-->
           <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)"
             [pageSize]="pageSize" [maxSize]="10">
           </ngb-pagination>

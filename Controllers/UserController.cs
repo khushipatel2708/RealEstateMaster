@@ -72,71 +72,7 @@ namespace RealEstate.Controllers
       return Ok(new { data, totalCount });
     }
 
-    //User Add Edit
-    //[HttpPost]
-    //public async Task<IActionResult> AddOrUpdateUser(UserViewModel user)
-    //{
-    //  if (user == null)
-    //  {
-    //    return BadRequest(new { message = "Invalid user data" });
-    //  }
-
-    //  try
-    //  {
-    //    var u = await _context.Users.FindAsync(user.id);
-    //    if (u != null)
-    //    {
-    //      // Update existing user
-    //      u.UserType = user.userType;
-    //      u.IsAdmin = user.isAdmin;
-    //      u.Fname = user.fname;
-    //      u.Lname = user.lname;
-    //      u.Email = user.email;
-    //      u.Password = user.password;
-    //      u.UserName = user.userName;
-    //      u.StateId = user.stateId;
-    //      u.CityId = user.cityId;
-    //      u.Pincode = user.pincode;
-    //      u.PhoneNo = user.phoneNo;
-    //      u.Role = user.role;
-    //      u.CreatedOn = user.createdOn;
-    //      u.UpdatedOn = user.updatedOn;
-    //      u.Status = user.status;
-    //      _context.Users.Update(u);
-    //    }
-    //    else
-    //    {
-    //      // Add new seru
-    //      var newuser = new User
-    //      {
-    //        UserType = user.userType,
-    //        IsAdmin = user.isAdmin,
-    //        Fname = user.fname,
-    //        Lname = user.lname,
-    //        Email = user.email,
-    //        Password = user.password,
-    //        UserName = user.userName,
-    //        StateId = user.stateId,
-    //        CityId = user.cityId,
-    //        Pincode = user.pincode,
-    //        PhoneNo = user.phoneNo,
-    //        Role = user.role,
-    //        Status = user.status,
-    //        CreatedOn = user.createdOn,
-    //        UpdatedOn = user.updatedOn
-    //      };
-
-    //      _context.Users.Add(newuser);
-    //    }
-
-    //    await _context.SaveChangesAsync();
-    //    return Ok(new { message = "user saved successfully" });
-    //  }
-    //  catch (Exception ex)
-    //  {
-    //    return StatusCode(500, new { message = ex.Message });
-    //  }
-    //}
+   
     [HttpPost]
     public async Task<IActionResult> AddOrUpdateUser([FromForm] UserViewModel user, IFormFile? photo)
     {
@@ -157,7 +93,6 @@ namespace RealEstate.Controllers
           {
             Directory.CreateDirectory(uploadsFolder);
           }
-
           string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(photo.FileName);
           string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
@@ -166,19 +101,18 @@ namespace RealEstate.Controllers
             await photo.CopyToAsync(stream);
           }
 
-          photoPath = $"/uploads/users/{uniqueFileName}"; // ✅ Correct format
+          photoPath = $"/uploads/users/{uniqueFileName}"; 
         }
-
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.password);
         var u = await _context.Users.FindAsync(user.id);
         if (u != null)
         {
-          // Update existing user
           u.UserType = user.userType;
           u.IsAdmin = user.isAdmin;
           u.Fname = user.fname;
           u.Lname = user.lname;
           u.Email = user.email;
-          u.Password = user.password;
+          u.Password = hashedPassword;
           u.UserName = user.userName;
           u.StateId = user.stateId;
           u.CityId = user.cityId;
@@ -189,7 +123,6 @@ namespace RealEstate.Controllers
           u.UpdatedOn = user.updatedOn;
           u.Status = user.status;
 
-          // ✅ Update PhotoPath only if new file is uploaded
           if (photoPath != null)
           {
             u.PhotoPath = photoPath;
@@ -199,7 +132,6 @@ namespace RealEstate.Controllers
         }
         else
         {
-          // Add new user
           var newUser = new User
           {
             UserType = user.userType,
@@ -207,7 +139,7 @@ namespace RealEstate.Controllers
             Fname = user.fname,
             Lname = user.lname,
             Email = user.email,
-            Password = user.password,
+            Password = hashedPassword,
             UserName = user.userName,
             StateId = user.stateId,
             CityId = user.cityId,
@@ -283,6 +215,24 @@ namespace RealEstate.Controllers
       return Ok(user);
     }
 
+    [HttpGet("GetUserDDLList")]
+    public async Task<IActionResult> GetUserDDLList()
+    {
+      var users = await _context.Users.Select(u => new
+      {
+        u.Id,
+        u.Fname,
+        u.Lname,
+        u.Email,
+        u.Role,
+        u.PhoneNo,
+        PhotoPath = !string.IsNullOrEmpty(u.PhotoPath)
+              ? $"{Request.Scheme}://{Request.Host}/{u.PhotoPath.TrimStart('/')}"  // Remove extra slashes
+              : null
+      }).ToListAsync();
+
+      return Ok(users);
+    }
 
     // Delete user
     [HttpDelete("{id}")]

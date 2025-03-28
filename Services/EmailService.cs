@@ -11,7 +11,40 @@ public class EmailService
   {
     _emailSettings = emailSettings.Value;
   }
+  public async Task SendPaymentSuccessEmail(string toEmail, string transactionId, decimal amount, string customerEmail, string customerNumber)
+  {
+    try
+    {
+      var message = new MimeMessage();
+      message.From.Add(new MailboxAddress("Your Business", "your-email@example.com"));
+      message.To.Add(new MailboxAddress("", toEmail));
+      message.Subject = "Payment of Transaction Id: " + transactionId + " is Successful";
 
+      string emailBody = $@"
+            <html>
+            <body>
+                <h2>Rs. {amount} Received!</h2>
+                <p><strong>Transaction ID:</strong> {transactionId}</p>
+                <p><strong>Customer Email:</strong> {customerEmail}</p>
+                <p><strong>Customer Number:</strong> {customerNumber}</p>
+                <p>Congratulations on yet another successful transaction. Thank you for using our service.</p>
+            </body>
+            </html>";
+
+      var bodyBuilder = new BodyBuilder { HtmlBody = emailBody };
+      message.Body = bodyBuilder.ToMessageBody();
+
+      using var client = new SmtpClient();
+      await client.ConnectAsync(_emailSettings.SmtpServer, _emailSettings.Port, MailKit.Security.SecureSocketOptions.StartTls);
+      await client.AuthenticateAsync(_emailSettings.SenderEmail, _emailSettings.SenderPassword);
+      await client.SendAsync(message);
+      await client.DisconnectAsync(true);
+    }
+    catch (Exception ex)
+    {
+      Console.WriteLine("Email sending failed: " + ex.Message);
+    }
+  }
   public async Task<bool> SendEmailAsync(string toEmail, string subject, string message)
   {
     try

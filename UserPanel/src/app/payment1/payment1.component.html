@@ -1,0 +1,25 @@
+
+<div class="content mt-5" >
+ <div class="body-content mt-5">
+      <form (ngSubmit)="buyProduct()" #paymentForm="ngForm" class="mt-5">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" [(ngModel)]="paymentDetails.first_name" readonly />
+      
+        <label for="planname">Plan Name:</label>
+        <input type="text" id="planname" name="planname" [(ngModel)]="paymentDetails.plan_name" readonly />
+      
+        <label for="amount">Amount:</label>
+        <input type="text" id="amount" name="amount" [(ngModel)]="paymentDetails.amount" readonly />
+      
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" [(ngModel)]="paymentDetails.email" required />
+      
+        <label for="mobile">Mobile:</label>
+        <input type="text" id="mobile" name="mobile" [(ngModel)]="paymentDetails.mobile" required />
+      
+        <button type="submit">Pay Now</button>
+      </form>
+      
+    </div>
+  
+  </div>

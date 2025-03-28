@@ -116,7 +116,9 @@ getRoleDDList(){
   deleteMenu(menuId: number): Observable<any> {
     return this.http.delete(`${environment.BASE_URL}/menu/${menuId}`);
   }
-  
+  getPropertyList1(filters: any): Observable<any> {
+    return this.http.post<any>(`${environment.BASE_URL}/property/getpropertyList12`, filters);
+  }
   //End Menu service
 //Start role
 // getRoleDDlList(){

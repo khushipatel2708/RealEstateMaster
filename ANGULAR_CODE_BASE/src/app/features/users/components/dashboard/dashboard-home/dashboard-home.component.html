@@ -86,24 +86,47 @@
         </h3> -->
 
         <div class="row row-cols-1 row-cols-md-3 g-4">
-          <div class="col" *ngFor="let item of propertyList; let i = index">
+          <div class="col" *ngFor="let item of propertyList?.data; let i = index">
             <div class="card shadow-sm border-0 rounded h-100 property-card">
-              <div class="image-wrapper">
-                <!-- <img [src]="item.images && item.images.length > 0 ? item.images[0] : '/assets/images/property-no-image.png'"
-                     class="card-img-top img-fluid property-image"
-                     alt="Property Image" /> -->
-                     <!-- <div class="image-wrapper"> -->
-                      <!-- <img [src]="item.images && item.images.length > 0 && item.images[0] ? item.images[0] : '/assets/images/property-no-image.png'"
-                           class="card-img-top img-fluid property-image"
-                           alt="Property Image" /> -->
+              <!-- <div class="image-wrapper">
                            <div class="image-wrapper">
                             <img [src]="getImageUrl(item.images)"
                                  class="card-img-top img-fluid property-image"
                                  alt="Property Image" />
-                          <!-- </div> -->
                     </div>
                     
+              </div> -->
+              <!-- <div class="image-wrapper">
+                <div *ngIf="item.images && item.images.length > 0; else noImage">
+                  <div class="carousel">
+                    <img *ngFor="let img of item.images" [src]="img" class="carousel-image" alt="Property Image">
+                  </div>
+                </div>
+                <ng-template #noImage>
+                  <img src="/assets/images/property-no-image.png" class="card-img-top img-fluid property-image" alt="No Image Available">
+                </ng-template>
+              </div> -->
+              <!-- 123<div class="image-wrapper">
+                <div *ngIf="item.images && item.images.length > 0; else noImage">
+                  <div class="carousel">
+                    <img [src]="item.images[item.currentImageIndex]" class="carousel-image" alt="Property Image">
+                  </div>
+                </div>
+                <ng-template #noImage>
+                  <img src="/assets/images/property-no-image.png" class="card-img-top img-fluid property-image" alt="No Image Available">
+                </ng-template>
+              </div> -->
+              <div class="image-wrapper">
+                <div *ngIf="item.images && item.images.length > 0; else noImage">
+                  <div class="carousel">
+                    <img [src]="item.images[item.currentImageIndex]" class="carousel-image" alt="Property Image" style="width: 400px; height: 200px;">
+                  </div>
+                </div>
+                <ng-template #noImage>
+                  <img src="/assets/images/property-no-image.png" class="card-img-top img-fluid property-image" alt="No Image Available">
+                </ng-template>
               </div>
+              
               <!-- <div class="image-wrapper">
                 <img [src]="item.image ? item.image : '/assets/images/propert1.jpg'"
                   class="card-img-top img-fluid property-image" alt="Property Image" />
@@ -117,7 +140,7 @@
                     <p class="mb-1"><strong>City:</strong></p>
                   </div>
                   <div class="col-6">
-                    <p class="mb-1">{{ item.cityName }}</p>
+                    <p class="mb-1">{{ item.city }}</p>
                   </div>
                 </div>
                 <div class="row mb-2">
@@ -148,10 +171,10 @@
         </div>
 
         <!-- If no property found -->
-        <!-- <div *ngIf="propertyList?.data?.length === 0" class="text-center mt-5">
+        <div *ngIf="propertyList?.data?.length === 0" class="text-center mt-5">
           <i class="bi bi-exclamation-triangle text-danger"></i>
           <p class="text-muted">No properties found. Try changing the filter.</p>
-        </div> -->
+        </div>
       </div>
 
 

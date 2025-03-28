@@ -311,7 +311,95 @@ namespace RealEstate.Controllers
         return BadRequest(new { message = ex.Message, stackTrace = ex.StackTrace });
       }
     }
-    
+    [HttpPost("getpropertyList12")]
+    public async Task<IActionResult> GetPropertyList1([FromBody] PropertyFilter filter)
+    {
+      try
+      {
+        var scheme = Request.Scheme;
+        var host = Request.Host.ToString();
+
+        var query = from property in _context.Properties
+                    join city in _context.Cities on property.CityId equals city.Id
+                    join type in _context.PropertyOriginals on property.TypeId equals type.Id
+                    select new
+                    {
+                      property.Id,
+                      property.Price,
+                      property.Description,
+                      property.Title,
+                      city = city.Name,
+                      type = type.Title,
+                      property.Locality,
+                      property.PropertyFor,
+                      property.TypeId,
+                      property.Status,
+                      property.Slug,
+                      property.Images,
+                      property.CityId,
+                      property.UserId,
+                    };
+
+        if (!string.IsNullOrEmpty(filter.PropertyFor))
+        {
+          query = query.Where(p => p.PropertyFor == filter.PropertyFor);
+        }
+
+        if (filter.Type.HasValue && filter.Type > 0)
+        {
+          query = query.Where(p => p.TypeId == filter.Type.Value);
+        }
+
+        if (filter.CityId.HasValue && filter.CityId > 0)
+        {
+          query = query.Where(p => p.CityId == filter.CityId.Value);
+        }
+
+        if (!string.IsNullOrEmpty(filter.SearchText))
+        {
+          query = query.Where(p => p.Description.Contains(filter.SearchText) ||
+                                   p.Title.Contains(filter.SearchText));
+        }
+
+        var totalCount = await query.CountAsync();
+
+        var page = filter.Page ?? 1;
+        var pageSize = filter.PageSize ?? 20;
+
+        var properties = await query
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        var result = properties.Select(p => new
+        {
+          p.Id,
+          p.Price,
+          p.Description,
+          p.Title,
+          p.city,
+          p.type,
+          p.Locality,
+          p.PropertyFor,
+          p.TypeId,
+          p.Status,
+          p.Slug,
+          p.UserId,
+          Images = p.Images?.Split(',').Select(img => $"{scheme}://{host}{img}").ToList()
+        }).ToList();
+
+        return Ok(new
+        {
+          TotalCount = totalCount,
+          Data = result
+        });
+      }
+      catch (Exception ex)
+      {
+        return BadRequest(ex.Message);
+      }
+    }
+
     [HttpPut("edit/{id}")]
     public async Task<IActionResult> EditProperty(int id, [FromForm] PropertyViewModel dataToSend, [FromForm] List<IFormFile> propImages)
     {

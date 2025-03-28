@@ -206,7 +206,7 @@
           <div *ngFor="let builder of builders" class="col-lg-4 col-md-6" data-aos="fade-up">
             <div class="member">
               <div class="pic">
-                <img [src]="builder.imageUrl ? builder.imageUrl : 'assets/images/img/team/default.jpg'" class="img-fluid img-builder" alt="Builder Image">
+                <img [src]="builder.imageUrl ? builder.imageUrl : 'assets/images/img/team/team-1.jpg'" class="img-fluid img-builder" onError="'assets/images/img/team/team1.jpg'"  >
               </div>
               <div class="member-info">
                 <h4>{{ builder.fname }} {{ builder.lname }}</h4>

@@ -14,10 +14,10 @@
           <i class="bi bi-file-earmark-text"></i> Property Details
         </h3>
       
-        <button [routerLink]="'/payment/' + id" [queryParams]="{ title: propertyTitle }" class="btn btn-submit mr-3" *ngIf="propertyDetail.status == 'available'">
+        <button [routerLink]="'/payment1/' + id" [queryParams]="{ title: propertyTitle,amount:propertyDetail?.price,propertyName:propertyDetail?.title }" class="btn btn-submit mr-3" *ngIf="propertyDetail.status == 'available'">
           Buy
         </button>
-        <button class="btn btn-danger mr-3" *ngIf="propertyDetail.status == 'sold'">Sold</button>
+        <h5 class="text-danger" *ngIf="propertyDetail.status == 'sold'">SOLD</h5>
       </div>
         <div class="row g-3 p-3">
             <!-- Property Name -->

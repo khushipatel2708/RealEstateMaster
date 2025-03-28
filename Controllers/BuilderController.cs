@@ -139,7 +139,7 @@ namespace RealEstate.Controllers
 
           photoPath = "/uploads/builders/" + uniqueFileName;
         }
-
+        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(builder.Password);
         var existingBuilder = await _context.Builders.FindAsync(builder.Id);
         if (existingBuilder != null)
         {
@@ -147,7 +147,7 @@ namespace RealEstate.Controllers
           existingBuilder.Fname = builder.Fname;
           existingBuilder.Lname = builder.Lname;
           existingBuilder.Email = builder.Email;
-          existingBuilder.Password = builder.Password;
+          existingBuilder.Password =hashedPassword;
           existingBuilder.Pincode = builder.Pincode;
           existingBuilder.Location = builder.Location;
           existingBuilder.PhoneNo = builder.PhoneNo;
@@ -169,7 +169,7 @@ namespace RealEstate.Controllers
             Fname = builder.Fname,
             Lname = builder.Lname,
             Email = builder.Email,
-            Password = builder.Password,
+            Password =  hashedPassword,
             Pincode = builder.Pincode,
             Location = builder.Location,
             PhoneNo = builder.PhoneNo,
