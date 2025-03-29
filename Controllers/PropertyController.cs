@@ -385,7 +385,9 @@ namespace RealEstate.Controllers
           p.Status,
           p.Slug,
           p.UserId,
-          Images = p.Images?.Split(',').Select(img => $"{scheme}://{host}{img}").ToList()
+          Images = !string.IsNullOrEmpty(p.Images)
+        ? p.Images.Split(',').Select(img => $"{scheme}://{host}{img}").ToList()
+        : new List<string>()
         }).ToList();
 
         return Ok(new

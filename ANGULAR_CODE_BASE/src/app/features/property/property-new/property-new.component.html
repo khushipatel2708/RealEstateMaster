@@ -3,7 +3,6 @@
       <div class="text-white" style="margin-top:120%;">Loading...</div>
     </div>
   </ngx-spinner>
-<!-- <p>{{ f.value | json }}</p> -->
 <div class="container border-main border-box-manage card">
   <form #f="ngForm" (ngSubmit)="submitForm(f)" enctype="multipart/form-data">
     <div class="form-group">
@@ -17,9 +16,6 @@
           or click to browse<br>
           <small>max size: 80kb (or else will be ignored)</small>
         </p>
-        <!-- <p *ngIf="currentStatus === STATUS_SAVING">
-          Uploading {{ photos.files.length }} files...
-        </p> -->
       </div>
       <ng-template #imgBOx>
         <div class="row">
@@ -43,18 +39,14 @@
             <input type="radio" [(ngModel)]="propertyFor" name="propertyFor" value="sell"> Sell
           </label>
         </div>
-        <!-- <div class="col-4">
-          <label for="">Property For: </label> <br>
-          <label> <input type="radio" ngModel #propertyFor="ngModel" name="propertyFor" value="sell" checked> Sell
-          </label> &nbsp;
-        </div> -->
         <div class="col-4">
           <label for="">Property Type:</label>
           <select required name="typeId" ngModel #Proptype="ngModel" class="custom-select">
             <option value="">Select Property Type</option>
             <option *ngFor="let property of propertyTypeList" value="{{property.id}}">{{property.title}}</option>
           </select>
-          <!-- <small class="text-danger" *ngIf="Proptype.touched && Proptype.invalid">This field is required</small> -->
+          <small class="text-danger" *ngIf="Proptype.touched && Proptype.invalid">
+            PropertyType is required.</small>
         </div>
         <div class="col-4">
           <label for="">Enter Total Amount <small class="text-primary">(optional)</small> </label>
@@ -63,11 +55,8 @@
         </div>
       </div>
     </div>
-
-    <!-- <div *ngIf="propertyFormData.type == '5abbd8585536e81408846d6f'"> -->
     <h5>Additional Data -</h5>
     <hr class="hr">
-
     <div class="form-row form-group">
       <div class="col-md-6">
         <p>Plot Dimensions - </p>
@@ -102,11 +91,8 @@
       <div>
       </div>
     </div>
-    <!-- </div> -->
-
     <h4>Location -</h4>
     <hr class="hr">
-
     <div class="form-row">
       <div class="form-group col-md-3">
         <label for="">State:</label>
@@ -146,6 +132,8 @@
         <label> <input type="radio" ngModel #isSociety="ngModel" required name="isSociety" value="true"> Yes </label>
         &nbsp;
         <label> <input type="radio" ngModel #isSociety="ngModel" required name="isSociety" value="false"> No </label>
+        <small class="text-danger" *ngIf="isSociety.touched && isSociety.invalid">
+          IsSociety is required</small>
       </div>
       <div [hidden]="isSociety.value != 'true'" class="form-group col-md-4">
         <label for="">Society Name:</label>
@@ -162,10 +150,8 @@
           This field is required</small>
       </div>
     </div>
-
     <h4>Other Information -</h4>
     <hr class="hr">
-
     <div class="row">
       <div class="form-group col-md-12">
         <label for="">Description: <small class="text-primary">({{ 500 - description.value?.length | number }}) </small>
@@ -186,7 +172,6 @@
         <small class="text-danger" *ngIf="address.touched && address.invalid">
           Address is required.</small>
       </div>
-
       <div class="form-group col-md-4">
         <label for="">Email:</label>
         <input type="text" placeholder="Enter Email" name="email" ngModel #email="ngModel" required class="form-control">
@@ -200,40 +185,29 @@
         <small class="text-danger" *ngIf="phoneNo.touched && phoneNo.invalid">
           Phone Number is required.</small>
       </div>
-      <!-- <div class="form-group col-md-4" *ngIf="UserDetails.role !== 'builder'">
-        <label for="">Builder: </label>
-        <select name="builderId" ngModel #builder="ngModel" class="custom-select" >
-            <option value="">Select builder</option>
-            <option *ngFor="let user of builderUserList" [value]="user.id">{{ user.fname }}</option>
-          </select>
-      </div> -->
-      <!-- Builder Dropdown (Visible only when role is NOT 'builder') -->
 <div class="form-group col-md-4" *ngIf="UserDetails.role !== 'builder'">
   <label for="">Builder: </label>
-  <select name="builderId" ngModel #builder="ngModel" class="custom-select">
+  <select name="builderId" id="builder" ngModel #builder="ngModel" class="custom-select" required>
       <option value="">Select builder</option>
       <option *ngFor="let user of builderUserList" [value]="user.id">{{ user.fname }}</option>
   </select>
+  <small class="text-danger" *ngIf="builder.touched && builder.invalid">
+    Builder is required</small>
 </div>
-
-<!-- Agent Name Input Field (Visible only when role is 'builder') -->
 <div class="form-group col-md-4" *ngIf="UserDetails.role === 'builder'">
   <label for="agencyName">Agency Name:</label>
   <input type="text" id="agencyName" name="agencyName" ngModel #agencyName="ngModel" class="form-control" placeholder="Enter Agency Name">
 </div>
-
     </div>
     <div class="form-group propertyTitle">
       <p> {{f.cornerPlot?.value}} {{f.Proptype?.value}} {{f.societyName?.value}} {{f.city?.value}} {{f.state?.value}}</p>
       <label for=""> {{f.cornerPlot?.value}} {{f.Proptype?.value}} {{f.societyName?.value}} {{f.city?.value}} {{f.state?.value}} <small class="text-info">(Auto-generated) </small>
         <app-small-components [componentName]="'moreInfoQstnMark'"
           [toolTipData]="{ position: 'right', text: 'On the basics of values entered above' }"></app-small-components>
-        
       </label>
-      <input type="text" #title="ngModel" name="title" (change)="log(title.value)"
-        [ngModel]="(cornrPlot.value ? 'Corner ' : '') + getDataTitleViaId(Proptype.value, 'propertyTypeList', 'title') + (societyName?.value ? ' at ' +  societyName.value : '') + (city.value ? ' in ' + getDataTitleViaId(city.value, 'cityList', 'name') : '') + (state.value ? (city.value ? ', ': ' in ') + getDataTitleViaId(state.value, 'stateList', 'name') : '')"
+      <input type="text" #title="ngModel" name="title" 
+        [ngModel]="(cornrPlot?.value ? 'Corner ' : '') + getDataTitleViaId(Proptype.value, 'propertyTypeList', 'title') + (societyName?.value ? ' at ' +  societyName.value : '') + (city.value ? ' in ' + getDataTitleViaId(city.value, 'cityList', 'name') : '') + (state.value ? (city.value ? ', ': ' in ') + getDataTitleViaId(state.value, 'stateList', 'name') : '')"
         placeholder="Enter property's title" required class="form-control">
-
       <small class="text-danger" *ngIf="title.touched && title.invalid">
         This field is required</small>
     </div>

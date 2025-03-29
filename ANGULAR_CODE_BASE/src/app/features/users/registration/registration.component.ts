@@ -106,7 +106,13 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     console.log(data.value);
-    const formData = { ...data.value,id:0, phoneNo: String(data.value.phoneNo) };
+    const formData = { 
+      ...data.value, 
+      id: 0, 
+      phoneNo: String(data.value.phoneNo),
+      stateId: Number(data.value.state),  
+      cityId: Number(data.value.city)     
+  };
 
     this.http.post(environment.BASE_URL + '/auth/user/register', formData)
       .subscribe(response => {

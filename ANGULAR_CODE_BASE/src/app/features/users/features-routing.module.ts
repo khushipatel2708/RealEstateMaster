@@ -10,6 +10,7 @@ import { AuthGuardService } from '../../common/services/auth-guard.service';
 import { DashboardComponent } from '../../common/components/dashboard-main/dashboard.component';
 import { UserComponent } from './components/user/user.component';
 import { ForgotPasswordComponent } from 'app/common/components/forgot-password/forgot-password.component';
+import { PaymentListComponent } from 'app/common/components/payment-list/payment-list.component';
 
 const ChildRoutes: Routes = [
   {

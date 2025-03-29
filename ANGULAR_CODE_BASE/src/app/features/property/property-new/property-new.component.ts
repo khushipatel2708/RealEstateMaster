@@ -72,16 +72,16 @@ export class PropertyNewComponent implements OnInit {
 
 submitForm(data) {
   this.isSubmittingForm = true;
+  if(data.invalid){
+    this.toastr.warning("Please fill all required fields.");
+    return;
+  }
   this.spinner.show(); 
 
   this.userService.getCurrentUserDetail.subscribe({
     next: (userDetail) => {
-      console.log('Fetched user detail:', userDetail);
-
       if (userDetail && userDetail.id) {
-        data.value.userId = data.value.builderId;
-       console.log("getCurrentUserDetail", userDetail);
-
+        data.value.userId = userDetail.role == 'admin' ? data.value.builderId : userDetail.id;
         const selectedBuilder = this.builderUserList.find(user => user.id === this.selectedBuilderId);
         if (selectedBuilder) {
           console.log("Selected Builder Name:", selectedBuilder.fname);
@@ -93,7 +93,7 @@ submitForm(data) {
         this.imgsToUpload.forEach((ele) => {
           imageData.append("propImages", ele, ele['name']);
         });
-
+console.log(imageData,"img");
         for (let key in data.value) {
           imageData.append(key, data.value[key]);
         }
@@ -157,8 +157,6 @@ getUserList() {
       console.error(error);
     });
 }
-
-  log(data) { console.log(data); console.log(data.value.cornerPlot)}
 
   filesChange(fieldName: string, fileList) {
     if (fileList && fileList.length) {

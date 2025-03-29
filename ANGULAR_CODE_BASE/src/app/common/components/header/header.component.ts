@@ -67,7 +67,7 @@ currentUser:any={};
   }
 
   handleLogout() {
-    this.loginService.logOut()
+    this.loginService.logOut();
   }
 
   pageloaderStatus: boolean = true;

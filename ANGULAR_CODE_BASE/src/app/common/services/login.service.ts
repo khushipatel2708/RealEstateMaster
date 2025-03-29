@@ -57,18 +57,16 @@ import { environment } from 'environments/environment';
           return true;
         else
           return false;
-        // console.log('TokenExpirationDate', jwtHelper.getTokenExpirationDate(token));
-        // console.log('TokenExpired ', jwtHelper.isTokenExpired(token));
       }
       else
         return false;
     }
 
     logOut() {
-      localStorage.removeItem('token');
       this.router.navigate([''], {
         queryParams: { success: 'logOut' }
       });
+      localStorage.removeItem('token');
     }
 
   }

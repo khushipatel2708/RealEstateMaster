@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MainComponent } from './main/main.component';
 import { NotFoundComponent } from './common/components/not-found/not-found.component';
+import { PaymentListComponent } from './common/components/payment-list/payment-list.component';
 
 const routes: Routes = [
   {
@@ -49,6 +50,10 @@ const routes: Routes = [
   //   loadChildren: () => import('./features/builder/builder.module').then(m => m.BuilderModule)
     
   // },
+  {
+    path:"payment-list",
+    component:PaymentListComponent,
+  },
   {
     path: 'admin',
     component: MainComponent,

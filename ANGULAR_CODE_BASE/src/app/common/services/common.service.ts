@@ -119,6 +119,9 @@ getRoleDDList(){
   getPropertyList1(filters: any): Observable<any> {
     return this.http.post<any>(`${environment.BASE_URL}/property/getpropertyList12`, filters);
   }
+  getPaymentList(filters: any) {
+    return this.http.post<any>(`${environment.BASE_URL}/Payments1/getPaymentList`, filters);
+  }
   //End Menu service
 //Start role
 // getRoleDDlList(){

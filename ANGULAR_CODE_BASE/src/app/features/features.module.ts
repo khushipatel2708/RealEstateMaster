@@ -20,6 +20,7 @@ import { BuilderComponent } from './builder/builder.component';
 import { BuilderModalComponent } from './builder/builder-modal/builder-modal.component';
 import { BuilderModule } from './builder/builder.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { PaymentListComponent } from 'app/common/components/payment-list/payment-list.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     UsersModelComponent,
     UserComponent,
     UsersModelComponent,
- 
+ PaymentListComponent
   ],
   providers: [
   ]

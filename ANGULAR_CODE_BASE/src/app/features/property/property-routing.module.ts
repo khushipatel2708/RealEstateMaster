@@ -30,7 +30,7 @@ const ChildRoutes: Routes = [
       {
         path:'list',
         component:PropertyListComponent,
-        data:{title:'List Property',icon:'bi bi-house door-fill'}
+        data:{title:'Property List',icon:'bi bi-house door-fill'}
       },
       {
         path: 'listing',

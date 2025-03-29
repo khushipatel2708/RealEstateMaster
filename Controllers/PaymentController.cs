@@ -10,12 +10,12 @@ namespace RealEstate.Controllers
 
   [Route("api/payments1")]
   [ApiController]
-  public class PaymentController:ControllerBase
+  public class PaymentController : ControllerBase
   {
     private readonly IConfiguration _config;
     private readonly RealEstateContext _db;
     private readonly EmailService _emailService;
-    public PaymentController(IConfiguration config,RealEstateContext db, EmailService emailService)
+    public PaymentController(IConfiguration config, RealEstateContext db, EmailService emailService)
     {
       _config = config;
       _db = db;
@@ -23,7 +23,7 @@ namespace RealEstate.Controllers
     }
 
     [HttpGet("payu-payment")]
-    public IActionResult GetPayUDetails(string amount,string firstName,string planName)
+    public IActionResult GetPayUDetails(string amount, string firstName, string planName)
     {
       var txnId = Guid.NewGuid().ToString();
       var email = "test@example.com";
@@ -76,12 +76,12 @@ namespace RealEstate.Controllers
 
     [HttpPost("success")]
     public async Task<IActionResult> PaymentSuccess([FromForm] IFormCollection formData, [FromServices] RealEstateContext dbContext)
-      {
+    {
       var status = formData["status"];
       var txnId = formData["txnid"];
       var amount = Convert.ToDecimal(formData["amount"]);
       var planName = formData["productinfo"];
-      var firstName = formData["firstName"].ToString(); 
+      var firstName = formData["firstName"].ToString();
       var email = formData["email"];
       var hashString = formData["hash"];
       var udf1 = formData["udf1"].ToString();
@@ -122,10 +122,59 @@ namespace RealEstate.Controllers
         return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
       }
     }
+  
+
+  [HttpPost("getPaymentList")]
+    public async Task<IActionResult> GetPaymentList([FromBody] PaymentFilter filters)
+    {
+      if (filters == null)
+      {
+        return BadRequest(new { message = "Filters cannot be null" });
+      }
+
+      int page = filters?.Page > 0 ? filters.Page : 1;
+      int pageSize = filters.PageSize > 0 ? filters.PageSize : 20;
+
+      if (page < 1 || pageSize < 1)
+      {
+        return BadRequest(new { message = "Invalid pagination parameters" });
+      }
+
+      var query = _db.Payments.AsQueryable();
+
+      if (!string.IsNullOrWhiteSpace(filters.SearchText))
+      {
+        query = query.Where(p => p.FirstName.Contains(filters.SearchText) ||
+                                 p.TransactionId.Contains(filters.SearchText) ||
+                                 p.PlanName.Contains(filters.SearchText) ||
+                                 p.Email.Contains(filters.SearchText));
+      }
+
+      var totalCount = await query.CountAsync();
+      var data = await query.OrderBy(p => p.Id)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .Select(p => new
+                            {
+                              p.Id,
+                              p.TransactionId,
+                              p.Amount,
+                              p.FirstName,
+                              p.PlanName,
+                            })
+                            .ToListAsync();
+
+      return Ok(new { data, totalCount });
+    }
+
   }
-
 }
-
+  public class PaymentFilter
+{
+  public string? SearchText { get; set; }
+  public int Page { get; set; }
+  public int PageSize { get; set; }
+}
 public class PayUResponseDto
 {
   public string Status { get; set; }

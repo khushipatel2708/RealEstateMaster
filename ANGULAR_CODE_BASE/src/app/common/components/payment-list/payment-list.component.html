@@ -1,0 +1,76 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" [fullScreen]="true">
+    <div class="clock-spinner">
+        <div class="text-white" style="margin-top:120%;">Loading...</div>
+      </div>
+    </ngx-spinner>
+  <div class="card p-4 shadow-lg">
+    <div class="card-content">
+      <div class="card-body">
+        <form [formGroup]="form">
+          <div class="row">
+            <div class="col-md-3 text-left">
+              <div class="input-group input-group-sm mb-0">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="bi bi-search"></i></span>
+                </div>
+                <input type="text" formControlName="searchText" class="form-control form-control-sm" placeholder="Search">
+              </div>
+            </div>
+  
+            <div class="col-md-4 d-flex align-items-center mb-5">
+              <button type="submit" class="btn btn-sm btn-warning m-1" (click)="onClick_fiter()"><i
+                  class="bi bi-search me-1"></i>
+                Filter</button>
+              <button type="button" class="btn btn-sm btn-secondary m-1" (click)="onClear_Filter()"><i
+                  class="bi bi-x-lg me-1"></i>
+                Clear</button>
+            </div>
+          </div>
+        </form>
+          <table class="table table-striped mt-3" *ngIf="paymentList && paymentList.length > 0; else noUser">
+            <thead class="fs-5">
+              <tr>
+                <th> # </th>
+                <th>Transaction Id</th>
+                <th> First Name </th>
+                <th> Plan name </th>
+                <th> Amount </th>
+                <th> Payment Date </th>
+                <th> Status </th>
+              </tr>
+            </thead>
+            <tbody class="fs-5">
+              <tr *ngFor="let item of paymentList; let i = index">
+                <td>{{ (page - 1) * pageSize + i + 1 }}</td>
+                <td>{{item.transactionId}}</td>
+                <td>{{item.firstName}}</td>
+                <td>{{item.planName}}</td>
+                <td>{{item.amount}}</td>
+                <td>{{item.paymentDate | date:'dd-MM-yyyy'}}</td>
+                <td>{{item.success}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #noUser>
+            <div class="alert alert-warning text-center mt-3" role="alert">
+              <i class="bi bi-exclamation-triangle me-2"></i>
+              No user available. Please add a new user.
+            </div>
+          </ng-template>
+        <div class="row mt-5">
+          <div class="col-md-10">
+            <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)"
+              [pageSize]="pageSize" [maxSize]="10">
+            </ngb-pagination>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-control">
+                <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

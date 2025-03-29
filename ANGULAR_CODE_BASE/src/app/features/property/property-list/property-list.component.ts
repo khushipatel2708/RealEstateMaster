@@ -17,9 +17,8 @@ export class PropertyListComponent implements OnInit {
   cityList:any[]=[];
   propertyTypeList:any[]=[];
   propertyFor = [
-    { value: 'buy', name: 'Buy' },
-    { value: 'rent', name: 'Rent' }
-  ];
+    { value: 'buy', name: 'Buy' }
+    ];
   userRole: string = '';
   totalRecord=0;
   page = 1;
