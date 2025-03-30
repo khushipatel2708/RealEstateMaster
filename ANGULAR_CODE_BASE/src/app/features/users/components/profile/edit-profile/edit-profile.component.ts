@@ -73,6 +73,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../../../common/services/user.service';
 import { CommonService } from '../../../../../common/services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-edit-profile',
@@ -86,11 +88,14 @@ export class EditProfileComponent implements OnInit {
   profileForm: FormGroup;
   stateList: any[] = [];
   cityList: any[] = [];
+  submitted = false;
 
   constructor(
     private userService: UserService,
     private commonService: CommonService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit() {
@@ -204,53 +209,89 @@ export class EditProfileComponent implements OnInit {
     this.isEditing = !this.isEditing;
   }
 
+  // updateProfile() {
+  //   this.submitted = true; // Set submitted to true when Save is clicked
+
+  //   if (this.profileForm.invalid) return; 
+
+  //   const selectedState = this.stateList.find(state => state.id == this.profileForm.getRawValue().state);
+  //   const selectedCity = this.cityList.find(city => city.id == this.profileForm.getRawValue().city);
+  
+  //   const updatedUser = {
+  //     ...this.UserDetails,
+  //     userName: this.profileForm.getRawValue().userName,
+  //     email: this.profileForm.getRawValue().email,
+  //     phoneNo: this.profileForm.getRawValue().phoneNo,
+  //     role: this.UserDetails.role,  
+  //     pincode: this.profileForm.getRawValue().pincode,
+  //     stateId: selectedState ? selectedState.id : null, 
+  //     cityId: selectedCity ? selectedCity.id : null  
+  //   };
+  
+  //   this.userService.updateProfile(this.UserDetails.id, updatedUser).subscribe({
+  //     next: (response) => {
+  //       console.log("Profile updated successfully:", response);
+  
+  //       this.UserDetails = { ...updatedUser }; 
+  
+  //       this.profileForm.patchValue({
+  //         userName: updatedUser.userName,
+  //         email: updatedUser.email,
+  //         phoneNo: updatedUser.phoneNo,
+  //         role: updatedUser.role,
+  //         pincode: updatedUser.pincode,
+  //         state: updatedUser.stateId, 
+  //         city: updatedUser.cityId 
+  //       });
+  
+  //       const stateName = this.stateList.find(state => state.id == updatedUser.stateId)?.name || '';
+  //       const cityName = this.cityList.find(city => city.id == updatedUser.cityId)?.name || '';
+  
+  //       this.UserDetails.state = stateName;
+  //       this.UserDetails.city = cityName;
+  
+  //       this.toggleEditMode();
+  //     },
+  //     error: (err) => {
+  //       console.error("Error updating profile:", err);
+  //     }
+  //   });
+  // }
+  
   updateProfile() {
-    if (this.profileForm.invalid) return;
-  
-    const selectedState = this.stateList.find(state => state.id == this.profileForm.getRawValue().state);
-    const selectedCity = this.cityList.find(city => city.id == this.profileForm.getRawValue().city);
-  
+    this.submitted = true; // Set submitted to true when Save is clicked
+
+    if (this.profileForm.invalid) {
+      this.toastr.warning("Enter valid data", "Warning");
+      return; // Stop if form is invalid
+    } // Stop if form is invalid
+
+    this.spinner.show(); 
+
     const updatedUser = {
       ...this.UserDetails,
       userName: this.profileForm.getRawValue().userName,
       email: this.profileForm.getRawValue().email,
       phoneNo: this.profileForm.getRawValue().phoneNo,
-      role: this.UserDetails.role,  
       pincode: this.profileForm.getRawValue().pincode,
-      stateId: selectedState ? selectedState.id : null, 
-      cityId: selectedCity ? selectedCity.id : null  
+      stateId: this.profileForm.getRawValue().state,
+      cityId: this.profileForm.getRawValue().city
     };
-  
+
     this.userService.updateProfile(this.UserDetails.id, updatedUser).subscribe({
       next: (response) => {
-        console.log("Profile updated successfully:", response);
-  
-        this.UserDetails = { ...updatedUser }; 
-  
-        this.profileForm.patchValue({
-          userName: updatedUser.userName,
-          email: updatedUser.email,
-          phoneNo: updatedUser.phoneNo,
-          role: updatedUser.role,
-          pincode: updatedUser.pincode,
-          state: updatedUser.stateId, 
-          city: updatedUser.cityId 
-        });
-  
-        const stateName = this.stateList.find(state => state.id == updatedUser.stateId)?.name || '';
-        const cityName = this.cityList.find(city => city.id == updatedUser.cityId)?.name || '';
-  
-        this.UserDetails.state = stateName;
-        this.UserDetails.city = cityName;
-  
+        this.spinner.hide(); 
+        console.log("Profile updated successfully");
+        this.toastr.success("Profile updated successfully", "Success");
+        this.UserDetails = { ...updatedUser };
         this.toggleEditMode();
       },
       error: (err) => {
+        this.spinner.hide(); 
+        this.toastr.error("Failed to update profile", "Error");
         console.error("Error updating profile:", err);
       }
     });
   }
-  
-  
   
 }

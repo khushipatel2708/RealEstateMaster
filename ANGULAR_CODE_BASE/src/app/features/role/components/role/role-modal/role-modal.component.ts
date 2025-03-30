@@ -75,7 +75,7 @@ export class RoleModalComponent implements OnInit {
 onSubmit_Form() {
     this.submitted = true;
     if (this.form.invalid) {
-       this.toastr.warning("Enter valid data");
+      this.toastr.warning("Enter valid data", "Warning");
       return;
     }
     const roleData = {
