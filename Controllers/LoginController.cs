@@ -34,14 +34,14 @@ public class LoginController : ControllerBase
     var user = await _context.Users
        .AsNoTracking()
         .FirstOrDefaultAsync(u => u.Email == model.EmailPhone || u.PhoneNo == model.EmailPhone);
-
+    var role = user.Role;
     if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
     {
       return Unauthorized(new { message = "Invalid Credentials" });
     }
 
     var token = GenerateJwtToken(user);
-    return Ok(new { message = "Login Successful", token });
+    return Ok(new { message = "Login Successful", token,role });
   }
 
   [HttpPost("register")]
