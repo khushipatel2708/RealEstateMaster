@@ -57,7 +57,8 @@ export class RegistrationComponent implements OnInit {
       city: new FormControl('',Validators.required),
       pincode: new FormControl('', [Validators.required]),
       role: new FormControl('', [Validators.required])
-    }
+    },
+    { validators: this.passwordMatchValidator } // Add custom validator here
     );
     this.commonService.togglePageLoaderFn(false);
     this.commonService.getStatelist()
@@ -67,7 +68,12 @@ export class RegistrationComponent implements OnInit {
           }
       });
   }
-
+  passwordMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const confirmPassword = formGroup.get('cPassword')?.value;
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
+  
   getCityList(stateId) {
     this.cityList = [];
 
@@ -103,6 +109,7 @@ export class RegistrationComponent implements OnInit {
     // });
     this.registrationSubmitted=true;
     if(this.registrationForm.invalid){
+      this.toast.warning("Enter valid details")
       return;
     }
     console.log(data.value);
@@ -124,15 +131,20 @@ export class RegistrationComponent implements OnInit {
         }
         this.toast.success("Registre Data Successfully")
       },
-        (error: Response) => {
-          this.mainErrorMessage.type = 'danger';
-          if (error.status === 400) {
-            this.mainErrorMessage.message = 'Your request is invalid';
-          }
-          else if (error.status) {
-            this.mainErrorMessage.message = 'Something went wrong';
-          }
-        });
+      (error: Response) => {
+        this.mainErrorMessage.type = 'danger';
+        if (error.status === 400) {
+          this.mainErrorMessage.message = 'Your request is invalid';
+          this.toast.error("user already exixst");
+        }
+        else if (error.status) {
+          this.mainErrorMessage.message = 'Something went wrong';
+          this.toast.error('Something went wrong');
+        } else {
+          // If API fails completely (like network error)
+          this.toast.error('Failed to load data'); 
+        }
+      });
   }
 
   onChangePassword($event){
