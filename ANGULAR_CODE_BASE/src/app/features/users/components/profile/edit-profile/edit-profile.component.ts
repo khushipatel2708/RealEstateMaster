@@ -259,15 +259,15 @@ export class EditProfileComponent implements OnInit {
   // }
   
   updateProfile() {
-    this.submitted = true; // Set submitted to true when Save is clicked
-
+    this.submitted = true; // Mark form as submitted
+  
     if (this.profileForm.invalid) {
       this.toastr.warning("Enter valid data", "Warning");
-      return; // Stop if form is invalid
-    } // Stop if form is invalid
-
-    this.spinner.show(); 
-
+      return;
+    }
+  
+    this.spinner.show(); // Show spinner while updating
+  
     const updatedUser = {
       ...this.UserDetails,
       userName: this.profileForm.getRawValue().userName,
@@ -277,14 +277,33 @@ export class EditProfileComponent implements OnInit {
       stateId: this.profileForm.getRawValue().state,
       cityId: this.profileForm.getRawValue().city
     };
-
+  
     this.userService.updateProfile(this.UserDetails.id, updatedUser).subscribe({
       next: (response) => {
         this.spinner.hide(); 
-        console.log("Profile updated successfully");
         this.toastr.success("Profile updated successfully", "Success");
+  
+        // Update UserDetails object
         this.UserDetails = { ...updatedUser };
-        this.toggleEditMode();
+  
+        // Reflect changes in form
+        this.profileForm.patchValue({
+          userName: updatedUser.userName,
+          email: updatedUser.email,
+          phoneNo: updatedUser.phoneNo,
+          pincode: updatedUser.pincode,
+          state: updatedUser.stateId,
+          city: updatedUser.cityId
+        });
+  
+        // Update displayed city and state names
+        const stateName = this.stateList.find(state => state.id == updatedUser.stateId)?.name || '';
+        const cityName = this.cityList.find(city => city.id == updatedUser.cityId)?.name || '';
+        this.UserDetails.state = stateName;
+        this.UserDetails.city = cityName;
+  
+        // Close edit mode
+        this.isEditing = false;
       },
       error: (err) => {
         this.spinner.hide(); 
@@ -293,5 +312,6 @@ export class EditProfileComponent implements OnInit {
       }
     });
   }
+  
   
 }
