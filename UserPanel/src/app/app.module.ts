@@ -31,6 +31,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileComponent } from './profile/profile.component';
 import { Payment1Component } from './payment1/payment1.component';
 import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 @NgModule({
   
   declarations: [
@@ -63,6 +64,7 @@ import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.compone
     ToastrModule.forRoot(), 
     HttpClientModule,
     FormsModule,
+    NgxSpinnerModule,
     ReactiveFormsModule,
     // AdministrationModule
   ],
