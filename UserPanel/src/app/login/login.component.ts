@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { CommonService } from '../services/common.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -19,12 +21,14 @@ show_eye = false;
 urltoRedirect = '';
 
 constructor(
+  private toastr: ToastrService,
   private loginService: LoginService,
   private route: ActivatedRoute,
   private router: Router,
   private commonService: CommonService,
   private cdRef: ChangeDetectorRef,
-  private formBuilder:FormBuilder
+  private formBuilder:FormBuilder,
+  private spinner: NgxSpinnerService,
 ) { }
 get lf() {
   return this.loginForm.controls;
@@ -59,17 +63,22 @@ alertMessage: any = {
 
 login() {
   this.loginFormSubmitted = true;
+  // this.spinner.show();
   if (this.loginForm.invalid) {
+    this.toastr.warning("Enter valid Data");
     return;
   } else {
+    this.spinner.show();
     console.log(this.loginForm.value,"value");
   let returnData = this.loginService.checkUserLogin(this.loginForm.value)
   .subscribe(response => {
-      this.alertMessage = {
-        type: 'success',
-        status: true,
-        message: 'Logged In successfully'
-      }
+    this.spinner.hide();
+    this.toastr.success('Logged in successfully!');
+      // this.alertMessage = {
+      //   type: 'success',
+      //   status: true,
+      //   message: 'Logged In successfully'
+      // }
       // this.loginCheck = false;
       // this.alertMessage.message = '';
       const token = response['token'];
@@ -81,14 +90,19 @@ login() {
       this.router.navigate(['/home']);
   },
   (error: Response) => {
+    this.spinner.hide();
     // this.alertMessage.type = 'danger';
     // this.loginCheck = false;
     console.log('Unexpected error occured ', error);
     if (error.status === 401) {
-      this.alertMessage.message = "Either of you details is incorrect";
+      this.spinner.hide();
+      // this.alertMessage.message = "Either of you details is incorrect";
+      this.toastr.error('Incorrect email or password');
     }
     else {
-      this.alertMessage.message = "An Unexpected error occured";
+      this.spinner.hide();
+      // this.alertMessage.message = "An Unexpected error occured";
+      this.toastr.error('An unexpected error occurred');
     }
   });
 }
@@ -113,6 +127,11 @@ login() {
 //       }
 //     );
 //   }
+// }
+
+// loginSuccess(token: string) {
+//   this.commonService.changeHeaderMessage({ type: 'success', message: 'You have logged in successfully' });
+//   this.router.navigateByUrl(this.urltoRedirect || '/home'); // Navigate dynamically
 // }
 
 

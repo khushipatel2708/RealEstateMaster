@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { UserService } from 'app/services/user.service';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-contact-us',
@@ -9,7 +11,7 @@ import { UserService } from 'app/services/user.service';
 })
 export class ContactUsComponent implements OnInit{
   form:FormGroup;
-  constructor(public formBuilder:FormBuilder,public userService:UserService){}
+  constructor(public formBuilder:FormBuilder,public userService:UserService,private toastr: ToastrService,private spinner: NgxSpinnerService,){}
   ngOnInit(): void {
     this.form=this.formBuilder.group({
       name:[null,Validators.required],
@@ -20,18 +22,24 @@ export class ContactUsComponent implements OnInit{
   }
   
   onSubmit(){
+this.spinner.show();
     const formData={
       name:this.form.get("name").value,
       email:this.form.get("email").value,
       subject:this.form.get("subject").value,
       message:this.form.get("message").value
     }
+    this.spinner.show();
     this.userService.contactUs(formData).subscribe(
       (result) =>{
-        alert("your request has been successfully sent.");
+        this.spinner.hide();
+        this.toastr.success('Your request has been successfully sent.');
+        // alert("your request has been successfully sent.");
       },
       (error)=>{
-        alert("your request failed to sent.");
+        this.spinner.hide();
+        this.toastr.error('Your request failed to send. Please try again later.')
+        // alert("your request failed to sent.");
       }
     )
   }

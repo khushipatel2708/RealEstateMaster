@@ -1,0 +1,78 @@
+/* 🌟 Global Toastr Styles */
+.toast-container .ngx-toastr {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+  opacity: 0.95;
+  display: flex;
+  align-items: center;
+}
+
+/* ✅ Success Toast */
+.toast-success {
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  color: #fff !important;
+  border-left: 6px solid #1B5E20 !important;
+  position: relative;
+}
+.toast-success::before {
+  content: '✔';
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* ❌ Error Toast */
+.toast-error {
+  background: linear-gradient(135deg, #E53935, #B71C1C);
+  color: #fff !important;
+  border-left: 6px solid #7F0000 !important;
+}
+.toast-error::before {
+  content: '✖';
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* 🔔 Info Toast */
+.toast-info {
+  background: linear-gradient(135deg, #1E88E5, #1565C0);
+  color: #fff !important;
+  border-left: 6px solid #0D47A1 !important;
+}
+.toast-info::before {
+  content: 'ℹ';
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* ⚠️ Warning Toast */
+.toast-warning {
+  background: linear-gradient(135deg, #FFC107, #FFA000);
+  color: #212529 !important;
+  border-left: 6px solid #FF6F00 !important;
+}
+.toast-warning::before {
+  content: '⚠';
+  font-size: 18px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* 📍 Position Tweaks */
+.toast-top-right {
+  top: 20px;
+  right: 20px;
+}
+
+/* 🚀 Hover Effect for Interactive Feel */
+.toast-container .ngx-toastr:hover {
+  transform: scale(1.05);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.2);
+}

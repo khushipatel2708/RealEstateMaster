@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { CommonService } from '../services/common.service';
 import { environment } from '../../environments/environment';
 import { RegistrationValidators } from '../validators/registration.validators';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -22,6 +24,8 @@ registrationForm:FormGroup;
     private commonService: CommonService,
     private registrationValidators: RegistrationValidators,
     private http: HttpClient,
+    private toastr: ToastrService,
+    private spinner: NgxSpinnerService,
     private router: Router
   ) { }
  
@@ -96,33 +100,43 @@ registrationForm:FormGroup;
     // });
     this.registrationSubmitted=true;
     if(this.registrationForm.invalid){
+      this.toastr.warning('Enter Valid Data');
       return;
     }
+    this.spinner.show();
     const formData = { ...data.value,id:0, phoneNo: String(data.value.phoneNo),cityId:Number(data.value.cityId),stateId:Number(data.value.stateId),pincode:Number(data.value.pincode),role:'user'};
 
     this.http.post(environment.BASE_URL + '/auth/user/register', formData)
       .subscribe(response => {
+        this.spinner.hide();
         console.log('--- reg form -- ', response);
         if (response && response['message']) {
+          this.toastr.success('Registration successful!');
           this.router.navigate(['/login'], {
             queryParams: { action: 'signUpsuccess' }
           });
         }
       },
         (error: Response) => {
+          this.spinner.hide();
           this.mainErrorMessage.type = 'danger';
 
           if (error.status === 400) {
+            this.spinner.hide();
             this.mainErrorMessage.message = 'Your request is invalid';
+            this.toastr.error('Your request is invalid. Please check your details.');
           }
           else if (error.status) {
+            this.spinner.hide();
             this.mainErrorMessage.message = 'Something went wrong';
+            this.toastr.error('Something went wrong. Please try again later.');
           }
         });
   }
 
   onChangePassword($event){
     if(this.registrationForm.get("password")?.value != this.registrationForm.get("cPassword")?.value){
+      this.toastr.warning('Passwords do not match.');
       this.passwordMismatch=true;
       }else{
       this.passwordMismatch=false;
