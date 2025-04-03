@@ -23,10 +23,9 @@ namespace RealEstate.Controllers
     }
 
     [HttpGet("payu-payment")]
-    public IActionResult GetPayUDetails(string amount, string firstName, string planName)
+    public IActionResult GetPayUDetails(string amount, string firstName, string planName,string email)
     {
       var txnId = Guid.NewGuid().ToString();
-      var email = "test@example.com";
       var serviceProvider = "test";
       decimal parsedAmount = decimal.TryParse(amount, out decimal amt) ? amt : 0;
       //var sanitizedFirstName = Uri.UnescapeDataString(firstName?.Trim() ?? "");
@@ -91,7 +90,7 @@ namespace RealEstate.Controllers
         TransactionId = txnId,
         Amount = amount,
         PlanName = planName,
-        FirstName = firstName,
+        FirstName = udf1,
         Email = email,
         Status = status,
         HashString = hashString,

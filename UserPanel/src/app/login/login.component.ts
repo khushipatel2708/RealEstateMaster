@@ -6,6 +6,7 @@ import { LoginService } from '../services/login.service';
 import { CommonService } from '../services/common.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { UserService } from 'app/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit{
-
 loginFormSubmitted = false;
 loginForm:FormGroup;
 showPassword = false;
@@ -26,6 +26,7 @@ constructor(
   private route: ActivatedRoute,
   private router: Router,
   private commonService: CommonService,
+  private userService:UserService,
   private cdRef: ChangeDetectorRef,
   private formBuilder:FormBuilder,
   private spinner: NgxSpinnerService,
@@ -69,7 +70,6 @@ login() {
     return;
   } else {
     this.spinner.show();
-    console.log(this.loginForm.value,"value");
   let returnData = this.loginService.checkUserLogin(this.loginForm.value)
   .subscribe(response => {
     this.spinner.hide();
@@ -85,23 +85,21 @@ login() {
   const tokenParts = token.split('.');
   const payload = JSON.parse(atob(tokenParts[1]));
   const role = payload.user.role;
+  // localStorage.setItem('token', token);
+    // this.userService.getCurrentUserDetails();
+    if(token)
+    {
       this.loginSuccess(response['token']);
-      // this.router.navigate(['/users/dashboard']);
-      this.router.navigate(['/home']);
+    }
   },
   (error: Response) => {
     this.spinner.hide();
-    // this.alertMessage.type = 'danger';
-    // this.loginCheck = false;
-    console.log('Unexpected error occured ', error);
     if (error.status === 401) {
       this.spinner.hide();
-      // this.alertMessage.message = "Either of you details is incorrect";
       this.toastr.error('Incorrect email or password');
     }
     else {
       this.spinner.hide();
-      // this.alertMessage.message = "An Unexpected error occured";
       this.toastr.error('An unexpected error occurred');
     }
   });
@@ -136,9 +134,11 @@ login() {
 
 
 loginSuccess(token) {
+  localStorage.setItem('token', token);
+  this.userService.getCurrentUserDetails();
   this.commonService.changeHeaderMessage({ type: 'success', message: 'You have logged in successfully'});
-  // this.activeModal.dismiss('Cross click');
-  this.router.navigate([this.urltoRedirect || '/users/dashboard']);
+  this.router.navigate(['/home']);
+  // this.router.navigate([this.urltoRedirect || '/users/dashboard']);
   
   // if (this.urltoRedirect)
   //   this.router.navigate([this.urltoRedirect]);
@@ -146,7 +146,6 @@ loginSuccess(token) {
   //   this.router.navigate(['/users/dashboard']);
 
   // Adding to local storage
-  localStorage.setItem('token', token);
 }
 
 

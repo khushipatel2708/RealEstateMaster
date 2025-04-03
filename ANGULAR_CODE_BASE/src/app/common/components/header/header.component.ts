@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 // , ViewChild
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
   pageTitle: string = '';
   pageIcon:string = '';
   isUserLoggedIn: Boolean = false;
+ 
 currentUser:any={};
   constructor(
     private loginService: LoginService,
@@ -140,4 +141,5 @@ getCurrentUserDetail(){
     }
   )
 }
+
 }

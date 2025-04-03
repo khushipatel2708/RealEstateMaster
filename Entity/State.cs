@@ -17,5 +17,5 @@ public partial class State
 
   public virtual ICollection<Property> Properties { get; set; } = new List<Property>();
 
-  //public virtual ICollection<User> Users { get; set; } = new List<User>();
+  public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

@@ -12,6 +12,9 @@ export class PaymentComponent {
   paymentForm: FormGroup;
 id:any;
 propertyTitle:any;
+surl:string;
+furl:string;
+curl:string;
   constructor(private commonService: CommonService,private formBuilder:FormBuilder,private route:ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -25,12 +28,14 @@ propertyTitle:any;
    this.id = this.route.snapshot.paramMap.get('id');
    this.route.queryParams.subscribe(params => {
     this.propertyTitle = params['title']; // Query parameter
+    this.surl = " https://0961-2409-4080-be1e-d273-cc11-f7a7-129c-838a.ngrok-free.app/api/payment/PayUResponse"; 
+    this.furl = "https://test-payment-middleware.payu.in/simulatorResponse/payment-failed"; 
+    this.curl="https://test-payment-middleware.payu.in/simulatorResponse/payment-failed";
   });
+  
   }
 
   payWithPayU() {
-    console.log(this.paymentForm.get('amount').value,"amount");
-
     const paymentData = {
       key: '1YRwjC',
       txnid: 'Txn' + Math.floor(Math.random() * 1000000),
@@ -39,8 +44,10 @@ propertyTitle:any;
       firstname: this.paymentForm.get('firstname').value,
       email: this.paymentForm.get('email').value,
       phone: this.paymentForm.get('phone').value,
-      surl: 'https://8a43-116-72-153-32.ngrok-free.app/api/payment/success',
-      furl: 'https://8a43-116-72-153-32.ngrok-free.app/api/payment/success',
+      surl:this.surl,
+      furl: this.furl,
+      curl:this.curl,
+      merchant_id:'8688263',
       udf1: '',
       udf2: '',
       udf3: '',
@@ -93,6 +100,7 @@ console.log(paymentData,"paymentData");
     }
 
     this.commonService.initiatePayment(payuForm).subscribe((response: any) => {
+      console.log(response.paymentUrl,"paymenturl");
       this.createAndSubmitForm(response.paymentUrl, response.postData);
     }, error => {
       console.error('Error initiating payment:', error);
@@ -100,6 +108,7 @@ console.log(paymentData,"paymentData");
   }
 
   createAndSubmitForm(actionUrl: string, formFields: any) {
+    console.log("ff");
     const form = document.createElement('form');
     form.method = 'POST';
     form.action = actionUrl;

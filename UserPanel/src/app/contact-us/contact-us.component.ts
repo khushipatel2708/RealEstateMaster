@@ -10,8 +10,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./contact-us.component.scss']
 })
 export class ContactUsComponent implements OnInit{
+  submittedForm:boolean=false;
   form:FormGroup;
-  constructor(public formBuilder:FormBuilder,public userService:UserService,private toastr: ToastrService,private spinner: NgxSpinnerService,){}
+  constructor(public formBuilder:FormBuilder,public userService:UserService,private toastr: ToastrService,private spinner: NgxSpinnerService){}
   ngOnInit(): void {
     this.form=this.formBuilder.group({
       name:[null,Validators.required],
@@ -20,9 +21,17 @@ export class ContactUsComponent implements OnInit{
       message:[null],
     });
   }
-  
+  get f(){
+    return this.form.controls;
+  }
   onSubmit(){
+    this.submittedForm=true;
+    if(this.form.invalid){
+      this.toastr.warning("please enter all required fields.");
+      return;
+    }
 this.spinner.show();
+
     const formData={
       name:this.form.get("name").value,
       email:this.form.get("email").value,

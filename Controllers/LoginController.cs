@@ -35,6 +35,7 @@ public class LoginController : ControllerBase
        .AsNoTracking()
         .FirstOrDefaultAsync(u => u.Email == model.EmailPhone || u.PhoneNo == model.EmailPhone);
     var role = user.Role;
+
     if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
     {
       return Unauthorized(new { message = "Invalid Credentials" });

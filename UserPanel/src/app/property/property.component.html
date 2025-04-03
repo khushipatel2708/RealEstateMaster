@@ -46,9 +46,10 @@
               </div>
           </div>
             <div>
-              <h4 class="pt-2" *ngIf="builder.role == 'builder'">{{builder.agencyName}}</h4>
-              <h4 class="pt-2" *ngIf="builder.role == 'admin'">Admin Property</h4>
-              <!-- <h6 class="property-info"><i class="bi bi-buildings me-1"></i>{{ builder.title }}</h6> -->
+              <h4 class="pt-2" *ngIf="builder.role == 'builder' && builder.agencyName != null && builder.builderFname == null">{{builder.agencyName}}</h4>
+              <h4 class="pt-2" *ngIf="builder.role == 'admin' && builder.builderFname == null">Admin Property</h4>
+              <h4 class="pt-2" *ngIf="builder.role == 'builder' && builder.builderFname != null && builder.agencyName == null">{{builder.builderFname}}</h4>
+                            <!-- <h6 class="property-info"><i class="bi bi-buildings me-1"></i>{{ builder.title }}</h6> -->
               <div class="row align-items-center">
                 <div class="col d-flex align-items-center">
                   <p class="mt-0 mb-0 text-muted"><i class="bi bi-houses me-1"></i>&nbsp; {{builder.propertyType}}</p>
@@ -67,6 +68,11 @@
                 <p class="mt-0 mb-0 text-muted"><i class="bi bi-geo-alt me-1"></i> {{ builder.cityName }},{{builder.stateName}}</p>
                 </div>
                 </div>
+                <div class="row align-items-center">
+                  <div class="col d-flex align-items-center">
+                    <p class="mt-0 mb-0 text-center text-info" style="cursor:pointer;" ngbTooltip="get Contact Details" (click)="getContactDetails(builder.id)"><i class="bi bi-telephone me-1"></i>Contact Details</p>
+                  </div>
+                  </div>
                 <div class="button-container pleft-5">
                   <button [routerLink]="'/property-detail/' + builder.id" 
                   [queryParams]="{ title: builder.slug }"  class="btn btn-custom view-details" *ngIf="isUserLoggedIn"><i class="fa fa-eye text-white"></i> View</button>

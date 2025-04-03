@@ -53,6 +53,7 @@ import { environment } from '../../environments/environment';
     isLoggedIn() {
       let jwtHelper = new JwtHelperService();
       var token = localStorage.getItem('token');
+      console.log(token,"token");
       if (token) {
         var status = jwtHelper.isTokenExpired(token);
         if (status == false)

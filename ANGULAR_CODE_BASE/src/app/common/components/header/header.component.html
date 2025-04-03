@@ -5,43 +5,34 @@
 		<div class="row mt-0">
 			<div class="col-md-10 text-end">
 				<div class="header-ryt text-right pt-3">
-					<!-- <button type="button" style="margin-right: 5px;" 
-						class="btn btn-outline-primary btn-sm" *ngIf="!isUserLoggedIn">Login </button>
-					<button type="button" routerLink="/users/sign-up" 
-						class="btn btn-outline-primary btn-sm" *ngIf="!isUserLoggedIn">Register</button> -->
 					<div>
 						<div class="row">
-							<div class="col-md-6">
-								<!-- <h4 class="text-danger text-start pt-2">Your recent Postings:</h4> -->
-									
+							<div class="col-md-6">									
 									<h3 class="page-title text-start pt-3 fs-4"><i [class]="pageIcon" class="fs-3"></i> {{ pageTitle }}</h3>
-								 
 							</div>
 							<div class="col-md-6">
-								<div class="user-image dropdown text-right" *ngIf="isUserLoggedIn">
-									<span><span class="text-primary">Welcome</span> {{ currentUser?.userName }} </span>
-									<img 
-									[src]="currentUser?.photoPath ? currentUser.photoPath : 'assets/images/user.jpg'"
-									  class="rounded-circle p-cursor dropdown-toggle"
-									  id="userDropdown"
-									  data-bs-toggle="dropdown"
-									  aria-expanded="false"
-									  alt="user"
-									>
-									
-									<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-									  <li><a class="dropdown-item" routerLink="/users/dashboard">Dashboard</a></li>
-									  <!-- <li>
-										<a class="dropdown-item" routerLink="/admin/dashboard">Admin</a>
-									  </li> -->
-									  <li><a class="dropdown-item" routerLink="/users/profile/edit">Profile</a></li>
-									  <li><a class="dropdown-item" (click)="handleLogout()">Logout</a></li>
-									</ul>
-								  </div>	
+								<div class="row justify-content-end align-items-center">
+									<div class="pl-0 col-md-12">
+										<div class="user-image dropdown text-right" *ngIf="isUserLoggedIn">
+											<span><span class="text-primary">Welcome</span> {{ currentUser?.userName }} </span>
+											<img 
+											[src]="currentUser?.photoPath ? currentUser.photoPath : 'assets/images/user.jpg'"
+											  class="rounded-circle p-cursor dropdown-toggle"
+											  id="userDropdown"
+											  data-bs-toggle="dropdown"
+											  aria-expanded="false"
+											  alt="user"
+											>
+											<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+											  <li><a class="dropdown-item" routerLink="/users/dashboard">Dashboard</a></li>
+											  <li><a class="dropdown-item" routerLink="/users/profile/edit">Profile</a></li>
+											  <li><a class="dropdown-item" (click)="handleLogout()">Logout</a></li>
+											</ul>
+										  </div>	
+									</div>
+								</div>
 							</div>
-						
 						</div>
-										  
 					</div>
 				</div>
 			</div>

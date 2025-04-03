@@ -371,13 +371,13 @@ public partial class RealEstateContext : DbContext
           .HasDefaultValueSql("(NULL)")
           .HasColumnName("userType");
 
-      //entity.HasOne(d => d.City).WithMany(p => p.Users)
-      //    .HasForeignKey(d => d.CityId)
-      //    .HasConstraintName("FK_users_City");
+      entity.HasOne(d => d.City).WithMany(p => p.Users)
+          .HasForeignKey(d => d.CityId)
+          .HasConstraintName("FK_users_City");
 
-      //entity.HasOne(d => d.State).WithMany(p => p.Users)
-      //    .HasForeignKey(d => d.StateId)
-      //    .HasConstraintName("FK_users_state");
+      entity.HasOne(d => d.State).WithMany(p => p.Users)
+          .HasForeignKey(d => d.StateId)
+          .HasConstraintName("FK_users_state");
     });
 
     OnModelCreatingPartial(modelBuilder);

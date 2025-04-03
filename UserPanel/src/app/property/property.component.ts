@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'app/services/auth.service';
 import { CommonService } from 'app/services/common.service';
+import Swal from 'sweetalert2';
 declare var bootstrap: any; 
 @Component({
   selector: 'app-property',
@@ -11,6 +12,7 @@ declare var bootstrap: any;
 export class PropertyComponent implements OnInit{
 property: any[] = [];
 isUserLoggedIn = false;
+currentUser:any;
   sliderInitialized = false; 
   constructor(private commonService: CommonService,private authService: AuthService, private route: ActivatedRoute) {}
 
@@ -55,12 +57,50 @@ isUserLoggedIn = false;
         propertyType:property.propertyType,
         status:property.status,
         agencyName:property.agencyName,
+        builderFname:property.builderFname,
         slug:property.slug,
         role:property.role
       }));
     });
   }
 
+  getContactDetails(propertyId: any) {
+    Swal.fire({
+      title: "Are you interested in this property?",
+      text: "Click Yes to view the builder's contact details.",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.commonService.getCurrentUserDetails().subscribe(
+          (user) => {
+            this.currentUser = user.id; 
+  
+            this.commonService.getPropertyContactDetails(propertyId, this.currentUser).subscribe(
+              (contactDetails) => {
+                Swal.fire({
+                  title: "Builder Contact Details",
+                  html: `<b>Phone:</b> ${contactDetails.phone} <br> <b>Email:</b> ${contactDetails.email}`,
+                  icon: "info",
+                });
+              },
+              (error) => {
+                Swal.fire("Error", "Failed to load contact details", "error");
+              }
+            );
+          },
+          (error) => {
+            Swal.fire("Error", "Failed to fetch user details", "error");
+          }
+        );
+      } else {
+        Swal.fire("No problem!", "You can explore more properties.", "info");
+      }
+    });
+  }
+  
   // private initSlider(): void {
   //   let index = 0;
   //   const slides = document.querySelectorAll('.slide') as NodeListOf<HTMLElement>;

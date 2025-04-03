@@ -13,6 +13,7 @@ export class PropertyDetailComponent implements OnInit{
   SquareFoot;
   propertyId: string = '';
   propertyTitle:any;
+  currentUserEmail:any;
   propertyDetail = {
     title: '',
     slug: '',
@@ -26,22 +27,29 @@ export class PropertyDetailComponent implements OnInit{
     locality: '',
     type: '',
     length:0,
-    breadth:0
+    breadth:0,
+    isEmailMatched:false,
   };
   imageDetail: any[] = [];
   constructor(private authService:AuthService,public commonService:CommonService,private route:ActivatedRoute){}
   
   ngOnInit(): void {
+    this.commonService.getCurrentUserDetails().subscribe(
+      (response) => {this.currentUserEmail=response.email
+        console.log(response.email,"eeee");
+    if (propertySlug) this.getProperty(propertySlug);
+
+      } 
+    )
     this.id = this.route.snapshot.paramMap.get('id');
     let propertySlug = this.route.snapshot.queryParams['title'];
     this.propertyTitle=this.route.snapshot.queryParams['title'];
-console.log("Route Snapshot:", this.route.snapshot);
-    if (propertySlug) this.getProperty(propertySlug);
   }
 
   getProperty(propertySlug: string) {
-    this.commonService.togglePageLoaderFn(true);
-    this.commonService.getSingleProperty(propertySlug)
+    console.log(this.currentUserEmail,"email");
+    this.commonService.togglePageLoaderFn(true)
+    this.commonService.getSingleProperty(propertySlug,this.currentUserEmail)
       .subscribe(result => {
         console.log(result); 
         this.propertyDetail = result['result'];

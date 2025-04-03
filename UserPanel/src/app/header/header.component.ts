@@ -14,11 +14,13 @@ export class HeaderComponent implements OnInit{
   isUserLoggedIn:any;
 constructor(private router: Router,private userService:UserService,private loginService:LoginService){}
   ngOnInit(){
-    // this.getCurrentUserDetail();
   this.router.events.subscribe(() => {
-    this.showHeader = this.router.url !== '/login' && this.router.url !== '/sign-up'; // Hide header if on login page
+    this.showHeader = this.router.url !== '/login' && this.router.url !== '/sign-up'; 
   });
   this.isUserLoggedIn = this.loginService.isLoggedIn();
+  if(this.isUserLoggedIn){
+    this.getCurrentUserDetail();
+  }
 }
 getCurrentUserDetail(){
   this.userService.getCurrentUserDetails().subscribe(
@@ -28,7 +30,6 @@ getCurrentUserDetail(){
     },
     (error) =>{
       console.error("Failed to fetch user details:", error.message);
-      // Optional: Redirect to login if token is invalid
       if (error.message.includes("No token found")) {
         this.router.navigate(['/login']);
       }

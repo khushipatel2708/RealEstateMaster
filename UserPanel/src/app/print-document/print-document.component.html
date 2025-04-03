@@ -1,0 +1,39 @@
+<div #printSection *ngIf="notaryData" style="border: 2px solid black; padding: 20px; font-family: Arial, sans-serif;margin-top: 5%;">
+    <div style="text-align: center;">
+    <img src="assets/images/try1.jpeg">
+
+        <h2>SALE DEED</h2>
+    </div>
+
+    <p>
+        THIS DEED OF SALE is made and executed on this the <span>{{ notaryData.paymentDate }}</span>.
+    </p>
+
+    <h3>Vendor Details:</h3>
+    <p>
+        <strong>Sri</strong> {{ notaryData.vendorName }},
+    </p>
+    <p><strong>Aadhaar Card No:</strong> {{ notaryData.vendorAadhar }}</p>
+    <p><strong>PAN Card No:</strong> {{ notaryData.vendorPan }}</p>
+    <p><strong>Mobile No:</strong> {{ notaryData.vendorMobile }}</p>
+    <p>(Hereinafter called the <strong>"VENDOR"</strong>), of the first part.</p>
+
+    <h3>Vendee Details:</h3>
+    <p>
+        <strong>Sri</strong> {{ notaryData.vendeeName }},
+    </p>
+    <p><strong>Aadhaar Card No:</strong> {{ notaryData.vendeeAadhar }}</p>
+    <p><strong>PAN Card No:</strong> {{ notaryData.vendeePan }}</p>
+    <p><strong>Mobile No:</strong> {{ notaryData.vendeeMobile }}</p>
+    <p>(Hereinafter called the <strong>"VENDEE"</strong>), of the other part.</p>
+
+    <h3>Property Details:</h3>
+    <p>{{ notaryData.propertyDetails }}</p>
+
+
+
+   
+</div>
+<div style="text-align: center; margin-top: 20px;">
+    <button class="btn btn-warning" (click)="printPDF()">Print PDF</button>
+</div>

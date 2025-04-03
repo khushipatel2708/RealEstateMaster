@@ -31,8 +31,9 @@ export class UserService {
     return this.http.get<any>(environment.BASE_URL + '/auth/user/' + userId);
   }
   getCurrentUserDetails() {
+    console.log("userin");
     const token = localStorage.getItem('token'); // Ensure token is stored in localStorage
-  
+  console.log(token,"tttt")
     if (!token) {
       console.error("JWT Token is missing!");
       return throwError(() => new Error("No token found"));

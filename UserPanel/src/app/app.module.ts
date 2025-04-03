@@ -32,6 +32,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { Payment1Component } from './payment1/payment1.component';
 import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { PrintDocumentComponent } from './print-document/print-document.component';
 @NgModule({
   
   declarations: [
@@ -50,7 +51,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     PropertyDetailComponent,
     ProfileComponent,
     Payment1Component,
-    PaymentsuccessComponent
+    PaymentsuccessComponent,
+    PrintDocumentComponent
   ],
   imports: [
     BrowserModule,

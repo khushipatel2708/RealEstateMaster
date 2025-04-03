@@ -16,3 +16,11 @@
   .text-welcome{
     color:var(--accent-color);
   }
+  .dropdown-menu .dropdown-item:hover, 
+.dropdown-menu .dropdown-item:focus, 
+.dropdown-menu .dropdown-item.active {
+    background-color: #3CB043 !important; /* Parrot Green */
+    color: #fff !important;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(60, 176, 67, 0.3);
+}

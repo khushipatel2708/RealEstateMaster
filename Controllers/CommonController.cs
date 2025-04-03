@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstate.Entity;
+using RealEstate.Models;
 
 namespace RealEstate.Controllers
 {
@@ -118,7 +119,7 @@ namespace RealEstate.Controllers
     {
       try
       {
-         
+
         return Ok(await _db.Permissions.Where(w => w.RoleId == roleId).Select(s => new { s.Id, s.RoleId, s.MenuId }).ToListAsync());
       }
       catch (Exception ex)
@@ -149,6 +150,73 @@ namespace RealEstate.Controllers
       {
         return StatusCode(500, "Failed to send email");
       }
+    }
+  
+
+  [HttpGet("{id}/notary")]
+    public IActionResult GetPropertyNotary(int id)
+    {
+      var propertyDetails = _db.Properties
+          .Where(w => w.Id == id)
+          .Select(s => new
+          {
+            IsSociety=s.IsSociety,
+            FlatNo=s.FlatNo,
+            Locality=s.Locality,
+            SocietyName=s.SocietyName,
+            s.Pincode,
+            s.PhoneNo,
+            s.UserId,
+            CityName = _db.Cities.Where(w => w.Id == s.CityId).Select(s => s.Name).FirstOrDefault(),
+            StateName = _db.States.Where(w => w.Id == s.StateId).Select(s => s.Name).FirstOrDefault(),
+            BuilderName = _db.Users.Where(w => w.Id == s.BuilderId).Select(s => s.Fname).FirstOrDefault(),
+            PaymentDate = _db.Payments
+                    .Where(w => w.FirstName == s.Slug)
+                    .Select(s => (DateTime?)s.PaymentDate) // Retrieve DateTime as is
+                    .FirstOrDefault(),
+                    Email = _db.Payments
+                    .Where(w => w.FirstName == s.Slug)
+                    .Select(s => s.Email) // Retrieve DateTime as is
+                    .FirstOrDefault()
+
+          })
+          .FirstOrDefault();
+      var userDetails = _db.Users.Where(w => w.Email == propertyDetails.Email).Select(s => new { s.UserName, s.PhoneNo }).FirstOrDefault();
+
+      if (propertyDetails == null)
+      {
+        return NotFound("Property not found.");
+      }
+
+      List<string> propertyParts = new List<string>();
+
+      if (propertyDetails?.IsSociety == true)
+      {
+        propertyParts.Add(propertyDetails.FlatNo);
+        propertyParts.Add(propertyDetails.SocietyName);
+      }
+
+      propertyParts.Add(propertyDetails.Locality);
+      propertyParts.Add(propertyDetails.CityName);
+      propertyParts.Add(propertyDetails.StateName);
+      propertyParts.Add(propertyDetails.Pincode);
+
+      var notary = new PropertyNotary
+      {
+        VendorName = propertyDetails.BuilderName, // Assign builder name to vendor
+        VendorAadhar = "1234-5678-9012",  // Aadhaar remains unchanged
+        VendorPan = "ABCDE1234F",         // PAN remains unchanged
+        VendorMobile = propertyDetails.PhoneNo, // Assign PhoneNo to VendorMobile
+
+        VendeeName = userDetails.UserName,
+        VendeeAadhar = "5678-9012-3456",  // Aadhaar remains unchanged
+        VendeePan = "XYZAB5678G",         // PAN remains unchanged
+        VendeeMobile = userDetails.PhoneNo,
+        PaymentDate = propertyDetails.PaymentDate ?? DateTime.MinValue,
+        PropertyDetails = string.Join(", ", propertyParts.Where(x => !string.IsNullOrEmpty(x)))
+      };
+
+      return Ok(notary);
     }
   }
 }

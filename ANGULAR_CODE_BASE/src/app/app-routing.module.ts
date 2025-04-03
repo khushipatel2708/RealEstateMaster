@@ -4,7 +4,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MainComponent } from './main/main.component';
 import { NotFoundComponent } from './common/components/not-found/not-found.component';
-import { PaymentListComponent } from './common/components/payment-list/payment-list.component';
 
 const routes: Routes = [
   {
@@ -24,6 +23,12 @@ const routes: Routes = [
     path: 'property',
     component: MainComponent,
     loadChildren: () => import('./features/property/property.module').then(m => m.PropertyModule)
+  
+  },
+  {
+    path: 'payment',
+    component: MainComponent,
+    loadChildren: () => import('./features/payment/components/payment-list/payment.module').then(m => m.PaymentModule)
   
   },
   {
@@ -50,10 +55,6 @@ const routes: Routes = [
   //   loadChildren: () => import('./features/builder/builder.module').then(m => m.BuilderModule)
     
   // },
-  {
-    path:"payment-list",
-    component:PaymentListComponent,
-  },
   {
     path: 'admin',
     component: MainComponent,

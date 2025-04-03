@@ -167,6 +167,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using RealEstate.Controllers;
+using RealEstate.Entity;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -182,13 +184,17 @@ public class PaymentsController : ControllerBase
   private readonly string _merchantKey;
   private readonly string _merchantSalt;
   private readonly HttpClient _httpClient;
+  private readonly RealEstateContext _context;
+  private readonly ILogger<PaymentController> _logger;
 
-  public PaymentsController(IConfiguration configuration, IHttpClientFactory httpClientFactory)
+  public PaymentsController(IConfiguration configuration, IHttpClientFactory httpClientFactory, RealEstateContext context, ILogger<PaymentController> logger)
   {
     _configuration = configuration;
     _merchantKey = _configuration["PayU:MerchantKey"];
     _merchantSalt = _configuration["PayU:MerchantSalt"];
     _httpClient = httpClientFactory.CreateClient();
+    _context = context;
+    _logger = logger;
   }
 
   // ✅ Generate Hash for PayU Payment Request
@@ -260,7 +266,10 @@ public class PaymentsController : ControllerBase
                 { "surl", model.surl },
                 { "furl", model.furl },
                 { "hash", hash },
-                { "service_provider", "payu_paisa" }
+        {"curl",model.curl },
+        {"merchant_id",model.merchant_id },
+                { "service_provider", "payu_paisa" },
+        {"mode","test" },
             };
 
       var content = new FormUrlEncodedContent(postData);
@@ -272,7 +281,8 @@ public class PaymentsController : ControllerBase
 
       return Ok(new
       {
-        success = true,
+        success = response.IsSuccessStatusCode,
+        statusCode = response.StatusCode,
         postData,
         response = responseBody,
         paymentUrl = "https://test.payu.in/_payment"
@@ -284,26 +294,47 @@ public class PaymentsController : ControllerBase
     }
   }
 
-  [HttpPost("success")]
-  public IActionResult PaymentSuccess([FromForm] PaymentResponseModel response)
+  [HttpPost]
+  [Route("api/payment/callback")]
+  public IActionResult PayUResponse([FromForm] IFormCollection formData)
   {
-    // Check if the transaction was successful
-    if (response.Status == "success")
-    {
-      // Update property status to "Sold" in the database (implement your logic)
-      // Example: _propertyService.UpdateStatus(response.PropertyId, "Sold");
+    // Extract necessary data from PayU response
+    string status = formData["status"];
+    string txnId = formData["txnRefId"];
+    string amount = formData["txnAmount"];
 
-      // Redirect to the Angular property page with propertyId
-      return Redirect($"http://localhost:4200/property-details/{response.PropertyId}");
-    }
-    else
+    if (status == "000")  // Success
     {
-      return Redirect("http://localhost:4200/payment-failed");
+      return Redirect("https://localhost:4200/payment/success");
+    }
+    else  // Failure
+    {
+      return Redirect("https://localhost:4200/payment/success");
     }
   }
 
-  // ✅ Verify PayU Payment
-  [HttpPost("verify-payment")]
+  [HttpPost("payu-webhook")]
+  public async Task<IActionResult> PaymentSuccess([FromForm] PaymentResponseModel response)
+  {
+
+
+    // Update property status in the database
+    var property = await _context.Properties.FindAsync(response.PropertyId);
+    if (property == null)
+    {
+      return NotFound("Property not found.");
+    }
+
+    property.Status = "Sold";
+    await _context.SaveChangesAsync();
+
+    // Redirect user back to the property details page
+    return Redirect($"https://localhost:4200/property-detail/{response.PropertyId}");
+  }
+
+
+// ✅ Verify PayU Payment
+[HttpPost("verify-payment")]
   public async Task<IActionResult> VerifyPayment([FromBody] VerifyPaymentRequest model)
   {
     if (model == null || string.IsNullOrEmpty(model.txnid))
@@ -335,6 +366,15 @@ public class PaymentsController : ControllerBase
       return StatusCode(500, new { error = ex.Message });
     }
   }
+
+  [HttpPost("payu-response")]
+  public IActionResult PayUResponse([FromForm] string status, [FromForm] string txnid)
+  {
+    Console.WriteLine($"Received PayU response: Status = {status}, TxnID = {txnid}");
+    return Ok(new { message = "Payment response received" });
+  }
+
+
 }
 
 // ✅ Payment Request Model
@@ -348,7 +388,8 @@ public class PaymentRequest
   public string phone { get; set; } // Customer Phone Number
   public string surl { get; set; } // Success URL
   public string furl { get; set; } // Failure URL
-
+  public string curl { get; set; }
+  public string merchant_id { get; set; }
   public string udf1 { get; set; }
   public string udf2 { get; set; }
   public string udf3 { get; set; }
@@ -368,6 +409,38 @@ public class VerifyPaymentRequest
 }
 public class PaymentResponseModel
 {
-  public string Status { get; set; }
-  public string PropertyId { get; set; }
+  public string? udf1 { get; set; }
+  public string? Status { get; set; }
+  public int? PropertyId { get; set; }
 }
+public class formData
+{
+  public string Status { get; set; } // "000" for success, other values for failure
+  public string TxnRefId { get; set; } // Unique transaction reference ID
+  public decimal TxnAmount { get; set; } // Transaction amount
+  public string TxnCurrency { get; set; } // Currency (e.g., INR)
+  public DateTime TxnDate { get; set; } // Transaction date
+  public string TxnDescription { get; set; } // Transaction description
+  public string CustName { get; set; } // Customer’s name
+  public string CustMobile { get; set; } // Customer’s mobile number
+  public string MerchantCode { get; set; } // Merchant’s unique identifier
+
+}
+public class PayUResponseModel
+{
+  public string BID { get; set; }  // Bank Transaction ID
+  public string RU { get; set; }  // Return URL
+  public string CustMobile { get; set; }
+  public string CustName { get; set; }
+  public bool Livemode { get; set; }
+  public string MerchantCode { get; set; }
+  public string MerchantName { get; set; }
+  public string Mode { get; set; }
+  public string Status { get; set; }  // "000" = Success
+  public decimal TxnAmount { get; set; }
+  public string TxnCurrency { get; set; }
+  public DateTime TxnDate { get; set; }
+  public string TxnDescription { get; set; }
+  public string TxnRefId { get; set; }  // Unique Transaction ID  
+}
+

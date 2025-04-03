@@ -13,8 +13,9 @@ import { PaymentComponent } from './payment/payment.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
 import { Payment1Component } from './payment1/payment1.component';
-import { Payment2Component } from './payment2/payment2.component';
+// import { Payment2Component } from './payment2/payment2.component';
 import { PaymentFailedComponent } from './payment-failed/payment-failed.component';
+import { PrintDocumentComponent } from './print-document/print-document.component';
 
 
 // const routes: Routes = [
@@ -85,8 +86,9 @@ const routes=[
   {path:'payment/:id',component:PaymentComponent},
   {path:'payment-success',component:PaymentsuccessComponent},
   {path:'payment1/:id',component:Payment1Component},
-  {path:'payment2',component:Payment2Component},
+  // {path:'payment2',component:Payment2Component},
   {path:'payment-failed',component:PaymentFailedComponent},
+  {path:"print-document/:id",component:PrintDocumentComponent},
   {
     path:'profile',component:ProfileComponent
   },

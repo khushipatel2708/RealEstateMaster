@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CommonService } from 'app/services/common.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-payment1',
@@ -8,10 +10,20 @@ import { CommonService } from 'app/services/common.service';
   styleUrls: ['./payment1.component.scss']
 })
 export class Payment1Component implements OnInit{
+  submittiedForm:boolean=false;
+  paymentForm:FormGroup;
   paymentDetails:any;
-  constructor(private commonService:CommonService,public route:ActivatedRoute){}
+  currentUserEmail:any;
+  constructor(private commonService:CommonService,public route:ActivatedRoute,private formBuilder:FormBuilder,private toastr:ToastrService){}
 
   ngOnInit() { 
+    this.paymentForm=this.formBuilder.group({
+  firstname:[''],
+  planname:[''],
+  amount:[0],
+  email:[''],
+  mobile:['',Validators.compose([Validators.required,Validators.maxLength(10),Validators.minLength(10)])]
+    });
     this.route.queryParams.subscribe(params => {
       this.paymentDetails = {
         first_name: params['title'] || '',
@@ -21,13 +33,26 @@ export class Payment1Component implements OnInit{
         mobile: ''
       };
     });
+    this.commonService.getCurrentUserDetails().subscribe(
+      (user) => {                       
+        this.currentUserEmail = user.email; 
+        console.log(this.currentUserEmail,"currentUser");
+      });
   }
-
+get f(){
+  return this.paymentForm.controls;
+}
   buyProduct() {
+    this.submittiedForm=true;
+    if(this.paymentForm.invalid){
+      this.toastr.warning("Enter all required fields.");
+      return;
+    }
     const amount = Number(this.route.snapshot.queryParamMap.get('amount'));
     const firstName = this.route.snapshot.queryParamMap.get('title').trim();
     const planName = decodeURIComponent(this.route.snapshot.queryParamMap.get('propertyName') || '').trim();
-    this.commonService.payUBuy(amount,firstName,planName)
+    const currentUserEmail=this.currentUserEmail;
+    this.commonService.payUBuy(amount,firstName,planName,currentUserEmail)
       .subscribe(arg => {
         console.log(arg,"arg");
         const product = arg.info;

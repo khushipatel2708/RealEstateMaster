@@ -51,7 +51,7 @@ export class CommonService {
 }
 getCurrentUserDetails() {
   const token = localStorage.getItem('token'); // Ensure token is stored in localStorage
-
+console.log(localStorage.getItem('token'),"token12");
   if (!token) {
     console.error("JWT Token is missing!");
     return throwError(() => new Error("No token found"));
@@ -63,7 +63,6 @@ getCurrentUserDetails() {
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       Authorization: `Bearer ${token}`
   });
-  console.log("Sending Token:", token);
   return this.http.get<any>(`${environment.BASE_URL}/auth/user/currentUser`, { headers }).pipe(
     catchError(error => {
       console.error("Error fetching user:", error);
@@ -106,8 +105,8 @@ successPayment(){
   
 }
   
-  getSingleProperty(propertySlug) {
-    return this.http.get<any>(environment.BASE_URL + '/property/getSingleProperty/' + propertySlug);
+  getSingleProperty(propertySlug:any,email:any) {
+    return this.http.get<any>(`${environment.BASE_URL}/property/getSingleProperty/${propertySlug}/${email}`);
   }
 
   filterProperties(param = '') {
@@ -244,16 +243,23 @@ forgotPassword(formData:any){
 initiatePayment(paymentData: any) {
   return this.http.post<{ paymentUrl: string }>('http://localhost:5026/api/payments/initiate-payment', paymentData);
 }
-payUBuy(amount:any,firstName:any,plainName:any) {
+payUBuy(amount:any,firstName:any,plainName:any,currentUserEmail) {
   return this.http.get<any>(`${environment.BASE_URL}/payments1/payu-payment`,{
     params: {
            amount: amount,
            firstName:firstName,
-           planName:plainName
+           planName:plainName,
+           email:currentUserEmail
     }
   });
 }
 initiatePayment1(paymentData: any) {
   return this.http.post(`${environment.BASE_URL}/payments2/initiate-payment`, paymentData);
+}
+getPropertyContactDetails(propertyId:any,currentUserId:any){
+  return this.http.get<any>(`${environment.BASE_URL}/Property/GetPropertyContactDetails/${propertyId}/${currentUserId}`);
+}
+getPrintData(id:any){
+  return this.http.get(`${environment.BASE_URL}/common/${id}/notary`);
 }
 }

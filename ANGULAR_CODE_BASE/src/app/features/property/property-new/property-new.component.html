@@ -187,12 +187,10 @@
       </div>
 <div class="form-group col-md-4" *ngIf="UserDetails.role !== 'builder'">
   <label for="">Builder: </label>
-  <select name="builderId" id="builder" ngModel #builder="ngModel" class="custom-select" required>
+  <select name="builderId" id="builder" ngModel #builder="ngModel" class="custom-select">
       <option value="">Select builder</option>
       <option *ngFor="let user of builderUserList" [value]="user.id">{{ user.fname }}</option>
   </select>
-  <small class="text-danger" *ngIf="builder.touched && builder.invalid">
-    Builder is required</small>
 </div>
 <div class="form-group col-md-4" *ngIf="UserDetails.role === 'builder'">
   <label for="agencyName">Agency Name:</label>

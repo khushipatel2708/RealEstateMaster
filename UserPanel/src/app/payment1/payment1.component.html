@@ -1,23 +1,39 @@
 
-<div class="content mt-5" >
- <div class="body-content mt-5">
-      <form (ngSubmit)="buyProduct()" #paymentForm="ngForm" class="mt-5">
-        <label for="firstname">First Name:</label>
-        <input type="text" id="firstname" name="firstname" [(ngModel)]="paymentDetails.first_name" readonly />
-      
-        <label for="planname">Plan Name:</label>
-        <input type="text" id="planname" name="planname" [(ngModel)]="paymentDetails.plan_name" readonly />
-      
+<div class="container mt-5" >
+ <div class="card mt-5">
+      <form (ngSubmit)="buyProduct()" [formGroup]="paymentForm" class="mt-5">
+        <div>
+          <label for="firstname">First Name:</label>
+          <input type="text" id="firstname" name="firstname" formControlName="firstname" class="form-control" [(ngModel)]="paymentDetails.first_name" readonly />
+        </div>
+        <div>
+          <label for="planname">Plan Name:</label>
+          <input type="text" id="planname" name="planname" formControlName="planname" class="form-control" [(ngModel)]="paymentDetails.plan_name" readonly />
+        </div>
+       
+      <div>
         <label for="amount">Amount:</label>
-        <input type="text" id="amount" name="amount" [(ngModel)]="paymentDetails.amount" readonly />
-      
+        <input type="text" id="amount" name="amount" formControlName="amount" class="form-control" [(ngModel)]="paymentDetails.amount" readonly />
+      </div>
+       
+      <div>
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" [(ngModel)]="paymentDetails.email" required />
-      
+        <input type="email" id="email" name="email" formControlName="email" class="form-control" [(ngModel)]="currentUserEmail" readonly />
+      </div>
+       
+      <div>
         <label for="mobile">Mobile:</label>
-        <input type="text" id="mobile" name="mobile" [(ngModel)]="paymentDetails.mobile" required />
-      
+        <input type="text" id="mobile" name="mobile" formControlName="mobile" class="form-control" [(ngModel)]="paymentDetails.mobile" required />
+        <small class="text-danger" *ngIf="submittiedForm && f.mobile.invalid">
+          <span *ngIf="submittiedForm && f.mobile.errors.required">Mobile is required.</span>
+          <span *ngIf="submittiedForm && f.mobile.errors.minlength">Mobile Number should be minimum of 10 digits.</span>
+          <span *ngIf="submittiedForm && f.mobile.errors.maxlength">Mobile Number should be of 10 digits only.</span>
+        </small>
+      </div>
+        
+      <div class="mt-2">
         <button type="submit">Pay Now</button>
+      </div>
       </form>
       
     </div>

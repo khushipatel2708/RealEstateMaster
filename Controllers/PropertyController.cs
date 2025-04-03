@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstate.Entity;
 using RealEstate.Models;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 
@@ -13,7 +12,6 @@ namespace RealEstate.Controllers
   public class PropertyController : ControllerBase
   {
     private readonly RealEstateContext _context;
-
     public PropertyController(RealEstateContext context)
     {
       _context = context;
@@ -93,7 +91,7 @@ namespace RealEstate.Controllers
           Breadth = model.Breadth,
           BuilderId = model.BuilderId,
           Version = model.Version,
-          AgencyName =model.AgencyName,
+          AgencyName = model.AgencyName,
           Images = string.Join(",", images)
         };
 
@@ -176,7 +174,7 @@ namespace RealEstate.Controllers
         return BadRequest(new { message = ex.Message });
       }
     }
-   
+
     [HttpGet("propertyTypeList")]
     public IActionResult GetActivePropertyTypes()
     {
@@ -226,8 +224,8 @@ namespace RealEstate.Controllers
       }
     }
 
-    [HttpGet("getSingleProperty/{propertySlug}")]
-    public async Task<IActionResult> GetSingleProperty(string propertySlug)
+    [HttpGet("getSingleProperty/{propertySlug}/{email}")]
+    public async Task<IActionResult> GetSingleProperty(string propertySlug,string email)
     {
       try
       {
@@ -242,27 +240,29 @@ namespace RealEstate.Controllers
             .Include(p => p.Builder)
             .Include(p => p.User)
             .FirstOrDefaultAsync(p => p.Slug.StartsWith(cleanSlug));
+        var paymentRecord = await _context.Payments
+            .FirstOrDefaultAsync(p => p.FirstName == property.Slug);
+
+        bool isEmailMatched = paymentRecord != null &&
+                              string.Equals(paymentRecord.Email, email, StringComparison.OrdinalIgnoreCase);
 
         if (property == null)
         {
           return NotFound(new { message = "Property not found" });
         }
 
-        // Extract Agency Name from related entity if applicable
         string agencyName = null;
         if (property.User != null) // If User is the Agency
         {
           agencyName = property.User.Fname; // Replace 'Fname' with actual column if needed
         }
 
-        // Format image URLs properly so the frontend can access them
         var files = new List<string>();
         if (!string.IsNullOrEmpty(property.Images))
         {
           files = property.Images.Split(',').Select(img => $"{Request.Scheme}://{Request.Host}{img}").ToList();
         }
 
-        // Creating a simplified response to avoid circular references
         var result = new
         {
           property.Id,
@@ -301,7 +301,8 @@ namespace RealEstate.Controllers
             property.User?.Email,
             property.User?.Role,
           },
-          files // Formatted image URLs
+          files, // Formatted image URLs
+          isEmailMatched
         };
 
         return Ok(new { result });
@@ -311,6 +312,7 @@ namespace RealEstate.Controllers
         return BadRequest(new { message = ex.Message, stackTrace = ex.StackTrace });
       }
     }
+
     [HttpPost("getpropertyList12")]
     public async Task<IActionResult> GetPropertyList1([FromBody] PropertyFilter filter)
     {
@@ -567,8 +569,8 @@ namespace RealEstate.Controllers
               BuilderPhoneNo = s.Builder.PhoneNo,
               StateName = s.State.Name,
               CityName = s.City.Name,
-              PropertyType=s.Type.Title,
-              Role=s.User.Role,
+              PropertyType = s.Type.Title,
+              Role = s.User.Role ?? "admin",
               s.Status,
               s.AgencyName,
               s.Slug
@@ -640,6 +642,27 @@ namespace RealEstate.Controllers
       }
     }
 
+    [HttpGet("GetPropertyContactDetails/{propertyId}/{userId}")]
+    public async Task<IActionResult> GetPropertyContactDetails(int propertyId, int userId)
+    {
+      var property = await _context.Properties
+                                   .Where(p => p.Id == propertyId)
+                                   .Select(p => new
+                                   {
+                                     Phone = p.PhoneNo,
+                                     Email = p.Email,
+                                     BuilderPhone = p.PhoneNo,
+                                     BuilderId = p.BuilderId
+                                   })
+                                   .FirstOrDefaultAsync();
+
+      if (property == null)
+      {
+        return NotFound(new { message = "Property contact details not found." });
+      }
+
+      return Ok(new { phone = property.Phone, email = property.Email });
+    }
 
   }
 
@@ -656,5 +679,6 @@ namespace RealEstate.Controllers
   {
     public string Status { get; set; }
   }
-
 }
+
+
