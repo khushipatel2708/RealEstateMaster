@@ -356,6 +356,11 @@ namespace RealEstate.Controllers
         {
           query = query.Where(p => p.CityId == filter.CityId.Value);
         }
+        if (!string.IsNullOrEmpty(filter.Status))
+        {
+          query = query.Where(p => p.Status == filter.Status);
+        }
+
 
         if (!string.IsNullOrEmpty(filter.SearchText))
         {
@@ -669,6 +674,7 @@ namespace RealEstate.Controllers
   public class PropertyFilter
   {
     public string? PropertyFor { get; set; }
+    public string? Status { get; set; }
     public int? Type { get; set; }
     public int? CityId { get; set; }
     public string? SearchText { get; set; }

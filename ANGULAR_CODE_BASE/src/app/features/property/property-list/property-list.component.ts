@@ -16,8 +16,9 @@ export class PropertyListComponent implements OnInit {
   propertyList: any = { data: [], totalCount: 0 }; // Ensure propertyList has a data field
   cityList:any[]=[];
   propertyTypeList:any[]=[];
-  propertyFor = [
-    { value: 'buy', name: 'Buy' }
+  status = [
+    { value: 'sold', name: 'Sold' },
+    { value: 'available', name: 'Available' }
     ];
   userRole: string = '';
   totalRecord=0;
@@ -43,7 +44,8 @@ export class PropertyListComponent implements OnInit {
     public commonService: CommonService,
     private formBuilder:FormBuilder,
     private router:Router,
-    private toastr:ToastrService,    private userService: UserService,
+    private toastr:ToastrService,    
+    private userService: UserService,
     
   ) { }
 
@@ -52,7 +54,8 @@ export class PropertyListComponent implements OnInit {
 searchText:[null],
 city:[null],
 type:[null],
-for:[null]
+for:[null],
+status:[null],
     });
     this.getCurrentUserDetails();
     this.getCityList();
@@ -104,6 +107,7 @@ for:[null]
      type:Number(this.form.get('type').value) || 0,
      propertyFor:this.form.get('for').value || '',
      searchText:this.form.get('searchText').value || '', 
+     status:this.form.get('status').value || '',
      page:Number(this.page),
      pageSize:Number(this.pageSize),
      userRole: this.userRole  // Pass user role in request
