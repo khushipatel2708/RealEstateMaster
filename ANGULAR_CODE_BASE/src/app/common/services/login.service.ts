@@ -3,6 +3,7 @@
   import { Router } from '@angular/router';
   import { JwtHelperService } from "@auth0/angular-jwt";
 import { environment } from 'environments/environment';
+import { BehaviorSubject, tap } from 'rxjs';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -17,9 +18,16 @@ import { environment } from 'environments/environment';
 
     constructor(private http: HttpClient,
       private router: Router) { }
-
+      private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+      isLoggedIn$ = this.isLoggedInSubject.asObservable();
+      
     checkUserLogin(data) {
-      return this.http.post(environment.BASE_URL + '/auth/user/login', data, httpOptions)
+      return this.http.post(environment.BASE_URL + '/auth/user/login', data, httpOptions).pipe(
+        tap((res: any) => {
+          localStorage.setItem('token', res.token);
+          this.isLoggedInSubject.next(true); 
+        })
+      );
     }
     // checkUserLogin(data) {
     //   let postData = { 'emailPhone': data.emailPhone, 'password': data.loginPassword }
@@ -67,6 +75,7 @@ import { environment } from 'environments/environment';
         queryParams: { success: 'logOut' }
       });
       localStorage.removeItem('token');
+      this.isLoggedInSubject.next(false);
     }
 
   }

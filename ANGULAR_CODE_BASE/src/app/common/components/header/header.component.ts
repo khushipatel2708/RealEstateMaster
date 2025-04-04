@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   pageTitle: string = '';
   pageIcon:string = '';
   isUserLoggedIn: Boolean = false;
- 
+  isLoggedIn:any;
 currentUser:any={};
   constructor(
     private loginService: LoginService,
@@ -74,6 +74,20 @@ currentUser:any={};
   pageloaderStatus: boolean = true;
 
   ngOnInit() {
+    this.loginService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+      console.log(this.isLoggedIn, "islofff");
+  
+      // Call getCurrentUserDetail only when isLoggedIn becomes true
+      if (this.isLoggedIn) {
+        console.log("ttt");
+        this.getCurrentUserDetail();
+      }
+    });
+    this.isUserLoggedIn = this.loginService.isLoggedIn();
+    if(this.isUserLoggedIn){
+      this.getCurrentUserDetail();
+    }
     this.updateTitle(); 
     this.router.events
     .pipe(

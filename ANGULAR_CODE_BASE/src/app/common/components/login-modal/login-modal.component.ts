@@ -128,7 +128,7 @@ export class LoginModalComponent implements OnInit {
     //   this.router.navigate(['/users/dashboard']);
 
     // Adding to local storage
-    localStorage.setItem('token', token);
+    // localStorage.setItem('token', token);
   }
 
 

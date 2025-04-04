@@ -134,7 +134,6 @@ login() {
 
 
 loginSuccess(token) {
-  localStorage.setItem('token', token);
   this.userService.getCurrentUserDetails();
   this.commonService.changeHeaderMessage({ type: 'success', message: 'You have logged in successfully'});
   this.router.navigate(['/home']);
