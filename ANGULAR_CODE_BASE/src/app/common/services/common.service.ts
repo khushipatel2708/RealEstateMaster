@@ -72,9 +72,10 @@ getRoleDDList(){
     return this.http.get<any>(environment.BASE_URL + '/property/list/' + param);
   }
 
-  getSingleProperty(propertySlug) {
-    return this.http.get<any>(environment.BASE_URL + '/property/getSingleProperty/' + propertySlug);
+  getSingleProperty(propertySlug:any,email:any) {
+    return this.http.get<any>(`${environment.BASE_URL}/property/getSingleProperty/${propertySlug}/${email}`);
   }
+
 
   // filterProperties(param = '') {    
   //   return this.http.get<any>(environment.BASE_URL + '/property/filter' + param);

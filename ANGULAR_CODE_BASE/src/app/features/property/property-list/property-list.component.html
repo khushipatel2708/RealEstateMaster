@@ -97,7 +97,7 @@
               <td>{{item.type}}</td>
               <!-- <td>{{item.status}}</td> -->
               <td>
-                <a class="info p-0" [routerLink]="'/property/view/' + item.slug">
+                <a class="info p-0" [routerLink]="['/property/view', item.slug]" [queryParams]="{ email: item.email }">
                   <i class="bi bi-eye text-info font-medium-3 mr-2" ngbTooltip="View"></i>
                 </a>
                 <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails.id === item.userId)"

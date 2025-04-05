@@ -38,6 +38,7 @@ export class EditPropertyComponent implements OnInit {
   FetchingCityList = false;
   propertyTypeList;
   newPropertyData: any = {};
+  email:any;
   get f() {
     return this.form.controls;
   }
@@ -107,7 +108,7 @@ getUserList() {
 
   getProperty(propertySlug) {
     this.spinner.show();
-    this.commonService.getSingleProperty(propertySlug)
+    this.commonService.getSingleProperty(propertySlug,this.form.get('email').value)
       .subscribe((response: any) => {
         this.spinner.hide();
         const result = response.result;

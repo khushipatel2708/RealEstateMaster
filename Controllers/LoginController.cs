@@ -34,8 +34,15 @@ public class LoginController : ControllerBase
     var user = await _context.Users
        .AsNoTracking()
         .FirstOrDefaultAsync(u => u.Email == model.EmailPhone || u.PhoneNo == model.EmailPhone);
+    if(user == null)
+    {
+      return BadRequest(new { message = "Invalid user." });
+    }
     var role = user.Role;
-
+    if(role == null)
+    {
+      return BadRequest(new { message = "Invalid user role." });
+    }
     if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
     {
       return Unauthorized(new { message = "Invalid Credentials" });

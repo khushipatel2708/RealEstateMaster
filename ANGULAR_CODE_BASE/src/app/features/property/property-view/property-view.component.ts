@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./property-view.component.scss']
 })
 export class PropertyViewComponent implements OnInit {
-
+email:any;
 constructor(
   private activatedRoute: ActivatedRoute,
   private commonService: CommonService,
@@ -57,11 +57,21 @@ imageDetail: any[] = []; // Ensure it's always an array
 //       this.commonService.togglePageLoaderFn(false);
 //     });
 // }
+ngOnInit() {
+  let propertySlug = this.activatedRoute.snapshot.paramMap.get('propertySlug');
+  this.activatedRoute.queryParams.subscribe(params => {
+    this.email = params['email'];
+    console.log(this.email,"email");
+  });
+  if (propertySlug) this.getProperty(propertySlug);  
+}
 
 getProperty(propertySlug: string) {
   this.spinner.show();
   this.commonService.togglePageLoaderFn(true);
-  this.commonService.getSingleProperty(propertySlug)
+  let email=this.email;
+  console.log(email,"ff");
+  this.commonService.getSingleProperty(propertySlug,email)
     .subscribe(result => {
       this.spinner.hide()
       console.log(result); 
@@ -100,9 +110,6 @@ getProperty(propertySlug: string) {
 //     );
 // }
 
-ngOnInit() {
-  let propertySlug = this.activatedRoute.snapshot.paramMap.get('propertySlug');
-  if (propertySlug) this.getProperty(propertySlug);
-}
+
 
 }

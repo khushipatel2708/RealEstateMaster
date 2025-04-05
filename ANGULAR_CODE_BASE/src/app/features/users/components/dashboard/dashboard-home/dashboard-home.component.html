@@ -131,7 +131,7 @@
                     </button>
                   </div> -->
                   <div class="col-6">
-                    <button class="btn btn-sm btn-primary w-100" [routerLink]="'/property/view/' + item.slug">
+                    <button class="btn btn-sm btn-primary w-100" [routerLink]="'/property/view/' + item.slug" [queryParams]="{ email: item.email }">
                       <i class="bi bi-eye"></i> View
                     </button>
                   </div>
