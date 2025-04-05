@@ -13,13 +13,20 @@ export class DashboardComponent implements OnInit {
   menuList:any[]=[];
   userRole:string;
   data = { emailPhone: '', loginPassword: '' }; 
+  isLoggedIn:any;
   constructor(private loginService:LoginService,
     private commonService:CommonService,
     public router:Router
   ) { 
+    this.loginService.isLoggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+      if (this.isLoggedIn) {
+        this.userRole=localStorage.getItem('role');
+      }
+    });
     this.isUserLoggedIn = loginService.isLoggedIn();
      this.userRole=localStorage.getItem('role');
-    
+     this.getMenuList();
 }
 
   // toggleMenuItems = false;

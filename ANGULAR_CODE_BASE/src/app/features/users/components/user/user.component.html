@@ -80,16 +80,16 @@
           </div>
         </ng-template>
       <div class="row mt-5">
-        <div class="col-md-10">
+        <div class="col-md-9">
           <!-- <ngb-pagination>
             </ngb-pagination>-->
           <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)"
             [pageSize]="pageSize" [maxSize]="10">
           </ngb-pagination>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
           <div class="form-group">
-            <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-control">
+            <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-select rounded-1">
               <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
             </select>
           </div>

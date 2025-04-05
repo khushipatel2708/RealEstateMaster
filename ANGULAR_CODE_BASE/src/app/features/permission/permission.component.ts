@@ -1,5 +1,6 @@
   import { Component, OnInit } from '@angular/core';
 import { CommonService } from 'app/common/services/common.service';
+import { ToastrService } from 'ngx-toastr';
 
   @Component({
     selector: 'app-permission',
@@ -16,7 +17,7 @@ import { CommonService } from 'app/common/services/common.service';
     menuId:any;
     selectedMenus: any[] = [];  // To track selected menus
     unselectedMenus: any[] = [];
-    constructor(private commonService:CommonService) { }
+    constructor(private commonService:CommonService,private toastr:ToastrService) { }
 
     ngOnInit() {
       this.getRoleList();
@@ -86,11 +87,10 @@ onChange_Menu(isSelected: boolean, menuId: string) {
         this.commonService.postPermissions(saveData)
           .subscribe(
             (response) => {
-              console.log('Menu selection saved successfully', response);
               this.getMenuList(); 
             },
             (error) => {
-              console.error('Error saving menu selection', error);
+              this.toastr.error('Error saving menu selection', error);
             }
           );
       }
@@ -104,11 +104,11 @@ onChange_Menu(isSelected: boolean, menuId: string) {
         this.commonService.deletePermissions(deleteData)
           .subscribe(
             (response) => {
-              console.log('Menu selection deleted successfully', response);
+              this.toastr.success('Menu selection deleted successfully', response);
               this.getMenuList();  
             },
             (error) => {
-              console.error('Error deleting menu selection', error);
+              this.toastr.error('Error deleting menu selection', error);
             }
           );
       }

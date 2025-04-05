@@ -33,6 +33,7 @@ import { Payment1Component } from './payment1/payment1.component';
 import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { PrintDocumentComponent } from './print-document/print-document.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 @NgModule({
   
   declarations: [
@@ -52,7 +53,8 @@ import { PrintDocumentComponent } from './print-document/print-document.componen
     ProfileComponent,
     Payment1Component,
     PaymentsuccessComponent,
-    PrintDocumentComponent
+    PrintDocumentComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     BrowserModule,

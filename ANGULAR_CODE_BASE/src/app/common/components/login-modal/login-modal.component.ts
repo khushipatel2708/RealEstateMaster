@@ -62,7 +62,6 @@ export class LoginModalComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      console.log(this.loginForm.value,"value");
     let returnData = this.loginService.checkUserLogin(this.loginForm.value)
     .subscribe(response => {
         this.alertMessage = {

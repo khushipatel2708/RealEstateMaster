@@ -75,7 +75,7 @@ export class RoleModalComponent implements OnInit {
 onSubmit_Form() {
     this.submitted = true;
     if (this.form.invalid) {
-      this.toastr.warning("Enter valid data", "Warning");
+      this.toastr.warning("Enter valid data");
       return;
     }
     const roleData = {
@@ -88,14 +88,13 @@ onSubmit_Form() {
       next: (result) => {
         this.spinner.hide("model");
         let message = this.id > 0 ? "Role updated successfully" : "Role added successfully";
-        this.toastr.success(message, "Success");
+        this.toastr.success(message);
         this.onRole_Emit.emit(true);
         this.activeModal.close();
       },
       error: (err) => {
         this.spinner.hide("model");
         this.toastr.error("Failed save role");
-        console.error("Error while saving role:", err);
       }
     });
   }  

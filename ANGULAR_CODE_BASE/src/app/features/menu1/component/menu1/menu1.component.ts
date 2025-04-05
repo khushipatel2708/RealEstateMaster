@@ -102,12 +102,12 @@ export class Menu1Component implements OnInit {
         this.commonService.deleteMenu(menuId).subscribe({
           next: () => {
             Swal.fire('Deleted!', 'Your menu has been deleted.', 'success');
-            this.toastr.success('Your menu has been deleted successfully!', 'Deleted');
+            this.toastr.success('Your menu has been deleted successfully!');
             this.getMenuList();  
           },
           error: (err) => {
-            Swal.fire('Error!', 'There was an error deleting the menu.', 'error');
-            this.toastr.error('There was an error deleting the menu.', 'Error');
+            Swal.fire('Error!', 'There was an error deleting the menu.');
+            this.toastr.error('There was an error deleting the menu.');
           }
         });
       }

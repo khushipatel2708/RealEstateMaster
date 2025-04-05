@@ -6,7 +6,13 @@
   </ngx-spinner>
 
 <div class="modal-header">
-  <h4 class="modal-header">Add Menu</h4>
+  <div *ngIf="id > 0; then editMenu; else addMenu"></div>
+  <ng-template #editMenu>
+    <h4 class="modal-title">Edit Menu</h4>
+  </ng-template>
+  <ng-template #addMenu>
+    <h4 class="modal-title">Add Menu</h4>
+  </ng-template>
   <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">&times;</button>
 </div>
 

@@ -1,102 +1,135 @@
 <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" [fullScreen]="true">
     <div class="ball-scale-multiple">
-      <div></div>
-      <div></div>
-      <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
     </div>
-    </ngx-spinner>
+</ngx-spinner>
 <div class="d-flex justify-content-center align-items-center bg-grey vh-100">
-        <div class="card glassmorphism">
+    <div class="card glassmorphism">
         <h3 class="mt-4">Register as a new user-</h3>
-            <form class="" [formGroup]="registrationForm" (ngSubmit)="registration(registrationForm)">
-                <div class="form-row">
-                      <div class="form-group col-md-4">
-                          <input type="text" formControlName="fname" class="form-control"  placeholder="Enter First Name"   [ngClass]="{'is-invalid': registrationSubmitted && lf.fname.invalid, 'is-valid': registrationSubmitted && !lf.fname.invalid }" >
-                          <small class="text-danger"
-                          *ngIf="registrationSubmitted && (lf.fname.invalid || lf.fname.errors?.required)"  >
-                      This field is required</small>
-                      </div>
-                      <div class="form-group col-md-4">
-                          <input type="text"  formControlName="lName" class="form-control" placeholder="Enter Last Name" [ngClass]="{'is-invalid': registrationSubmitted && lf.lName.invalid, 'is-valid': registrationSubmitted && !lf.lName.invalid }">
-                          <small class="text-danger"
-                       *ngIf="registrationSubmitted && (lf.lName.invalid || lf.lName.errors?.required)"  >
-                      This field is required</small>
-                      </div>
-                      <div class="form-group col-md-4">
-                          <input type="text"  formControlName="userName" class="form-control" placeholder="Enter userName" [ngClass]="{'is-invalid': registrationSubmitted && lf.userName.invalid, 'is-valid': registrationSubmitted && !lf.userName.invalid }">
-                          <small class="text-danger"
-                       *ngIf="registrationSubmitted && (lf.userName.invalid || lf.userName.errors?.required)"  >
-                      This field is required</small>
-                      </div>
+        <form class="" [formGroup]="registrationForm" (ngSubmit)="registration(registrationForm)">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <input type="text" formControlName="fname" class="form-control" placeholder="Enter First Name"
+                        [ngClass]="{'is-invalid': registrationSubmitted && lf.fname.invalid, 'is-valid': registrationSubmitted && !lf.fname.invalid }">
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && (lf.fname.invalid || lf.fname.errors?.required)">
+                        FirstName is required.</small>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" formControlName="lName" class="form-control" placeholder="Enter Last Name"
+                        [ngClass]="{'is-invalid': registrationSubmitted && lf.lName.invalid, 'is-valid': registrationSubmitted && !lf.lName.invalid }">
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && (lf.lName.invalid || lf.lName.errors?.required)">
+                        LastName is required.</small>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" formControlName="userName" class="form-control" placeholder="Enter userName"
+                        [ngClass]="{'is-invalid': registrationSubmitted && lf.userName.invalid, 'is-valid': registrationSubmitted && !lf.userName.invalid }">
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && (lf.userName.invalid || lf.userName.errors?.required)">
+                        UserName is required.</small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="input-with-icon">
+                        <input type="email" formControlName="email" class="form-control"
+                            placeholder="Enter Email Address"
+                            [ngClass]="{'is-invalid': registrationSubmitted && lf.email.invalid, 'is-valid': registrationSubmitted && !lf.email.invalid }">
+                        <span *ngIf="lf.email?.pending" class="input-icon"><i
+                                class="fa fa-spinner fa-spin fa-2x fa-fw"></i></span>
+                    </div>
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && (lf.email?.invalid || lf.email.errors?.required)">
+                        <small *ngIf="lf.email.errors?.required">Email is required.</small>
+                        <small *ngIf="lf.email.errors?.email">Please enter a valid email address.</small>
+                        <small *ngIf="lf.email.errors?.checkEmailAvailability">This email address is already
+                            taken.</small>
+                    </small>
+                </div>
+                <div class="form-group col-md-6">
+                    <input formControlName="phoneNo" type="number" class="form-control remove-numbr-icn" maxlength="10"
+                        placeholder="Enter Phone Number"
+                        [ngClass]="{'is-invalid': registrationSubmitted && lf.phoneNo.invalid, 'is-valid': registrationSubmitted && !lf.phoneNo.invalid }">
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && (lf.phoneNo.invalid || lf.phoneNo.errors?.required)">
+                        Phone Number is required.</small>
+                    <small class="text-danger" *ngIf="registrationSubmitted && lf.phoneNo.errors?.pattern">
+                        Please enter a valid 10-digit phone number.</small>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input type="password" name="registrationPassword" formControlName="password" class="form-control"
+                        placeholder="Enter Password"
+                        [ngClass]="{
+                          'is-invalid': registrationSubmitted && lf.password.invalid,
+                          'is-valid': registrationSubmitted && lf.password.valid
+                        }">
+                  
+                    <!-- Required Message -->
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && lf.password.errors?.required">
+                        Password is required.
+                    </small>
+                  
+                    <!-- Pattern Message -->
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && !lf.password.errors?.required && lf.password.errors?.pattern">
+                        Password must contain uppercase, lowercase, digit, and special character, with a minimum length of 8 characters.
+                    </small>
                   </div>
-                  <div class="form-row">
-                      <div class="form-group col-md-6">
-                          <div class="input-with-icon">                    
-                              <input type="email" formControlName="email" class="form-control" placeholder="Enter Email Address" [ngClass]="{'is-invalid': registrationSubmitted && lf.email.invalid, 'is-valid': registrationSubmitted && !lf.email.invalid }">
-                              <span *ngIf="lf.email?.pending" class="input-icon"><i class="fa fa-spinner fa-spin fa-2x fa-fw" ></i></span>
-                          </div>
-                          <small class="text-danger"
-                              *ngIf="registrationSubmitted && (lf.email?.invalid || lf.email.errors?.required)"  >
-                              <small *ngIf="lf.email.errors?.required" >This field is required</small>
-                              <small *ngIf="lf.email.errors?.email" >Please enter a valid email address</small>
-                              <small *ngIf="lf.email.errors?.checkEmailAvailability" >This email address is already taken</small>
+                  
+                <div class="form-group col-md-6">
+                    <input type="password" name="registrationcPassword" formControlName="cPassword"
+                        placeholder="Re-enter Password" (change)="onChangePassword($event)" class="form-control"
+                        [ngClass]="{'is-invalid': registrationSubmitted && lf.cPassword.invalid, 'is-valid': registrationSubmitted && !lf.cPassword.invalid }">
+                        <small *ngIf="registrationSubmitted && lf.cPassword.invalid || registrationForm.hasError('passwordMismatch') && registrationSubmitted">
+                            <span class="text-danger" *ngIf="lf.cPassword.errors?.['required']">
+                              Re-enter Password is required.
+                            </span>
+                            <span class="text-danger" *ngIf="registrationForm.hasError('passwordMismatch')">
+                              Passwords do not match.
+                            </span>
                           </small>
-                      </div>
-                      <div class="form-group col-md-6">
-                          <input formControlName="phoneNo" type="number"  class="form-control remove-numbr-icn" maxlength="10" placeholder="Enter Phone Number" [ngClass]="{'is-invalid': registrationSubmitted && lf.phoneNo.invalid, 'is-valid': registrationSubmitted && !lf.phoneNo.invalid }">
-                          <small class="text-danger"
-                              *ngIf="registrationSubmitted && (lf.phoneNo.invalid || lf.phoneNo.errors?.required)" >
-                          This field is required</small>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                      <div class="form-group col-md-6">
-                          <input  type="password" name="registrationPassword" formControlName="password"   class="form-control" placeholder="Enter Password" [ngClass]="{'is-invalid': registrationSubmitted && lf.password.invalid, 'is-valid': registrationSubmitted && !lf.password.invalid }"> 
-                          <small class="text-danger"
-                              *ngIf="registrationSubmitted && (lf.password.invalid || lf.password.errors?.required)" >
-                          <span>This field is required</span></small>
-                      </div>
-                      <div class="form-group col-md-6">
-                          <input  type="password" name="registrationcPassword" formControlName="cPassword"  placeholder="Re-enter Password" (change)="onChangePassword($event)" class="form-control" [ngClass]="{'is-invalid': registrationSubmitted && lf.cPassword.invalid, 'is-valid': registrationSubmitted && !lf.cPassword.invalid }">
-                          <small class="text-danger"
-                              *ngIf="registrationSubmitted && (lf.cPassword.invalid || lf.cPassword.errors?.required)"  >
-                          This field is required</small>
-                          <small class="text-danger" *ngIf="registrationSubmitted && passwordMismatch && lf.cPassword.value">
-                              Passwords do not match
-                          </small>            
-                      </div>
-                  </div>
-                  <div class="form-row">
-                      <div class="form-group col-md-4">
-                          <select name="stateId" formControlName="stateId" class="custom-select" (change)="onChangeState($event)">
-                              <option value="">Select State</option>
-                              <option *ngFor="let state of stateList" [value]="state.id">{{ state.name }}</option>
-                          </select>
-                          <small class="text-danger"
-                              *ngIf="registrationSubmitted && (lf.stateId.invalid || lf.stateId.errors?.required)"  >
-                          This field is required</small>
-                      </div>
-                      <div class="form-group col-md-4">
-                          <select name="cityId" formControlName="cityId" class="custom-select">
-                              <option value="">Select City</option>
-                              <option *ngFor="let city of cityList" value="{{city.id}}">{{city.name}}</option>
-                          </select>
-                          <small class="text-danger"
-                              *ngIf="registrationSubmitted && (lf.cityId.invalid || lf.cityId.errors?.required)"  >
-                          This field is required</small>
-                      </div>
-                      <div class="form-group col-md-4">
-                          <input formControlName="pincode" type="text" name="pincode" placeholder="Enter PIN Code" class="form-control" [ngClass]="{'is-invalid': registrationSubmitted && lf.pincode.invalid, 'is-valid': registrationSubmitted && !lf.pincode.invalid }">
-                          <small class="text-danger"
-                              *ngIf="registrationSubmitted && (lf.pincode.invalid || lf.pincode.errors?.required)"  >
-                          This field is required</small>
-                      </div>
-                  </div>
-                  <div class="form-group">
-                      <div class="col-md-12 text-end">                
-                          <button class="btn btn-registration">Sign up</button>
-                      </div>
-                  </div>
-                </form>
-        </div>
+                                        </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <select name="stateId" formControlName="stateId" class="custom-select"
+                        (change)="onChangeState($event)">
+                        <option value="">Select State</option>
+                        <option *ngFor="let state of stateList" [value]="state.id">{{ state.name }}</option>
+                    </select>
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && (lf.stateId.invalid || lf.stateId.errors?.required)">
+                        State is required.</small>
+                </div>
+                <div class="form-group col-md-4">
+                    <select name="cityId" formControlName="cityId" class="custom-select">
+                        <option value="">Select City</option>
+                        <option *ngFor="let city of cityList" value="{{city.id}}">{{city.name}}</option>
+                    </select>
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && (lf.cityId.invalid || lf.cityId.errors?.required)">
+                        City is required.</small>
+                </div>
+                <div class="form-group col-md-4">
+                    <input formControlName="pincode" type="text" name="pincode" placeholder="Enter PIN Code"
+                        class="form-control"
+                        [ngClass]="{'is-invalid': registrationSubmitted && lf.pincode.invalid, 'is-valid': registrationSubmitted && !lf.pincode.invalid }">
+                    <small class="text-danger"
+                        *ngIf="registrationSubmitted && (lf.pincode.invalid || lf.pincode.errors?.required)">
+                        Pincode is required.</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12 text-end">
+                    <button class="btn btn-registration">Sign up</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

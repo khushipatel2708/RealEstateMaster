@@ -57,6 +57,7 @@
                 <input type="email" class="form-control" formControlName="email" placeholder="Your Email">
                 <small class="text-danger" *ngIf="submittedForm && f.email.invalid">
                   <span *ngIf="f.email.errors.required">Email is required.</span>
+                  <span *ngIf="f.email.errors.email">Email must be valid</span>
                 </small>
               </div>
 

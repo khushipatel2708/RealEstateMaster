@@ -7,8 +7,8 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a [routerLink]="'/'" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
-          <li *ngIf="isUserLoggedIn"><a [routerLink]="'/about'" routerLinkActive="active" >About</a></li>
-          <li *ngIf="isUserLoggedIn"><a [routerLink]="'/property'" routerLinkActive="active">Properties</a></li>
+          <li *ngIf="isLoggedIn"><a [routerLink]="'/about'" routerLinkActive="active" >About</a></li>
+          <li *ngIf="isLoggedIn"><a [routerLink]="'/property'" routerLinkActive="active">Properties</a></li>
           <!-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="#">Dropdown 1</a></li>
@@ -26,11 +26,11 @@
               <li><a href="#">Dropdown 4</a></li>
             </ul>
           </li> -->
-          <li *ngIf="isUserLoggedIn"><a href="/contact-us" routerLinkActive="active">Contact</a></li>
-          <div *ngIf="!isUserLoggedIn">
+          <li *ngIf="isLoggedIn"><a href="/contact-us" routerLinkActive="active">Contact</a></li>
+          <div *ngIf="!isLoggedIn">
             <a class="btn-get-started" routerLink="/login" routerLinkActive="active">login</a>
           </div>
-          <div class="user-image dropdown text-right" *ngIf="isUserLoggedIn">
+          <div class="user-image dropdown text-right" *ngIf="isLoggedIn">
             <span><span class="text-welcome">Welcome</span> {{ currentUser?.userName }} </span>
             <img 
             [src]="currentUser?.photoPath ? currentUser.photoPath : 'assets/images/user.jpg'"

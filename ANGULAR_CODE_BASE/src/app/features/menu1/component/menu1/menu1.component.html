@@ -83,7 +83,7 @@
 
         <!-- Pagination & Page Size -->
         <div class="row mt-3 align-items-center">
-          <div class="col-md-10">
+          <div class="col-md-9">
             <ngb-pagination 
               [collectionSize]="totalRecord" 
               [(page)]="page" 
@@ -92,7 +92,7 @@
               [maxSize]="10">
             </ngb-pagination>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-select rounded-1">
               <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
             </select>

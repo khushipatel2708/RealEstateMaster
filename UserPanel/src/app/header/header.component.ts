@@ -11,7 +11,6 @@ import { UserService } from 'app/services/user.service';
 export class HeaderComponent implements OnInit{
   showHeader: boolean = true;
   currentUser:any={};
-  isUserLoggedIn:any;
   isLoggedIn:any;
 constructor(private router: Router,private userService:UserService,private loginService:LoginService){}
   ngOnInit(){
@@ -22,14 +21,13 @@ constructor(private router: Router,private userService:UserService,private login
     this.isLoggedIn = status;
     console.log(this.isLoggedIn, "islofff");
 
-    // Call getCurrentUserDetail only when isLoggedIn becomes true
     if (this.isLoggedIn) {
       console.log("ttt");
       this.getCurrentUserDetail();
     }
   });
-  this.isUserLoggedIn = this.loginService.isLoggedIn();
-  if(this.isUserLoggedIn){
+  if (this.loginService.isLoggedIn()) {
+    this.isLoggedIn = true;
     this.getCurrentUserDetail();
   }
 }  

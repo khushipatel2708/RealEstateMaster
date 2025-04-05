@@ -54,8 +54,10 @@ registrationForm:FormGroup;
       stateId: new FormControl('',Validators.required),
       cityId: new FormControl('',Validators.required),
       pincode: new FormControl('', [Validators.required]),
-    }
-    );
+    },
+    { validators: this.passwordsMatchValidator 
+    });
+    
     this.commonService.togglePageLoaderFn(false);
     this.commonService.getStatelist()
       .subscribe(response => {
@@ -64,7 +66,12 @@ registrationForm:FormGroup;
           }
       });
   }
-
+  passwordsMatchValidator(formGroup: FormGroup) {
+    const password = formGroup.get('password')?.value;
+    const cPassword = formGroup.get('cPassword')?.value;
+    
+    return password === cPassword ? null : { passwordMismatch: true };
+  }
   getCityList(stateId) {
     this.cityList = [];
 

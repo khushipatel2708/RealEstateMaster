@@ -160,7 +160,7 @@ export class UsersModelComponent implements OnInit {
   onSubmit_Form() {
     this.submitted = true;
     if (this.form.invalid) {
-      this.toastr.warning("Enter valid data", "Warning");
+      this.toastr.warning("Enter valid data");
       return;
     }
   
@@ -185,7 +185,7 @@ export class UsersModelComponent implements OnInit {
       next: (result) => {
         this.spinner.hide('model');
         let message = this.id > 0 ? "User updated successfully" : "User added successfully";
-        this.toastr.success(message, "Success");
+        this.toastr.success(message);
         this.onUser_Emit.emit(true);
         this.activeModal.close();
       },

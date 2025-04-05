@@ -260,9 +260,10 @@ export class EditProfileComponent implements OnInit {
   
   updateProfile() {
     this.submitted = true; // Mark form as submitted
-  
+    const selectedState = this.stateList.find(state => state.id == this.profileForm.getRawValue().state);
+    const selectedCity = this.cityList.find(city => city.id == this.profileForm.getRawValue().city);
     if (this.profileForm.invalid) {
-      this.toastr.warning("Enter valid data", "Warning");
+      this.toastr.warning("Enter valid data");
       return;
     }
   
@@ -274,14 +275,14 @@ export class EditProfileComponent implements OnInit {
       email: this.profileForm.getRawValue().email,
       phoneNo: this.profileForm.getRawValue().phoneNo,
       pincode: this.profileForm.getRawValue().pincode,
-      stateId: this.profileForm.getRawValue().state,
-      cityId: this.profileForm.getRawValue().city
+      stateId: selectedState ? selectedState.id : null,
+      cityId: selectedCity ? selectedCity.id : null
     };
   
     this.userService.updateProfile(this.UserDetails.id, updatedUser).subscribe({
       next: (response) => {
         this.spinner.hide(); 
-        this.toastr.success("Profile updated successfully", "Success");
+        this.toastr.success("Profile updated successfully");
   
         // Update UserDetails object
         this.UserDetails = { ...updatedUser };
@@ -307,7 +308,7 @@ export class EditProfileComponent implements OnInit {
       },
       error: (err) => {
         this.spinner.hide(); 
-        this.toastr.error("Failed to update profile", "Error");
+        this.toastr.error("Failed to update profile");
         console.error("Error updating profile:", err);
       }
     });

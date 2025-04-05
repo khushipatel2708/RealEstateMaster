@@ -3,9 +3,10 @@
         <div class="text-white" style="margin-top:120%;">Loading...</div>
       </div>
     </ngx-spinner>
-  <div class="card p-4 shadow-lg">
-    <div class="card-content">
-      <div class="card-body">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+      <div class="card-body px-0">
         <form [formGroup]="form">
           <div class="row">
             <div class="col-md-3 text-left">
@@ -34,8 +35,8 @@
                 <th> First Name </th>
                 <th> Plan name </th>
                 <th> Amount </th>
-                <th> Payment Date </th>
-                <th> Status </th>
+                <!-- <th> Payment Date </th> -->
+                <!-- <th> Status </th> -->
               </tr>
             </thead>
             <tbody class="fs-5">
@@ -45,8 +46,8 @@
                 <td>{{item.firstName}}</td>
                 <td>{{item.planName}}</td>
                 <td>{{item.amount}}</td>
-                <td>{{item.paymentDate | date:'dd-MM-yyyy'}}</td>
-                <td>{{item.success}}</td>
+                <!-- <td>{{item.paymentDate | date:'dd-MM-yyyy'}}</td> -->
+                <!-- <td>{{item.success}}</td> -->
               </tr>
             </tbody>
           </table>
@@ -57,19 +58,20 @@
             </div>
           </ng-template>
         <div class="row mt-5">
-          <div class="col-md-10">
+          <div class="col-md-9">
             <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)"
               [pageSize]="pageSize" [maxSize]="10">
             </ngb-pagination>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="form-group">
-              <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-control">
+              <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-select rounded-1">
                 <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
               </select>
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>

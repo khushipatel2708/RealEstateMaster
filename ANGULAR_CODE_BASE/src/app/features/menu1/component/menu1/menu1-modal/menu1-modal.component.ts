@@ -110,7 +110,7 @@ export class Menu1ModalComponent implements OnInit {
   onSubmit_Menu() {
     this.submitted = true;
     if (this.form.invalid) {
-      this.toastr.warning("Enter valid data", "Warning");
+      this.toastr.warning("Enter valid data");
       return;
     }
   
@@ -129,7 +129,7 @@ export class Menu1ModalComponent implements OnInit {
       this.commonService.addEditMenu(formData).subscribe(
         (result) => {
           if (result) {
-            this.toastr.success('Menu updated successfully', 'Success');
+            this.toastr.success('Menu updated successfully');
             this.resetForm();
             this.menuSaved.emit();
             this.activeModal.close();
@@ -138,7 +138,7 @@ export class Menu1ModalComponent implements OnInit {
         },
         (error) => {
           console.error('Update Error:', error);
-          this.toastr.error('Failed to update menu', 'Error');
+          this.toastr.error('Failed to update menu');
           this.spinner.hide('model'); // Hide spinner if error occurs
         }
       );
@@ -147,7 +147,7 @@ export class Menu1ModalComponent implements OnInit {
       this.commonService.addEditMenu(formData).subscribe(
         (result) => {
           if (result) {
-            this.toastr.success('Menu added successfully', 'Success');
+            this.toastr.success('Menu added successfully');
             this.resetForm();
             this.menuSaved.emit();
             this.activeModal.close();
@@ -157,7 +157,7 @@ export class Menu1ModalComponent implements OnInit {
         },
         (error) => {
           console.error('Insert Error:', error);
-          this.toastr.error('Failed to add menu', 'Error');
+          this.toastr.error('Failed to add menu');
           this.spinner.hide('model'); // Hide spinner if error occurs
         }
       );

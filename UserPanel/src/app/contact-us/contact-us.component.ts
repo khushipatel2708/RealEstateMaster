@@ -16,7 +16,7 @@ export class ContactUsComponent implements OnInit{
   ngOnInit(): void {
     this.form=this.formBuilder.group({
       name:[null,Validators.required],
-      email:[null,Validators.required],
+      email:[null,[Validators.required,Validators.email]],
       subject:[null,Validators.required],
       message:[null],
     });

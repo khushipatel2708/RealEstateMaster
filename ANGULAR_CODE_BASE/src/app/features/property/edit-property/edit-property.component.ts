@@ -191,7 +191,7 @@ getUserList() {
 submitForm() {
   this.isSubmittingForm = true;
   if (this.form.invalid) {
-    alert("Enter valid details");
+    this.toastr.warning("Enter valid details");
     return;
   }
 

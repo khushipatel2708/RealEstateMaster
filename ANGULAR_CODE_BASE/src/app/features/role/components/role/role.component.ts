@@ -104,12 +104,12 @@ export class RoleComponent implements OnInit {
         this.commonService.deleterole(id).subscribe({
           next: () => {
             Swal.fire('Deleted!', 'Your role has been deleted.', 'success');
-            this.toastr.success('Your role has been deleted successfully!', 'Deleted');
+            this.toastr.success('Your role has been deleted successfully!');
             this.getRoleList();
           },
           error: (err) => {
             Swal.fire('Error!', 'There was an error deleting the role.', 'error');
-            this.toastr.error('There was an error deleting the role.', 'Error');
+            this.toastr.error('There was an error deleting the role.');
           }
         });
       }

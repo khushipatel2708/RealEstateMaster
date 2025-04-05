@@ -24,6 +24,7 @@ import { BehaviorSubject, tap } from 'rxjs';
     checkUserLogin(data) {
       return this.http.post(environment.BASE_URL + '/auth/user/login', data, httpOptions).pipe(
         tap((res: any) => {
+          localStorage.setItem('role',res.role);
           localStorage.setItem('token', res.token);
           this.isLoggedInSubject.next(true); 
         })
@@ -71,10 +72,11 @@ import { BehaviorSubject, tap } from 'rxjs';
     }
 
     logOut() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
       this.router.navigate([''], {
         queryParams: { success: 'logOut' }
       });
-      localStorage.removeItem('token');
       this.isLoggedInSubject.next(false);
     }
 
