@@ -49,10 +49,11 @@
         <!-- Builder Dropdown (Visible only when role is NOT 'builder') -->
         <div class="form-group" *ngIf="UserDetails.role !== 'builder'">
           <label for="builder">Builder:</label>
-          <select name="builder" formControlName="builder" class="custom-select">
+          <!-- <select name="builder" formControlName="builder" class="custom-select">
             <option value="">Select builder</option>
             <option *ngFor="let user of builderUserList" [value]="user.id">{{ user.fname }}</option>
-          </select>
+          </select> -->
+          <input type="text" class="form-control" [value]="getBuilderName(form.get('builder')?.value)" readonly>
         </div>
 
         <!-- Agency Name Input Field (Visible only when role is 'builder') -->

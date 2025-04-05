@@ -71,6 +71,11 @@ export class EditPropertyComponent implements OnInit {
       .subscribe(result => this.propertyTypeList = result);
 
   }
+
+  getBuilderName(builderId: string): string {
+    const builder = this.builderUserList.find(user => user.id === builderId);
+    return builder ? `${builder.fname} ${builder.lname}` : '';
+  }
   
   UserDetails: any = {}; 
   userRole: string = '';
