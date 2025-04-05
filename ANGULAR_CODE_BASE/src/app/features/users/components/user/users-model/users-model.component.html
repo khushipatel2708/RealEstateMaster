@@ -132,10 +132,14 @@
       <label class="col-md-4 label-control">Status</label>
       <div class="col-md-8 text-left">
         <div class="radio d-inline-block mr-2 mb-2">
-          <input type="radio" id="active" name="status" formControlName="status" [value]="true"
+          <!-- <input type="radio" id="active" name="status" formControlName="status" [value]="true"
             class="form-control-input mb-1 mr-1"
             [ngClass]="{'is-invalid': submitted && f.status.errors, 'is-valid': submitted && !f.status.errors}" />
-          <label for="active" class="m-0">Active</label>
+          <label for="active" class="m-0">Active</label> -->
+          <input type="radio" id="active" name="status" formControlName="status" [value]="true"
+  [checked]="form.controls['status'].value === true"
+  class="form-control-input mb-1 mr-1" />
+<label for="active" class="m-0">Active</label>
         </div>
         <div class="radio d-inline-block">
           <input type="radio" id="inactive" name="status" formControlName="status" [value]="false"

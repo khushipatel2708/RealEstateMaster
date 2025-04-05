@@ -42,7 +42,8 @@ export class UsersModelComponent implements OnInit {
         Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d]).{8,}$')
         // Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&#])[A-Za-z\\d@$!%*?&#]{8,}$') 
       ]],
-      status: [null, Validators.compose([Validators.required])],
+      status: [true, Validators.required]
+
     });
     if (this.id && this.id > 0) {
       this.getUserById();
@@ -66,7 +67,7 @@ export class UsersModelComponent implements OnInit {
             email: result.email,
             phoneNo: result.phoneNo,
             password: result.password,
-            status: result.status,
+            status: result.status ?? true,
             photoPath:result.photoPath
           });
           this.previewUrl = result.photoPath
