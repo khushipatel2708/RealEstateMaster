@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RealEstate.Entity;
 using RealEstate.Models;
+
 using System.Text.RegularExpressions;
 
 
@@ -12,6 +13,7 @@ namespace RealEstate.Controllers
   public class PropertyController : ControllerBase
   {
     private readonly RealEstateContext _context;
+   
     public PropertyController(RealEstateContext context)
     {
       _context = context;
@@ -79,7 +81,7 @@ namespace RealEstate.Controllers
           Locality = model.Locality,
           Description = model.Description,
           Price = model.Price,
-          UserId = model.UserId,
+          UserId = model.BuilderId != null ? model.BuilderId : model.UserId,
           CreatedOn = DateTime.UtcNow,
           UpdatedOn = DateTime.UtcNow,
           PropertyFor = model.PropertyFor,
@@ -340,6 +342,7 @@ namespace RealEstate.Controllers
                       property.Images,
                       property.CityId,
                       property.UserId,
+                      property.Email,
                     };
 
         if (!string.IsNullOrEmpty(filter.PropertyFor))
@@ -392,6 +395,7 @@ namespace RealEstate.Controllers
           p.Status,
           p.Slug,
           p.UserId,
+          p.Email,
           Images = !string.IsNullOrEmpty(p.Images)
         ? p.Images.Split(',').Select(img => $"{scheme}://{host}{img}").ToList()
         : new List<string>()
@@ -660,6 +664,7 @@ namespace RealEstate.Controllers
                                      BuilderId = p.BuilderId
                                    })
                                    .FirstOrDefaultAsync();
+     
 
       if (property == null)
       {
