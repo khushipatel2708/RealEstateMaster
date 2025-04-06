@@ -74,6 +74,7 @@ public class LoginController : ControllerBase
       CityId = model.CityId,
       Pincode = model.Pincode,
       Role = model.Role,
+      Status=model.status ? model.status : true,
       Password = hashedPassword,
       CreatedOn = DateTime.UtcNow
     };
@@ -282,6 +283,7 @@ public class RegisterRequest
   public int? Pincode { get; set; }
   public string Role { get; set; }
   public string Password { get; set; }
+  public bool status { get; set; }
 }
 
 public class ChangePasswordRequest
