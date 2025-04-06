@@ -112,7 +112,7 @@ namespace RealEstate.Controllers
           u.Fname = user.fname;
           u.Lname = user.lname;
           u.Email = user.email;
-          u.Password = hashedPassword;
+          u.Password = user.password;
           u.UserName = user.userName;
           u.StateId = user.stateId;
           u.CityId = user.cityId;
