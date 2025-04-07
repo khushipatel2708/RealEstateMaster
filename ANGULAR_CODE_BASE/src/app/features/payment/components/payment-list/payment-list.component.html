@@ -27,11 +27,12 @@
             </div>
           </div>
         </form>
+        <div class="table-responsive">
           <table class="table table-striped mt-3" *ngIf="paymentList && paymentList.length > 0; else noUser">
             <thead class="fs-5">
               <tr>
-                <th> # </th>
-                <th>Transaction Id</th>
+                <th style="width:2%"> # </th>
+                <th style="width:5%">Transaction Id</th>
                 <th> First Name </th>
                 <th> Plan name </th>
                 <th> Amount </th>
@@ -45,12 +46,14 @@
                 <td>{{item.transactionId}}</td>
                 <td>{{item.firstName}}</td>
                 <td>{{item.planName}}</td>
-                <td>{{item.amount}}</td>
+                <td>₹ {{item.amount}}</td>
                 <!-- <td>{{item.paymentDate | date:'dd-MM-yyyy'}}</td> -->
                 <!-- <td>{{item.success}}</td> -->
               </tr>
             </tbody>
           </table>
+        </div>
+      
           <ng-template #noUser>
             <div class="alert alert-warning text-center mt-3" role="alert">
               <i class="bi bi-exclamation-triangle me-2"></i>

@@ -91,11 +91,13 @@
               <div class="image-wrapper">
                 <div *ngIf="item.images && item.images.length > 0; else noImage">
                   <div class="carousel">
-                    <img [src]="getImageUrl(item.images)" class="carousel-image" alt="Property Image" style="width: 400px; height: 200px;">
+                    <img [src]="item.images[item.currentImageIndex] || '/assets/images/property-no-image.png'"
+                      class="carousel-image" alt="Property Image" style="width: 400px; height: 200px;" />
                   </div>
                 </div>
                 <ng-template #noImage>
-                  <img src="/assets/images/property-no-image.png" class="card-img-top img-fluid property-image" alt="No Image Available">
+                  <img src="/assets/images/property-no-image.png" class="card-img-top img-fluid property-image"
+                    alt="No Image Available" />
                 </ng-template>
               </div>
               <!-- <div class="image-wrapper">

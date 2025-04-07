@@ -16,6 +16,8 @@ export class PaymentListComponent {
   form:FormGroup;
   totalRecord = 0;
   page = 1;
+  userId:any;
+  currentUser:any = {};
   pageSize = 20;
   pageSizeList = [
     {pageSize:5,name:'5 items per page'},
@@ -42,15 +44,32 @@ export class PaymentListComponent {
     this.form=this.formBuilder.group({
       searchText:[null],
     })
+    this.getCurrentUserDetail();
+  }
+  getCurrentUserDetail(){
+    this.userService.getCurrentUserDetails().subscribe(
+      (result) =>{
+        this.currentUser = result;
+        this.currentUser?.role  == "builder" ? this.userId = this.currentUser?.id : this.userId = 0;
     this.getPaymentList();
+
+        console.log(this.userId,"userId");
+      },
+      (error) =>{
+        console.log(error);
+      }
+    )
   }
 
   getPaymentList() {
+    console.log(this.userId,"uu");
     const filters = {
       searchText: this.form.get('searchText').value,
-      page: this.page || 1,  // Default to 1 if undefined
-      pageSize: this.pageSize || 10,  // Default to 10 if undefined
+      page: this.page || 1, 
+      pageSize: this.pageSize || 10,  
+      userId:this.userId || 0,
     };
+    console.log(filters,"filters");
     this.spinner.show();
     this.commonService.getPaymentList(filters)  // Pass the filters to the service
       .subscribe({

@@ -78,10 +78,9 @@ button:hover {
 //   scroll-snap-align: start;
 //   border-radius: 10px;
 // }
-
-
 .carousel {
   display: flex;
+  scroll-snap-type: x mandatory;
   justify-content: center;
   align-items: center;
   overflow: hidden; // Ensures no unwanted stretching
@@ -93,4 +92,20 @@ button:hover {
   max-width: 100%; // Prevents overflow
   object-fit: cover; // Ensures the image fills the space without distortion
   border-radius: 10px;
+  scroll-snap-type: x mandatory;
 }
+
+// .carousel {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   overflow: hidden; // Ensures no unwanted stretching
+// }
+
+// .carousel-image {
+//   width: auto; // Auto width to maintain aspect ratio
+//   height: 250px; // Set max height (adjust as needed)
+//   max-width: 100%; // Prevents overflow
+//   object-fit: cover; // Ensures the image fills the space without distortion
+//   border-radius: 10px;
+// }

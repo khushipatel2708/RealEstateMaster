@@ -72,11 +72,11 @@ import { BehaviorSubject, tap } from 'rxjs';
     }
 
     logOut() {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
       this.router.navigate([''], {
         queryParams: { success: 'logOut' }
       });
+      localStorage.removeItem('token');
+      localStorage.removeItem('role');
       this.isLoggedInSubject.next(false);
     }
 

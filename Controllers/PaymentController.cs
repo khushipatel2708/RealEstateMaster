@@ -23,7 +23,7 @@ namespace RealEstate.Controllers
     }
 
     [HttpGet("payu-payment")]
-    public IActionResult GetPayUDetails(string amount, string firstName, string planName,string email)
+    public IActionResult GetPayUDetails(string amount, string firstName, string planName, string email)
     {
       var txnId = Guid.NewGuid().ToString();
       var serviceProvider = "test";
@@ -109,7 +109,7 @@ namespace RealEstate.Controllers
       }
       await dbContext.SaveChangesAsync();
 
-      return Redirect($"http://localhost:4200/payment-success?status={status}&txnid={txnId}&amount={amount}&propertyId={PropertyId}&title={udf1}");
+      return Redirect($"http://localhost:40572/payment-success?status={status}&txnid={txnId}&amount={amount}&propertyId={PropertyId}&title={udf1}");
     }
 
     private static string GenerateSHA512Hash(string input)
@@ -121,9 +121,54 @@ namespace RealEstate.Controllers
         return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
       }
     }
-  
 
-  [HttpPost("getPaymentList")]
+
+    //  [HttpPost("getPaymentList")]
+    //    public async Task<IActionResult> GetPaymentList([FromBody] PaymentFilter filters)
+    //    {
+    //      if (filters == null)
+    //      {
+    //        return BadRequest(new { message = "Filters cannot be null" });
+    //      }
+
+    //      int page = filters?.Page > 0 ? filters.Page : 1;
+    //      int pageSize = filters.PageSize > 0 ? filters.PageSize : 20;
+
+    //      if (page < 1 || pageSize < 1)
+    //      {
+    //        return BadRequest(new { message = "Invalid pagination parameters" });
+    //      }
+
+    //      var query = _db.Payments.AsQueryable();
+
+    //      if (!string.IsNullOrWhiteSpace(filters.SearchText))
+    //      {
+    //        query = query.Where(p => p.FirstName.Contains(filters.SearchText) ||
+    //                                 p.TransactionId.Contains(filters.SearchText) ||
+    //                                 p.PlanName.Contains(filters.SearchText) ||
+    //                                 p.Email.Contains(filters.SearchText));
+    //      }
+
+    //      var totalCount = await query.CountAsync();
+    //      var data = await query.OrderBy(p => p.Id)
+    //                            .Skip((page - 1) * pageSize)
+    //                            .Take(pageSize)
+    //                            .Select(p => new
+    //                            {
+    //                              p.Id,
+    //                              p.TransactionId,
+    //                              p.Amount,
+    //                              p.FirstName,
+    //                              p.PlanName,
+    //                            })
+    //                            .ToListAsync();
+
+    //      return Ok(new { data, totalCount });
+    //    }
+
+    //  }
+    //}
+    [HttpPost("getPaymentList")]
     public async Task<IActionResult> GetPaymentList([FromBody] PaymentFilter filters)
     {
       if (filters == null)
@@ -141,6 +186,7 @@ namespace RealEstate.Controllers
 
       var query = _db.Payments.AsQueryable();
 
+      // Apply search filters
       if (!string.IsNullOrWhiteSpace(filters.SearchText))
       {
         query = query.Where(p => p.FirstName.Contains(filters.SearchText) ||
@@ -149,7 +195,19 @@ namespace RealEstate.Controllers
                                  p.Email.Contains(filters.SearchText));
       }
 
+      // If UserId is provided, filter based on matching property
+      if (filters.userId > 0)
+      {
+        // Join Payments with Properties where FirstName == Slug
+        query = from p in query
+                join prop in _db.Properties
+                    on p.FirstName equals prop.Slug
+                where prop.UserId == filters.userId && prop.Status == "Sold"
+                select p;
+      }
+
       var totalCount = await query.CountAsync();
+
       var data = await query.OrderBy(p => p.Id)
                             .Skip((page - 1) * pageSize)
                             .Take(pageSize)
@@ -173,6 +231,7 @@ namespace RealEstate.Controllers
   public string? SearchText { get; set; }
   public int Page { get; set; }
   public int PageSize { get; set; }
+  public int userId { get; set; }
 }
 public class PayUResponseDto
 {
