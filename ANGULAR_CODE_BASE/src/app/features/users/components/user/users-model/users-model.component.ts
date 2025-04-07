@@ -103,7 +103,8 @@ export class UsersModelComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.roleList = [];
-        alert("Fail to get role list");
+        // alert("Fail to get role list");
+        this.toastr.error("Fail to get role list")
       }
     );
   }
