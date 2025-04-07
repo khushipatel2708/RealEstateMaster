@@ -135,7 +135,7 @@ z
           item.currentImageIndex = (item.currentImageIndex + 1) % item.images.length;
         }
       });
-    }, 10000); // Change image every 15 seconds
+    }, 4000);
   }
 
   
