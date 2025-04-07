@@ -235,6 +235,7 @@ public class LoginController : ControllerBase
   [HttpPut("forgotPassword")]
   public async Task<IActionResult> UpdatePassword([FromBody] ForgotPasswordRequest request)
   {
+    var hashedPassword = BCrypt.Net.BCrypt.HashPassword(request.Password);
     if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
     {
       return BadRequest(new { message = "Email and Password are required" });
@@ -248,7 +249,7 @@ public class LoginController : ControllerBase
     }
 
     // Hash password if required
-    user.Password = request.Password;
+    user.Password = hashedPassword;
 
     _context.Users.Update(user);
     await _context.SaveChangesAsync();
