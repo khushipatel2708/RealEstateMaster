@@ -87,6 +87,7 @@ onChange_Menu(isSelected: boolean, menuId: string) {
         this.commonService.postPermissions(saveData)
           .subscribe(
             (response) => {
+              this.toastr.success('Menu selection added successfully');
               this.getMenuList(); 
             },
             (error) => {
@@ -104,7 +105,7 @@ onChange_Menu(isSelected: boolean, menuId: string) {
         this.commonService.deletePermissions(deleteData)
           .subscribe(
             (response) => {
-              this.toastr.success('Menu selection deleted successfully', response);
+              this.toastr.success('Menu selection deleted successfully');
               this.getMenuList();  
             },
             (error) => {
