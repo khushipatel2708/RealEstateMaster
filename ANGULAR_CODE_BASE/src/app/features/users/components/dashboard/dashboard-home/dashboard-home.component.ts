@@ -4,6 +4,7 @@ import { CommonService } from 'app/common/services/common.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from 'app/common/services/notification.service';
 declare const Swal:any;
 
 @Component({
@@ -21,6 +22,7 @@ z
     page = 1;
     pageSize = 20;
     interval: any;
+    notifications: string[] = [];
   
     // ✅ Add Property For Dropdown Data
     propertyFor = [
@@ -42,7 +44,8 @@ z
       public commonService: CommonService,
       private formBuilder: FormBuilder,
       private router: Router,
-      private toastr: ToastrService
+      private toastr: ToastrService,
+      private notificationService: NotificationService
     ) { }
   
     ngOnInit() {
@@ -52,11 +55,14 @@ z
         type: [null],
         for: [null] // ✅ Added Property For Field
       });
+      this.notificationService.notifications$.subscribe((notifications) => {
+        this.notifications = notifications;
+      });
       this.getCityList();
       this.getPropertyList();
       this.getPropertyTypeList();
     }
-  
+
     getPropertyTypeList() {
       this.commonService.getPropertyTypeList()
         .subscribe(result => {

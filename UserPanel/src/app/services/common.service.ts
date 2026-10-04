@@ -24,7 +24,7 @@ export class CommonService {
   HeaderMessage = new Subject<string>();
   HeaderMessage$ = this.HeaderMessage.asObservable();
 
-  changeHeaderMessage(data) {
+  changeHeaderMessage(data:any) {
     this.HeaderMessage.next(data);
   }
   // Header alert text
@@ -49,6 +49,7 @@ export class CommonService {
   updateProfile(userId: number, userData: any) {
     return this.http.put<any>(`${environment.BASE_URL}/user/updateProfile/${userId}`, userData);
 }
+
 getCurrentUserDetails() {
   const token = localStorage.getItem('token'); // Ensure token is stored in localStorage
 console.log(localStorage.getItem('token'),"token12");
@@ -70,12 +71,17 @@ console.log(localStorage.getItem('token'),"token12");
     })
   );
 }
-  getCitylistByState(stateId) {
+  getCitylistByState(stateId:any) {
     return this.http.get<any>(environment.BASE_URL + '/common/cities/' + stateId);
   }
 getMenuDDList(){
   return this.http.get<any>(environment.BASE_URL + '/menu/Menu');
 }
+checkAppointment(propertyId: number,userId:any) {
+    return this.http.get<any>(
+      `${environment.BASE_URL}/Appointment/check/${propertyId}/${userId}`
+    );
+  }
 getRoleDDList(){
   return this.http.get<any>(environment.BASE_URL + '/common/role');
 }
@@ -120,7 +126,29 @@ successPayment(){
   deleteProperty(id:any){
     return this.http.delete(environment.BASE_URL + "/property/deleteProperty/" + id);
   }
+  getUserAppointment(propertySlug: string, userId: number) {
+  return this.http.get<any>(
+    `${environment.BASE_URL}/property/${propertySlug}/user-appointment?userId=${userId}`
+  );
+}
   //End Property
+   getAvailableSlots(
+    propertySlug: string,
+    date: string
+  ): Observable<any[]> {
+
+    return this.http.get<any[]>(
+      environment.BASE_URL + "/Appointment/available-slots/" + propertySlug + "/" + date
+    );
+
+  }
+
+   createAppointment(data: any): Observable<any> {
+
+    return this.http.post<any>(
+      environment.BASE_URL + "/Appointment/create" , data);
+
+  }
   //Start Menu
 
   getMenu1List(filters: any): Observable<any> {
@@ -243,7 +271,7 @@ forgotPassword(formData:any){
 initiatePayment(paymentData: any) {
   return this.http.post<{ paymentUrl: string }>('http://localhost:5026/api/payments/initiate-payment', paymentData);
 }
-payUBuy(amount:any,firstName:any,plainName:any,currentUserEmail) {
+payUBuy(amount:any,firstName:any,plainName:any,currentUserEmail:any) {
   return this.http.get<any>(`${environment.BASE_URL}/payments1/payu-payment`,{
     params: {
            amount: amount,

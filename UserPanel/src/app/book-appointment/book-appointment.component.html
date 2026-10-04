@@ -1,0 +1,126 @@
+<div class="container mt-4">
+<div class="mt-4">
+
+  <div class="card shadow-sm mt-4">
+
+    <div class="card-header mt-4">
+      <h3 class="mb-0">Book Appointment</h3>
+    </div>
+
+    <div class="card-body mt-4">
+
+      <!-- Select Date -->
+      <div class="mb-4">
+        <label class="form-label">
+          <strong>Select Date</strong>
+        </label>
+
+        <input 
+  type="date" 
+  class="form-control"
+  [(ngModel)]="selectedDate"
+  (change)="loadAvailableSlots()"
+  [min]="minDate">
+      </div>
+
+      <!-- Loading -->
+      <div *ngIf="loading">
+        <p>Loading available slots...</p>
+      </div>
+
+      <!-- Available Slots -->
+      <div *ngIf="slots.length > 0">
+
+        <h5>Available Slots</h5>
+
+        <div class="row">
+
+          <div
+            class="col-md-3 mb-3"
+            *ngFor="let slot of slots">
+
+            <button
+              type="button"
+              class="btn w-100"
+              [class.btn-primary]="selectedSlot?.id !== slot.id"
+              [class.btn-success]="selectedSlot?.id === slot.id"
+              (click)="selectSlot(slot)">
+
+              {{ slot.startTime }} -
+              {{ slot.endTime }}
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- No Slots -->
+      <div
+        *ngIf="selectedDate && !loading && slots.length === 0"
+        class="alert alert-warning">
+
+        No available slots for this date.
+
+      </div>
+
+      <!-- Confirm Appointment -->
+      <div
+        *ngIf="selectedSlot"
+        class="mt-4">
+
+        <button
+          type="button"
+          class="btn btn-primary"
+          [disabled]="confirming"
+          (click)="confirmAppointment()">
+
+          {{ confirming ? 'Booking...' : 'Confirm Appointment' }}
+
+        </button>
+
+      </div>
+
+      <!-- Appointment Successfully Created -->
+      <div
+        *ngIf="appointmentBooked"
+        class="alert alert-success mt-4">
+
+        <h5>✓ Appointment Booked Successfully</h5>
+
+        <p class="mb-1">
+          <strong>Date:</strong>
+          {{ selectedDate }}
+        </p>
+
+        <p class="mb-3">
+          <strong>Time:</strong>
+          {{ selectedSlot?.startTime }}
+          -
+          {{ selectedSlot?.endTime }}
+        </p>
+
+        <!-- BUY BUTTON -->
+        <button
+          type="button"
+          class="btn btn-success"
+          [routerLink]="'/payment1/' + id" 
+            [queryParams]="{ title: propertyTitle, amount: propertyDetail?.price, propertyName: propertyDetail?.title }" 
+            class="btn btn-submit ms-3" 
+            *ngIf="propertyDetail.status == 'available'"
+          (click)="buyProperty()">
+
+          BUY PROPERTY
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</div>

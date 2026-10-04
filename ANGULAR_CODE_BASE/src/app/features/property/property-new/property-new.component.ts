@@ -81,6 +81,7 @@ submitForm(data) {
   this.userService.getCurrentUserDetail.subscribe({
     next: (userDetail) => {
       if (userDetail && userDetail.id) {
+        console.log(data.value.builderId,"ff");
         data.value.userId = userDetail.role == 'admin' ? data.value.builderId : userDetail.id;
         const selectedBuilder = this.builderUserList.find(user => user.id === this.selectedBuilderId);
         if (selectedBuilder) {

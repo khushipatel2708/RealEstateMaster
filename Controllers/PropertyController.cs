@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using RealEstate.Entity;
+using RealEstate.Hubs;
 using RealEstate.Models;
-
+using RealEstate.Services;
 using System.Text.RegularExpressions;
 
 
@@ -13,10 +15,13 @@ namespace RealEstate.Controllers
   public class PropertyController : ControllerBase
   {
     private readonly RealEstateContext _context;
-   
-    public PropertyController(RealEstateContext context)
+    private readonly IHubContext<NotificationHub> _notificationHub;
+    private readonly SmsService _smsService;
+    public PropertyController(RealEstateContext context, SmsService smsService, IHubContext<NotificationHub> notificationHub)
     {
       _context = context;
+      _notificationHub = notificationHub;
+      _smsService = smsService;
     }
 
     private async Task<string> GenerateSlug(string title)
@@ -254,10 +259,10 @@ namespace RealEstate.Controllers
         }
 
         string agencyName = null;
-        if (property.User != null) // If User is the Agency
-        {
-          agencyName = property.User.Fname; // Replace 'Fname' with actual column if needed
-        }
+        //if (property.User != null) // If User is the Agency
+        //{
+        //  agencyName = property.User.Fname; // Replace 'Fname' with actual column if needed
+        //}
 
         var files = new List<string>();
         if (!string.IsNullOrEmpty(property.Images))
@@ -287,7 +292,7 @@ namespace RealEstate.Controllers
           property.CityId,
           property.StateId,
           property.BuilderId,
-          AgencyName = agencyName, // Avoid direct reference to non-existing column
+          AgencyName = property.AgencyName, // Avoid direct reference to non-existing column
           property.TypeId,
           property.UserId,
           property.PropertyFor,
@@ -664,7 +669,23 @@ namespace RealEstate.Controllers
                                      BuilderId = p.BuilderId
                                    })
                                    .FirstOrDefaultAsync();
-     
+      var user = await _context.Users
+                         .Where(u => u.Id == userId)
+                         .Select(u => new
+                         {
+                           u.Fname,
+                           u.PhoneNo
+                         })
+                         .FirstOrDefaultAsync();
+      if (user == null)
+      {
+        return NotFound(new { message = "User details not found." });
+      }
+
+      string smsMessage = $"User {user.Fname} (Phone: {user.PhoneNo}) is interested in Property ID {propertyId}.";
+      await _smsService.SendSmsAsync(property.BuilderPhone, smsMessage);
+
+      await _notificationHub.Clients.All.SendAsync("ReceiveNotification", smsMessage);
 
       if (property == null)
       {
@@ -672,6 +693,39 @@ namespace RealEstate.Controllers
       }
 
       return Ok(new { phone = property.Phone, email = property.Email });
+    }
+
+    [HttpGet("{propertySlug}/user-appointment")]
+    public async Task<IActionResult> GetUserAppointment(
+    string propertySlug,
+    [FromQuery] int userId)
+    {
+      var property = await _context.Properties
+          .FirstOrDefaultAsync(p => p.Slug == propertySlug);
+
+      if (property == null)
+        return NotFound(new { message = "Property not found." });
+
+      var appointment = await _context.Appointments
+          .Where(a =>
+              a.PropertyId == property.Id &&
+              a.UserId == userId &&
+              a.Status == true)
+          .OrderByDescending(a => a.AppointmentDate)
+          .FirstOrDefaultAsync();
+
+      if (appointment == null)
+      {
+        return Ok(null);
+      }
+
+      return Ok(new
+      {
+        appointmentId = appointment.Id,
+        appointmentDate = appointment.AppointmentDate,
+        propertyId = appointment.PropertyId,
+        status = appointment.Status
+      });
     }
 
   }

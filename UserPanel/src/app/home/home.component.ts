@@ -3,6 +3,7 @@ import { CommonService } from '../services/common.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'app/services/user.service';
+import { LoginService } from 'app/services/login.service';
 declare var bootstrap: any;
 
 @Component({
@@ -16,13 +17,17 @@ export class HomeComponent implements OnInit{
   propertyTypes = [];
   builders: any[] = [];
   currentUser:any={};
+  isLoggedIn:any;
   priceRanges = ['< ₹50 Lakh', '₹50 Lakh - ₹1 Crore', '₹1 Crore - ₹2 Crore', '> ₹2 Crore'];
-  constructor(private commonService: CommonService,private formBuilder:FormBuilder,private router:Router,private userService:UserService) {}
+  constructor(private commonService: CommonService,private formBuilder:FormBuilder,private router:Router,private userService:UserService,private loginService:LoginService) {}
 ngOnInit(): void {
   this.searchForm=this.formBuilder.group({
     city:[null,Validators.required],
     propertyType:[null,Validators.required],
     priceRanges:[null,Validators.required]
+  });
+  this.loginService.isLoggedIn$.subscribe(status => {
+    this.isLoggedIn = status;
   });
   this.getBuilders();
   this.getCityDdlList();

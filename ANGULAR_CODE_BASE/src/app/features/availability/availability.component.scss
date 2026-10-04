@@ -1,0 +1,106 @@
+.availability-page {
+  padding: 30px;
+  background: #f5f6fa;
+  min-height: 100vh;
+}
+
+.availability-card {
+  background: white;
+  padding: 25px;
+  margin-bottom: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.availability-card h2 {
+  margin-bottom: 5px;
+  color: #1e293b;
+}
+
+.availability-card h3 {
+  color: #1e293b;
+}
+
+.description {
+  color: #64748b;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+  box-sizing: border-box;
+}
+
+.time-row {
+  display: flex;
+  gap: 20px;
+}
+
+.time-row .form-group {
+  flex: 1;
+}
+
+.add-btn {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 7px;
+  background: #173b67;
+  color: white;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #0f2d50;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th,
+td {
+  padding: 13px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+th {
+  background: #f8fafc;
+}
+
+.status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 13px;
+}
+
+.delete-btn {
+  border: none;
+  background: #dc2626;
+  color: white;
+  padding: 7px 13px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.empty {
+  padding: 20px;
+  color: #64748b;
+}

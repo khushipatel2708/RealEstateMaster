@@ -17,6 +17,7 @@ import { Payment1Component } from './payment1/payment1.component';
 import { PaymentFailedComponent } from './payment-failed/payment-failed.component';
 import { PrintDocumentComponent } from './print-document/print-document.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 
 
 // const routes: Routes = [
@@ -88,6 +89,10 @@ const routes=[
   {path:'payment-success',component:PaymentsuccessComponent},
   {path:'payment1/:id',component:Payment1Component},
   // {path:'payment2',component:Payment2Component},
+  {
+  path: 'book-appointment/:propertySlug',
+  component: BookAppointmentComponent
+},
   {path:'payment-failed',component:PaymentFailedComponent},
   {path:"print-document/:id",component:PrintDocumentComponent},
   {path:"forgot-password",component:ForgotPasswordComponent},

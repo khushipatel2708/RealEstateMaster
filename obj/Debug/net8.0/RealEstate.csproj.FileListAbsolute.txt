@@ -37,12 +37,6 @@ D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\scopedcss\projectbu
 D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets.build.json
 D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets.development.json
 D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets\msbuild.RealEstate.Microsoft.AspNetCore.StaticWebAssets.props
-D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets\msbuild.RealEstate.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets\msbuild.build.RealEstate.props
-D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.RealEstate.props
-D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.RealEstate.props
-D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets.pack.json
 D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\RealEstate.csproj.Up2Date
 D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\RealEstate.dll
 D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\refint\RealEstate.dll
@@ -203,3 +197,9 @@ D:\angular\realestateminiproject\realestate\bin\Debug\net8.0\MailKit.dll
 D:\angular\realestateminiproject\realestate\bin\Debug\net8.0\MimeKit.dll
 D:\angular\realestateminiproject\realestate\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
 D:\angular\realestateminiproject\realestate\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
+D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\rpswa.dswa.cache.json
+D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\rjimswa.dswa.cache.json
+D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\staticwebassets.build.json.cache
+D:\angular\realestateminiproject\realestate\obj\Debug\net8.0\swae.build.ex.cache

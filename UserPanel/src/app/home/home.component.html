@@ -56,7 +56,7 @@
     </section>
     <!-- /Hero Section -->
     <!-- Hero Section -->
-    <section id="searchProperty">
+    <section id="searchProperty" *ngIf="isLoggedIn">
       <h2 class="section-title">Search Property</h2>
       <div class="search-bar p-3 rounded-3">
         <form [formGroup]="searchForm" class="d-flex align-items-center gap-2 w-100">

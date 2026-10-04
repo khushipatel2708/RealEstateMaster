@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-<header style="margin-bottom: 0px;padding-bottom: 0px;" [class.loggedIn]="isUserLoggedIn">
+<header style="margin-bottom: 0px;padding-bottom: 0px;" [class.loggedIn]="isLoggedIn">
 	<div class="container-fluid">
 		<div class="row mt-0">
 			<div class="col-md-10 text-end">
@@ -12,8 +12,23 @@
 							</div>
 							<div class="col-md-6">
 								<div class="row justify-content-end align-items-center">
-									<div class="pl-0 col-md-12">
-										<div class="user-image dropdown text-right" *ngIf="isUserLoggedIn">
+									<div class="col-md-8 pr-0">
+										
+					
+										<div class="position-relative me-3 p-cursor" >
+																					<i class="bi bi-bell fs-4 text-primary" (click)="toggleSidebar()"></i>
+																					<span *ngIf="unreadNotifications.length" class="badge bg-danger position-absolute top-0 start-100 translate-middle">
+																						{{ unreadNotifications.length }}
+																					</span>
+																				</div> 
+																				 <app-notification 
+																			[notifications]="notifications" 
+																			[isSidebarOpen]="isSidebarOpen" 
+																			(close)="toggleSidebar()">
+																		</app-notification>
+										</div>
+									<div class="pl-0 col-md-4">
+										<div class="user-image dropdown text-right" *ngIf="isLoggedIn">
 											<span><span class="text-primary">Welcome</span> {{ currentUser?.userName }} </span>
 											<img 
 											[src]="currentUser?.photoPath ? currentUser.photoPath : 'assets/images/user.jpg'"

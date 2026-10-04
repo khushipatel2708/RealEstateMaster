@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RealEstate.Entity;
+using RealEstate.Hubs;
+using RealEstate.Services;
 using System.Security.Claims;
 using System.Text;
 
@@ -17,7 +19,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("RealEstate"));
 builder.Services.AddCors(options =>
 {
   options.AddPolicy("AllowAngularApp",
-       builder => builder.WithOrigins("http://localhost:4200", "http://localhost:18993")
+       builder => builder.WithOrigins("http://localhost:4200", "http://localhost:57380")
                          .AllowAnyMethod()
                          .AllowAnyHeader()
                          .AllowCredentials());
@@ -40,6 +42,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
         ValidateLifetime = true,
+        NameClaimType = ClaimTypes.NameIdentifier
       };
     });
 builder.Services.AddHttpClient("PayUClient", client =>
@@ -49,6 +52,9 @@ builder.Services.AddHttpClient("PayUClient", client =>
 });
 builder.Services.Configure<RealEstate.Models.Email>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<PayUService>();
+builder.Services.AddScoped<SmsService>();
+builder.Services.AddSignalR();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddEndpointsApiExplorer();
@@ -78,4 +84,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.UseStaticFiles();
+app.MapHub<NotificationHub>("/notificationHub");
 app.Run();

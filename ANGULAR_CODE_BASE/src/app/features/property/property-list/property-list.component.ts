@@ -13,7 +13,7 @@ declare const Swal:any;
 })
 export class PropertyListComponent implements OnInit {
   form:FormGroup;
-  propertyList: any = { data: [], totalCount: 0 }; // Ensure propertyList has a data field
+  propertyList: any = { data: [], totalCount: 0 }; 
   cityList:any[]=[];
   propertyTypeList:any[]=[];
   status = [
@@ -77,7 +77,7 @@ status:[null],
     next: (result: any) => {
       this.UserDetails = result;
       console.log(this.UserDetails,"result");
-      this.userRole = result.role || ''; // Store user role
+      this.userRole = result.role || ''; 
       this.commonService.togglePageLoaderFn(false);
     },
     error: (err) => {
@@ -110,7 +110,7 @@ status:[null],
      status:this.form.get('status').value || '',
      page:Number(this.page),
      pageSize:Number(this.pageSize),
-     userRole: this.userRole  // Pass user role in request
+     userRole: this.userRole  
     }
   this.commonService.togglePageLoaderFn(true);
   this.commonService.getPropertyList1(data).subscribe((result:any) =>{
@@ -141,7 +141,7 @@ onDelete(id:any){
           next: () => {
              Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
             this.toastr.success("Data deleted successfully.","Success");
-            this.getPropertyList();  // Refresh the list after deletion
+            this.getPropertyList();  
           },
           error: (err) => {
             Swal.fire('Error!', 'There was an error deleting the item.', 'error');

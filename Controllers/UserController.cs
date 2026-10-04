@@ -114,9 +114,9 @@ namespace RealEstate.Controllers
           u.Email = user.email;
           u.Password = user.password;
           u.UserName = user.userName;
-          u.StateId = user.stateId;
-          u.CityId = user.cityId;
-          u.Pincode = user.pincode;
+          //u.StateId = user.stateId;
+          //u.CityId = user.cityId;
+          //u.Pincode = user.pincode;
           u.PhoneNo = user.phoneNo;
           u.Role = user.role;
           u.CreatedOn = user.createdOn;

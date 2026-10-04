@@ -8,6 +8,7 @@ import { LoginModalComponent } from '../login-modal/login-modal.component';
 import { CommonService } from '../../services/common.service';
 import { filter, map } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
+import { NotificationService } from 'app/common/services/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -17,9 +18,12 @@ import { Title } from '@angular/platform-browser';
 export class HeaderComponent implements OnInit {
   pageTitle: string = '';
   pageIcon:string = '';
-  isUserLoggedIn: Boolean = false;
   isLoggedIn:any;
 currentUser:any={};
+notifications: string[] = [];
+unreadNotifications: string[] = [];
+isSidebarOpen = false;
+
   constructor(
     private loginService: LoginService,
     public userService: UserService,
@@ -27,9 +31,10 @@ currentUser:any={};
     private route: ActivatedRoute,
     private modalService: NgbModal,
     private commonService: CommonService,
-    private activatedRoute: ActivatedRoute, private titleService: Title
+    private activatedRoute: ActivatedRoute, private titleService: Title,
+    private notificationService: NotificationService,
+
   ) {
-    this.isUserLoggedIn = loginService.isLoggedIn();
   }
 
   // openloginModal() {
@@ -69,6 +74,7 @@ currentUser:any={};
 
   handleLogout() {
     this.loginService.logOut();
+    this.isLoggedIn=false;
   }
 
   pageloaderStatus: boolean = true;
@@ -76,25 +82,27 @@ currentUser:any={};
   ngOnInit() {
     this.loginService.isLoggedIn$.subscribe(status => {
       this.isLoggedIn = status;
-      console.log(this.isLoggedIn, "islofff");
-  
+  console.log(this.isLoggedIn + "isloggedin");
       // Call getCurrentUserDetail only when isLoggedIn becomes true
       if (this.isLoggedIn) {
-        console.log("ttt");
         this.getCurrentUserDetail();
       }
     });
-    this.isUserLoggedIn = this.loginService.isLoggedIn();
-    if(this.isUserLoggedIn){
+    if (this.loginService.isLoggedIn()) {
+      this.isLoggedIn = true;
       this.getCurrentUserDetail();
     }
+    this.notificationService.notifications$.subscribe((notificationList) => {
+        this.notifications = notificationList;
+        this.unreadNotifications = [...notificationList]; // Track unread notifications
+      });
     this.updateTitle(); 
     this.router.events
     .pipe(
       filter(event => event instanceof NavigationEnd)
     )
     .subscribe(() => this.updateTitle());
-    this.getCurrentUserDetail();
+    // this.getCurrentUserDetail();
     const logoImg = document.getElementById('logoImg');
     document.addEventListener('scroll', (event) => {
       if (logoImg) {
@@ -155,5 +163,11 @@ getCurrentUserDetail(){
     }
   )
 }
-
+toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    if (this.isSidebarOpen) {
+      this.unreadNotifications = []; // Mark notifications as read when sidebar opens
+    }
+  }
+  
 }

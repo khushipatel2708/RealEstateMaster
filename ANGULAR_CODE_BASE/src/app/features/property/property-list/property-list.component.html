@@ -89,7 +89,9 @@
             </tr>
             <tr *ngFor="let item of propertyList?.data;let i = index;">
               <td>{{ (page - 1) * pageSize + i + 1 }}</td>
-              <td>{{item.description}}</td>
+              <td style="width: 200px !important; max-width: 200px !important; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                {{ item.description }}
+              </td>
               <td>{{item.title}}</td>
               <td>{{item.city}}</td>
               <td>{{item.locality}}</td>
@@ -100,7 +102,7 @@
                 <a class="info p-0" [routerLink]="['/property/view', item.slug]" [queryParams]="{ email: item.email }">
                   <i class="bi bi-eye text-info font-medium-3 mr-2" ngbTooltip="View"></i>
                 </a>
-                <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails.id === item.userId)"
+                <a *ngIf="UserDetails.role !== 'builder' || (UserDetails.role === 'builder' && UserDetails?.id === item.userId)"
                   class="info p-0" (click)="onAddEdit(item.slug)">
                   <i class="bi bi-pencil-square text-info font-medium-3 mr-2" ngbTooltip="Edit"></i>
                 </a>

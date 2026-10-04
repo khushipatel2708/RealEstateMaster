@@ -1,0 +1,242 @@
+<div class="container-fluid mt-4">
+
+  <!-- Header -->
+  <!-- <div class="d-flex justify-content-between align-items-center mb-4">
+
+   
+
+  </div> -->
+
+
+  <!-- Search / Filter -->
+  <!-- <div class="card shadow-sm border-0 mb-4">
+
+    <div class="card-body p-2">
+
+      <form [formGroup]="form">
+
+        <div class="row align-items-end">
+
+          <div class="col-md-6">
+
+            <div class="form-group mb-0">
+                <label for="search">Search:</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                  </div>
+                  <input type="text" formControlName="searchText" id="searchText" placeholder="Search"
+                    class="form-control">
+                </div>
+              </div>
+          </div>
+
+          <div class="col-md-auto">
+            <button type="button" class="btn btn-warning btn-lg shadow-sm fw-bold px-4 py-2 m-1" (click)="onSearch()">
+                <i class="bi bi-search fs-6 me-1"></i> Filter
+              </button>
+            <button type="button" class="btn btn-secondary btn-lg shadow-sm fw-bold px-4 py-2 m-1" (click)="onClear_Filter()">
+                <i class="bi bi-x-lg"></i> Clear
+              </button>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div> -->
+
+
+  <!-- Loading -->
+  <div
+    *ngIf="loading"
+    class="text-center py-5">
+
+    <div
+      class="spinner-border text-primary"
+      role="status">
+    </div>
+
+    <p class="mt-2">
+      Loading availabilities...
+    </p>
+
+  </div>
+
+
+  <!-- Error -->
+  <div
+    *ngIf="errorMessage && !loading"
+    class="alert alert-danger">
+
+    {{ errorMessage }}
+
+  </div>
+
+
+  <!-- Availability Table -->
+  <div
+    class="card shadow-sm border-0"
+    *ngIf="
+      !loading &&
+      availabilities.length > 0
+    ">
+
+    <div class="card-body p-0">
+<form [formGroup]="form">
+
+        <div class="row align-items-end mb-4">
+
+          <div class="col-md-6">
+
+            <div class="form-group mb-0">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                  </div>
+                  <input type="text" formControlName="searchText" id="searchText" placeholder="Search"
+                    class="form-control">
+                </div>
+              </div>
+          </div>
+
+          <div class="col-md-auto">
+            <button type="button" class="btn btn-warning btn-lg shadow-sm fw-bold px-4 py-2 m-1" (click)="onSearch()">
+                <i class="bi bi-search fs-6 me-1"></i> Filter
+              </button>
+            <button type="button" class="btn btn-secondary btn-lg shadow-sm fw-bold px-4 py-2 m-1" (click)="onClear_Filter()">
+                <i class="bi bi-x-lg"></i> Clear
+              </button>
+          </div>
+
+        </div>
+
+      </form>
+      <div class="table-responsive">
+
+        <table
+          class="table table-hover align-middle mb-0">
+
+          <thead class="table-light">
+
+            <tr>
+
+              <th>#</th>
+
+              <th>Builder</th>
+
+              <th>Date</th>
+
+              <th>Start Time</th>
+
+              <th>End Time</th>
+
+              <th>Status</th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody>
+
+            <tr
+              *ngFor="
+                let availability of availabilities;
+                let i = index
+              ">
+
+              <td>
+                {{ (page - 1) * pageSize + i + 1 }}
+              </td>
+
+              <td>
+                {{ availability.builderName }}
+              </td>
+
+              <td>
+                {{
+                  availability.availabilityDate
+                    | date:'dd-MM-yyyy'
+                }}
+              </td>
+
+              <td>
+                {{ availability.startTime }}
+              </td>
+
+              <td>
+                {{ availability.endTime }}
+              </td>
+
+              <td>
+
+                <span
+                  class="badge bg-success"
+                  *ngIf="availability.status === true">
+
+                  Availability
+
+                </span>
+
+                <span
+                  class="badge bg-warning text-dark"
+                  *ngIf="availability.status === false">
+
+                  Inactive
+
+                </span>
+
+              </td>
+
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Pagination -->
+ <div class="row mt-2">
+        <div class="col-md-9">
+          <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)"
+            [pageSize]="pageSize" [maxSize]="10">
+          </ngb-pagination>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-select rounded-1">
+              <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+  <!-- No Results -->
+  <div
+    *ngIf="
+      !loading &&
+      availabilities.length === 0 &&
+      !errorMessage
+    "
+    class="text-center py-5">
+
+    <h5>
+      No Availabilities Found
+    </h5>
+
+    <p class="text-muted">
+      There are currently no availability records available.
+    </p>
+
+  </div>
+
+</div>

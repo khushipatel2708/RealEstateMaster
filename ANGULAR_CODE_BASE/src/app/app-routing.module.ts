@@ -32,6 +32,11 @@ const routes: Routes = [
   
   },
   {
+    path:'builder-availability',
+    component:MainComponent,
+    loadChildren:() => import('./features/availability/availability.module').then(m => m.AvailabilityModule)
+  },
+  {
     path: 'role',
     component: MainComponent,
     loadChildren: () => import('./features/role/role.module').then(m => m.RoleModule)

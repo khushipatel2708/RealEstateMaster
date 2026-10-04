@@ -17,6 +17,8 @@ import { DashboardComponent } from './components/dashboard-main/dashboard.compon
 import { InputFormatDirective } from './directives/input-format.directive';
 import {  NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { NotificationComponent } from 'app/notification/notification.component';
+import { AvailabilityComponent } from '../features/availability/availability.component';
 
 
 @NgModule({
@@ -35,13 +37,16 @@ import { ForgotPasswordComponent } from './components/forgot-password/forgot-pas
   declarations: [
     DashboardComponent,
     HeaderComponent,
+    NotificationComponent,
     FooterComponent,
     PropertylistComponent,
+    AvailabilityComponent,
     SmallComponentsComponent,
     NotFoundComponent,
     LoginModalComponent,
     InputFormatDirective,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    AvailabilityComponent,
   ],
   exports: [
     DashboardComponent,

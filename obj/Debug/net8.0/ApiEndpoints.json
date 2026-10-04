@@ -1,5 +1,63 @@
 [
   {
+    "ContainingType": "RealEstate.Controllers.AppointmentController",
+    "Method": "GetAvailableSlots",
+    "RelativePath": "api/Appointment/available-slots/{propertySlug}/{date}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "propertySlug",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "date",
+        "Type": "System.DateOnly",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.AppointmentController",
+    "Method": "CheckAppointment",
+    "RelativePath": "api/Appointment/check/{propertyId}/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "propertyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.AppointmentController",
+    "Method": "CreateAppointment",
+    "RelativePath": "api/Appointment/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "CreateAppointmentViewModel",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "LoginController",
     "Method": "GetCurrentUser",
     "RelativePath": "api/auth/user/{id}",
@@ -94,6 +152,91 @@
       {
         "Name": "model",
         "Type": "RegisterRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.AvailabilityController",
+    "Method": "CreateAvailability",
+    "RelativePath": "api/Availability",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "availability",
+        "Type": "RealEstate.Entity.BuilderAvailability",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.AvailabilityController",
+    "Method": "DeleteAvailability",
+    "RelativePath": "api/Availability/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.AvailabilityController",
+    "Method": "GetBuilderAvailability",
+    "RelativePath": "api/Availability/builder/{builderId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "builderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.AvailabilityController",
+    "Method": "GetAvailabilityByDate",
+    "RelativePath": "api/Availability/builder/{builderId}/date/{date}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "builderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "date",
+        "Type": "System.DateOnly",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.AvailabilityController",
+    "Method": "GetAllAvailabilities",
+    "RelativePath": "api/Availability/GetAllAvailabilities",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "RealEstate.Controllers.AvailabilityController\u002BAvailabilityFilter",
         "IsRequired": true
       }
     ],
@@ -228,6 +371,22 @@
       {
         "Name": "filter",
         "Type": "RealEstate.Controllers.BuilderController\u002BBuilderFilter",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.CommonController",
+    "Method": "GetPropertyNotary",
+    "RelativePath": "api/common/{id}/notary",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -403,6 +562,22 @@
   },
   {
     "ContainingType": "PaymentsController",
+    "Method": "PayUResponse",
+    "RelativePath": "api/payments/api/payment/callback",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "formData",
+        "Type": "Microsoft.AspNetCore.Http.IFormCollection",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PaymentsController",
     "Method": "GenerateHash",
     "RelativePath": "api/payments/generate-hash",
     "HttpMethod": "POST",
@@ -435,12 +610,38 @@
   },
   {
     "ContainingType": "PaymentsController",
-    "Method": "PaymentSuccess",
-    "RelativePath": "api/payments/success",
+    "Method": "PayUResponse",
+    "RelativePath": "api/payments/payu-response",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "txnid",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "PaymentsController",
+    "Method": "PaymentSuccess",
+    "RelativePath": "api/payments/payu-webhook",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "udf1",
+        "Type": "System.String",
+        "IsRequired": false
+      },
       {
         "Name": "Status",
         "Type": "System.String",
@@ -448,7 +649,7 @@
       },
       {
         "Name": "PropertyId",
-        "Type": "System.String",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       }
     ],
@@ -466,6 +667,89 @@
         "Name": "model",
         "Type": "VerifyPaymentRequest",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PaymentController",
+    "Method": "PaymentCancelled",
+    "RelativePath": "api/payments1/cancel",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PaymentController",
+    "Method": "PaymentFailed",
+    "RelativePath": "api/payments1/failed",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PaymentController",
+    "Method": "GetPaymentList",
+    "RelativePath": "api/payments1/getPaymentList",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filters",
+        "Type": "PaymentFilter",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PaymentController",
+    "Method": "GetPayUDetails",
+    "RelativePath": "api/payments1/payu-payment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "amount",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "firstName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "planName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PaymentController",
+    "Method": "PaymentSuccess",
+    "RelativePath": "api/payments1/success",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "formData",
+        "Type": "Microsoft.AspNetCore.Http.IFormCollection",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -551,7 +835,44 @@
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "city",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "propertyType",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "priceRange",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PropertyController",
+    "Method": "GetUserAppointment",
+    "RelativePath": "api/property/{propertySlug}/user-appointment",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "propertySlug",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -729,6 +1050,11 @@
         "IsRequired": false
       },
       {
+        "Name": "AgencyName",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
         "Name": "propImages",
         "Type": "System.Collections.Generic.List\u00601[[Microsoft.AspNetCore.Http.IFormFile, Microsoft.AspNetCore.Http.Features, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60]]",
         "IsRequired": false
@@ -779,14 +1105,56 @@
   },
   {
     "ContainingType": "RealEstate.Controllers.PropertyController",
+    "Method": "GetPropertyContactDetails",
+    "RelativePath": "api/property/GetPropertyContactDetails/{propertyId}/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "propertyId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PropertyController",
+    "Method": "GetPropertyList1",
+    "RelativePath": "api/property/getpropertyList12",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "filter",
+        "Type": "RealEstate.Controllers.PropertyFilter",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.PropertyController",
     "Method": "GetSingleProperty",
-    "RelativePath": "api/property/getSingleProperty/{propertySlug}",
+    "RelativePath": "api/property/getSingleProperty/{propertySlug}/{email}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "propertySlug",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "email",
         "Type": "System.String",
         "IsRequired": true
       }
@@ -965,6 +1333,11 @@
       {
         "Name": "Version",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "AgencyName",
+        "Type": "System.String",
         "IsRequired": false
       }
     ],
@@ -1214,6 +1587,16 @@
     "Method": "GetRoleList",
     "RelativePath": "api/user/getRoleList",
     "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "RealEstate.Controllers.UserController",
+    "Method": "GetUserDDLList",
+    "RelativePath": "api/user/GetUserDDLList",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],

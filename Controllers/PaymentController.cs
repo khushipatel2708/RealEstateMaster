@@ -109,7 +109,7 @@ namespace RealEstate.Controllers
       }
       await dbContext.SaveChangesAsync();
 
-      return Redirect($"http://localhost:40572/payment-success?status={status}&txnid={txnId}&amount={amount}&propertyId={PropertyId}&title={udf1}");
+      return Redirect($"http://localhost:4200/payment-success?status={status}&txnid={txnId}&amount={amount}&propertyId={PropertyId}&title={udf1}");
     }
 
     private static string GenerateSHA512Hash(string input)

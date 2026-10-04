@@ -39,6 +39,13 @@ public partial class User
 
   public string? PhotoPath { get; set; }
 
+  public virtual ICollection<Appointment> BuilderAppointments { get; set; }
+    = new List<Appointment>();
+
+  public virtual ICollection<Appointment> AppointmentUsers { get; set; } = new List<Appointment>();
+
+  public virtual ICollection<BuilderAvailability> BuilderAvailabilities { get; set; } = new List<BuilderAvailability>();
+
   public virtual City? City { get; set; }
 
   public virtual ICollection<Property> PropertyBuilders { get; set; } = new List<Property>();

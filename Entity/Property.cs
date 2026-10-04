@@ -74,4 +74,7 @@ public partial class Property
   public virtual PropertyOriginal? Type { get; set; }
 
   public virtual User? User { get; set; }
+
+  public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+
 }

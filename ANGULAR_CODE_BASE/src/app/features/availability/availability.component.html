@@ -1,0 +1,160 @@
+<div class="availability-page">
+
+  <div class="availability-card">
+
+    <h2>Builder Availability</h2>
+
+    <p class="description">
+      Set the dates and time slots when you are
+      available for property visits.
+    </p>
+
+
+    <!-- DATE -->
+
+    <div class="form-group">
+
+      <label>Select Date</label>
+
+      <input
+        type="date"
+        [(ngModel)]="selectedDate"
+      />
+
+    </div>
+
+
+    <!-- TIME -->
+
+    <div class="time-row">
+
+      <div class="form-group">
+
+        <label>Start Time</label>
+
+        <input
+          type="time"
+          [(ngModel)]="startTime"
+        />
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>End Time</label>
+
+        <input
+          type="time"
+          [(ngModel)]="endTime"
+        />
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="add-btn"
+      (click)="addAvailability()">
+
+      Add Availability
+
+    </button>
+
+  </div>
+
+
+  <!-- EXISTING AVAILABILITY -->
+
+  <div class="availability-card">
+
+    <h3>My Availability</h3>
+
+
+    <div
+      class="empty"
+      *ngIf="availabilityList.length === 0">
+
+      No availability added.
+
+    </div>
+
+
+    <table
+      *ngIf="availabilityList.length > 0">
+
+      <thead>
+
+        <tr>
+
+          <th>Date</th>
+
+          <th>Start Time</th>
+
+          <th>End Time</th>
+
+          <th>Status</th>
+
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        <tr
+          *ngFor="
+            let availability
+            of availabilityList
+          ">
+
+          <td>
+            {{ availability.availabilityDate }}
+          </td>
+
+          <td>
+            {{ availability.startTime }}
+          </td>
+
+          <td>
+            {{ availability.endTime }}
+          </td>
+
+          <td>
+
+            <span class="status">
+
+              {{ availability.status }}
+
+            </span>
+
+          </td>
+
+          <td>
+
+            <button
+              class="delete-btn"
+              (click)="
+                deleteAvailability(
+                  availability.id!
+                )
+              ">
+
+              Delete
+
+            </button>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

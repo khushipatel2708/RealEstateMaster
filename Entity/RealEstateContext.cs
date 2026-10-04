@@ -1,6 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
 
 namespace RealEstate.Entity;
 
@@ -14,7 +14,7 @@ public partial class RealEstateContext : DbContext
       : base(options)
   {
   }
-
+  public virtual DbSet<Appointment> Appointments { get; set; }
   public virtual DbSet<Builder> Builders { get; set; }
 
   public virtual DbSet<City> Cities { get; set; }
@@ -22,6 +22,9 @@ public partial class RealEstateContext : DbContext
   public virtual DbSet<Menu> Menus { get; set; }
 
   public virtual DbSet<Permission> Permissions { get; set; }
+
+  public virtual DbSet<BuilderAvailability> BuilderAvailabilities { get; set; }
+
 
   public virtual DbSet<Property> Properties { get; set; }
 
@@ -34,11 +37,42 @@ public partial class RealEstateContext : DbContext
   public virtual DbSet<User> Users { get; set; }
   public virtual DbSet<Payment> Payments { get; set; }
 
+
+
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
       => optionsBuilder.UseSqlServer("Server=LAPTOP-NTSLOF18;Database=RealEstate;Trusted_Connection=True;TrustServerCertificate=True;Connect Timeout=600;Persist Security Info=True;MultipleActiveResultSets=True;");
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    modelBuilder.Entity<Appointment>(entity =>
+    {
+      entity.ToTable("Appointment");
+
+      entity.Property(e => e.Id).ValueGeneratedOnAdd();
+      entity.Property(e => e.AppointmentDate).HasColumnType("datetime");
+      entity.Property(e => e.CreatedAt).HasColumnType("datetime");
+
+      entity.HasOne(d => d.Availability).WithMany(p => p.Appointments)
+          .HasForeignKey(d => d.AvailabilityId)
+          .OnDelete(DeleteBehavior.ClientSetNull)
+          .HasConstraintName("FK_Appointment_builder_availability");
+
+      entity.HasOne(d => d.Builder)
+        .WithMany(p => p.BuilderAppointments)
+        .HasForeignKey(d => d.BuilderId)
+        .OnDelete(DeleteBehavior.ClientSetNull)
+        .HasConstraintName("FK_Appointment_builder");
+
+      entity.HasOne(d => d.Property).WithMany(p => p.Appointments)
+          .HasForeignKey(d => d.PropertyId)
+          .OnDelete(DeleteBehavior.ClientSetNull)
+          .HasConstraintName("FK_Appointment_Property");
+
+      entity.HasOne(d => d.User).WithMany(p => p.AppointmentUsers)
+          .HasForeignKey(d => d.UserId)
+          .OnDelete(DeleteBehavior.ClientSetNull)
+          .HasConstraintName("FK_Appointment_users1");
+    });
     modelBuilder.Entity<Builder>(entity =>
     {
       entity.HasKey(e => e.Id).HasName("PK__Builder__3213E83FC665B9D0");

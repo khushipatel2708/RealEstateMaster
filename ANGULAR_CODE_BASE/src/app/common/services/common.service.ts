@@ -47,7 +47,7 @@ export class CommonService {
     return this.http.get<any>(environment.BASE_URL + '/common/cities');
   }
 
-  getCitylistByState(stateId) {
+  getCitylistByState(stateId:any) {
     return this.http.get<any>(environment.BASE_URL + '/common/cities/' + stateId);
   }
 getMenuDDList(){

@@ -15,6 +15,7 @@ import { BuilderModule } from './builder/builder.module';
 import { UserComponent } from './users/components/user/user.component';
 import { UsersModelComponent } from './users/components/user/users-model/users-model.component';
 import { FeaturesRoutingModule } from './users/features-routing.module';
+import { AvailabilityModule } from './availability/availability.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { FeaturesRoutingModule } from './users/features-routing.module';
     NgSelectModule,
     NgbModule,
     BuilderModule,
+    AvailabilityModule,
     NgxSpinnerModule, 
   ],
   declarations: [

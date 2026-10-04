@@ -23,13 +23,35 @@
             <i class="bi bi-file me-1"></i> Print
           </button>
           
-          <button 
+          <!-- <button 
             [routerLink]="'/payment1/' + id" 
             [queryParams]="{ title: propertyTitle, amount: propertyDetail?.price, propertyName: propertyDetail?.title }" 
             class="btn btn-submit ms-3" 
             *ngIf="propertyDetail.status == 'available'">
             Buy
-          </button>
+          </button> -->
+         <!-- BOOK APPOINTMENT -->
+<button 
+  type="button" 
+  class="btn btn-primary"
+  *ngIf="propertyDetail.status == 'available' && !hasBookedAppointment"
+  (click)="bookAppointment()">
+  Book Appointment
+</button>
+
+<!-- BUY PROPERTY -->
+<button
+  type="button"
+  class="btn btn-success ms-2"
+  *ngIf="propertyDetail.status == 'available' && hasBookedAppointment"
+  [routerLink]="'/payment1/' + propertyDetail.id"
+  [queryParams]="{
+    title: propertyDetail.title,
+    amount: propertyDetail.price,
+    propertyName: propertyDetail.title
+  }">
+  BUY PROPERTY
+</button>
         </div>
       </div>      
         <div class="row g-3 p-3">

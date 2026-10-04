@@ -34,6 +34,7 @@ import { PaymentsuccessComponent } from './paymentsuccess/paymentsuccess.compone
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { PrintDocumentComponent } from './print-document/print-document.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 @NgModule({
   
   declarations: [
@@ -50,6 +51,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     AgentComponent,
     PaymentComponent,
     PropertyDetailComponent,
+    BookAppointmentComponent,
     ProfileComponent,
     Payment1Component,
     PaymentsuccessComponent,
