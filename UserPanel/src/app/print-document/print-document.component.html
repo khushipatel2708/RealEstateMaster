@@ -1,39 +1,370 @@
-<div #printSection *ngIf="notaryData" style="border: 2px solid black; padding: 20px; font-family: Arial, sans-serif;margin-top: 5%;">
-    <div style="text-align: center;">
-    <img src="assets/images/try1.jpeg">
+<div
+    #printSection
+    *ngIf="notaryData"
+    class="container-fluid mt-5 mb-4">
 
-        <h2>SALE DEED</h2>
+    <!-- SALE DEED MAIN CARD -->
+    <div class="card shadow-lg border-dark">
+
+        <div class="card-body p-4">
+
+            <!-- HEADER -->
+            <div class="text-center mb-4">
+
+                <img
+                    src="assets/images/try1.jpeg"
+                    class="img-fluid mb-2"
+                    style="max-width: 300px; max-height: 100px; object-fit: contain;"
+                >
+
+                <h2 class="fw-bold mb-0">
+                    SALE DEED
+                </h2>
+
+                <hr class="border-dark">
+
+            </div>
+
+
+            <!-- INTRODUCTION -->
+            <div class="mb-4">
+
+                <p class="text-justify">
+                    THIS DEED OF SALE is made and executed on this the
+                    <strong>{{ notaryData.paymentDate }}</strong>.
+                </p>
+
+            </div>
+
+
+            <!-- VENDOR DETAILS -->
+            <div class="mb-4">
+
+                <h5 class="fw-bold border-bottom pb-2">
+                    <i class="bi bi-person-fill me-2"></i>
+                    Vendor Details
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Name:</strong>
+                        <span class="text-muted">
+                            Sri {{ notaryData.vendorName }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Aadhaar Card No:</strong>
+                        <span class="text-muted">
+                            {{ notaryData.vendorAadhar }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <strong>PAN Card No:</strong>
+                        <span class="text-muted">
+                            {{ notaryData.vendorPan }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Mobile No:</strong>
+                        <span class="text-muted">
+                            {{ notaryData.vendorMobile }}
+                        </span>
+                    </div>
+
+                </div>
+
+                <p class="mt-2">
+                    (Hereinafter called the
+                    <strong>"VENDOR"</strong>),
+                    of the first part.
+                </p>
+
+            </div>
+
+
+            <!-- VENDEE DETAILS -->
+            <div class="mb-4">
+
+                <h5 class="fw-bold border-bottom pb-2">
+                    <i class="bi bi-person-check-fill me-2"></i>
+                    Vendee Details
+                </h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Name:</strong>
+                        <span class="text-muted">
+                            Sri {{ notaryData.vendeeName }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Aadhaar Card No:</strong>
+                        <span class="text-muted">
+                            {{ notaryData.vendeeAadhar }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <strong>PAN Card No:</strong>
+                        <span class="text-muted">
+                            {{ notaryData.vendeePan }}
+                        </span>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Mobile No:</strong>
+                        <span class="text-muted">
+                            {{ notaryData.vendeeMobile }}
+                        </span>
+                    </div>
+
+                </div>
+
+                <p class="mt-2">
+                    (Hereinafter called the
+                    <strong>"VENDEE"</strong>),
+                    of the other part.
+                </p>
+
+            </div>
+
+
+            <!-- PROPERTY DETAILS -->
+            <div class="mb-4">
+
+                <h5 class="fw-bold border-bottom pb-2">
+                    <i class="bi bi-house-fill me-2"></i>
+                    Property Details
+                </h5>
+
+                <p class="text-muted">
+                    {{ notaryData.propertyDetails }}
+                </p>
+
+            </div>
+
+
+            <hr class="border-dark">
+
+
+            <!-- =============================== -->
+            <!-- SIGNATURE SECTION -->
+            <!-- =============================== -->
+
+            <div class="signature-section mt-5">
+
+                <h5 class="text-center fw-bold mb-4">
+                    SIGNATURES OF THE PARTIES
+                </h5>
+
+
+                <!-- Bootstrap row -->
+                <div class="row signature-row">
+
+
+                    <!-- ================= -->
+                    <!-- VENDOR -->
+                    <!-- ================= -->
+
+                    <div class="col-6 text-center signature-column">
+
+                        <div class="signature-content">
+
+                            <!-- DRAW / UPLOAD CONTROLS -->
+                            <div
+                                *ngIf="!vendorSignatureImage"
+                                class="signature-controls">
+
+                                <canvas
+                                    #vendorSignatureCanvas
+                                    width="350"
+                                    height="130"
+                                    class="border rounded bg-white signature-canvas">
+                                </canvas>
+
+                                <div class="mt-2">
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-success btn-sm me-2"
+                                        (click)="saveVendorSignature()">
+
+                                        <i class="bi bi-check-lg me-1"></i>
+                                        Save Signature
+
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger btn-sm"
+                                        (click)="clearVendorSignature()">
+
+                                        <i class="bi bi-x-lg me-1"></i>
+                                        Clear
+
+                                    </button>
+
+                                </div>
+
+                                <div class="mt-3">
+
+                                    <label class="form-label fw-semibold">
+                                        Or Upload Signature
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        accept="image/png,image/jpeg"
+                                        class="form-control form-control-sm"
+                                        (change)="onVendorSignatureUpload($event)"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- FINAL VENDOR SIGNATURE -->
+                            <div
+                                *ngIf="vendorSignatureImage"
+                                class="final-signature">
+
+                                <img
+                                    [src]="vendorSignatureImage"
+                                    class="signature-image"
+                                    alt="Vendor Signature"
+                                >
+
+                            </div>
+
+
+                            <!-- NAME -->
+                            <div class="signature-name">
+                                <strong>
+                                    Vendor
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ================= -->
+                    <!-- VENDEE -->
+                    <!-- ================= -->
+
+                    <div class="col-6 text-center signature-column">
+
+                        <div class="signature-content">
+
+                            <!-- DRAW / UPLOAD CONTROLS -->
+                            <div
+                                *ngIf="!vendeeSignatureImage"
+                                class="signature-controls">
+
+                                <canvas
+                                    #vendeeSignatureCanvas
+                                    width="350"
+                                    height="130"
+                                    class="border rounded bg-white signature-canvas">
+                                </canvas>
+
+                                <div class="mt-2">
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-success btn-sm me-2"
+                                        (click)="saveVendeeSignature()">
+
+                                        <i class="bi bi-check-lg me-1"></i>
+                                        Save Signature
+
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger btn-sm"
+                                        (click)="clearVendeeSignature()">
+
+                                        <i class="bi bi-x-lg me-1"></i>
+                                        Clear
+
+                                    </button>
+
+                                </div>
+
+                                <div class="mt-3">
+
+                                    <label class="form-label fw-semibold">
+                                        Or Upload Signature
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        accept="image/png,image/jpeg"
+                                        class="form-control form-control-sm"
+                                        (change)="onVendeeSignatureUpload($event)"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- FINAL VENDEE SIGNATURE -->
+                            <div
+                                *ngIf="vendeeSignatureImage"
+                                class="final-signature">
+
+                                <img
+                                    [src]="vendeeSignatureImage"
+                                    class="signature-image"
+                                    alt="Vendee Signature"
+                                >
+
+                            </div>
+
+
+                            <!-- NAME -->
+                            <div class="signature-name">
+                                <strong>
+                                    Vendee
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <p>
-        THIS DEED OF SALE is made and executed on this the <span>{{ notaryData.paymentDate }}</span>.
-    </p>
-
-    <h3>Vendor Details:</h3>
-    <p>
-        <strong>Sri</strong> {{ notaryData.vendorName }},
-    </p>
-    <p><strong>Aadhaar Card No:</strong> {{ notaryData.vendorAadhar }}</p>
-    <p><strong>PAN Card No:</strong> {{ notaryData.vendorPan }}</p>
-    <p><strong>Mobile No:</strong> {{ notaryData.vendorMobile }}</p>
-    <p>(Hereinafter called the <strong>"VENDOR"</strong>), of the first part.</p>
-
-    <h3>Vendee Details:</h3>
-    <p>
-        <strong>Sri</strong> {{ notaryData.vendeeName }},
-    </p>
-    <p><strong>Aadhaar Card No:</strong> {{ notaryData.vendeeAadhar }}</p>
-    <p><strong>PAN Card No:</strong> {{ notaryData.vendeePan }}</p>
-    <p><strong>Mobile No:</strong> {{ notaryData.vendeeMobile }}</p>
-    <p>(Hereinafter called the <strong>"VENDEE"</strong>), of the other part.</p>
-
-    <h3>Property Details:</h3>
-    <p>{{ notaryData.propertyDetails }}</p>
-
-
-
-   
 </div>
-<div style="text-align: center; margin-top: 20px;">
-    <button class="btn btn-warning" (click)="printPDF()">Print PDF</button>
+
+
+<!-- PRINT BUTTON -->
+<div class="text-center mt-4 mb-4">
+
+    <button
+        type="button"
+        class="btn btn-warning px-4"
+        (click)="printPDF()">
+
+        <i class="bi bi-printer me-2"></i>
+        Print PDF
+
+    </button>
+
 </div>

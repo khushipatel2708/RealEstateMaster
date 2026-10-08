@@ -1,0 +1,79 @@
+.signature-section {
+    width: 100%;
+}
+
+.signature-row {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.signature-column {
+    width: 50%;
+    flex: 0 0 50%;
+}
+
+.signature-content {
+    min-height: 180px;
+}
+
+.signature-canvas {
+    max-width: 100%;
+}
+
+.final-signature {
+    height: 100px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.signature-image {
+    width: 280px;
+    height: 130px;
+    object-fit: contain;
+    display: block;
+}
+
+.signature-name {
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+
+/* ========================= */
+/* PRINT */
+/* ========================= */
+
+@media print {
+
+    .signature-row {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        width: 100% !important;
+    }
+
+    .signature-column {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+    }
+
+    .signature-controls {
+        display: none !important;
+    }
+
+    .final-signature {
+        height: 90px !important;
+    }
+
+    .signature-image {
+        width: 280px !important;
+        height: 130px !important;
+        object-fit: contain !important;
+    }
+
+    .signature-name {
+        margin-top: 5px !important;
+    }
+}
